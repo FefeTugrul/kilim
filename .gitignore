@@ -1,0 +1,19 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+.DS_Store
+Thumbs.db
+
+.env
+.env.*
+!.env.example
+
+*.log
+npm-debug.log*
+.vite/
+.turbo/
+
+# önizleme çıktısı
+onizleme.html
