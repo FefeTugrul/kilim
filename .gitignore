@@ -17,3 +17,6 @@ npm-debug.log*
 
 # önizleme çıktısı
 onizleme.html
+
+# kok dizindeki deneme ciktilari
+/*.svg
