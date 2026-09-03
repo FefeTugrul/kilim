@@ -20,10 +20,27 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: npm
       - run: npm ci
+
+      # Tag ile package.json sürümü ayrışırsa yanlış sürüm yayınlanır ve
+      # yayınlanmış bir sürüm geri alınamaz.
+      - name: Tag ile sürüm eşleşiyor mu
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "Tag $TAG ile package.json sürümü $PKG eşleşmiyor."
+            exit 1
+          fi
+
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
       - run: npm run size
+
+      # Paket yüzeyi denetimi: exports haritası, tip çözümlemesi, tarball içeriği.
+      - run: npx publint --strict
+      - run: npx --yes @arethetypeswrong/cli --pack .
+
       - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

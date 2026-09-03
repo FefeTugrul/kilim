@@ -46,17 +46,37 @@ export {
   type Kademe,
   type DokumaSonuc,
 } from "./grammar.js";
-export { PALETLER, VARSAYILAN_PALET, type YoreselPalet } from "./palette.js";
+export {
+  PALETLER,
+  PALETLER_V1,
+  VARSAYILAN_PALET,
+  paletBul,
+  KONYA,
+  MILAS,
+  SIVAS,
+  YORUK,
+  USAK,
+  IZNIK,
+  type YoreselPalet,
+} from "./palette.js";
 
 import { fnv1a } from "./hash.js";
 import { mulberry32 } from "./rng.js";
-import { toSvg } from "./grid.js";
+import { CELL_ASPECT, toSvg } from "./grid.js";
 import { doku, kademeSec, type Duzen } from "./grammar.js";
-import { VARSAYILAN_PALET } from "./palette.js";
+import { ABRAS_TONLARI, paletBul, PALETLER_V1 } from "./palette.js";
+
+/** Yöresel palet kimlikleri. */
+export type KilimStil = (typeof PALETLER_V1)[number]["id"] | (string & {});
 
 export interface KilimSecenek {
   /** Kenar uzunluğu (px). Detay kademesini belirler. Varsayılan 128. */
   size?: number;
+  /**
+   * Yöresel paleti sabitler. Verilmezse seed'den seçilir.
+   * Geçersiz bir kimlik verilirse sessizce varsayılana düşer.
+   */
+  style?: KilimStil;
   /**
    * SVG'ye `<title>` olarak basılacak erişilebilir ad. Verilmezse üretilen
    * kilim adı kullanılır; `false` verilirse SVG `aria-hidden` olur (avatarın
@@ -68,6 +88,9 @@ export interface KilimSecenek {
 /** Geçersiz `size` sessizce bozuk SVG üretmesin diye tek noktadan sıkıştırılır. */
 const MIN_BOYUT = 8;
 const MAX_BOYUT = 2048;
+
+/** Palet akışını gramer akışından ayıran sabit (altın oran türevi karıştırıcı). */
+const PALET_TOHUMU = 0x9e3779b9;
 
 function boyutDogrula(ham: unknown): number {
   if (typeof ham !== "number" || !Number.isFinite(ham)) return 128;
@@ -81,6 +104,8 @@ export interface KilimSonuc {
   name: string;
   /** Kullanılan motiflerin Türkçe adları. */
   motifs: readonly string[];
+  /** Seçilen yörenin kimliği: 'konya', 'milas', 'sivas', 'yoruk', 'usak', 'iznik'. */
+  style: string;
   /** Kullanılan beş hex. */
   palette: readonly string[];
   /** Seçilen zemin düzeni. */
@@ -96,22 +121,42 @@ export interface KilimSonuc {
  * k.name  // 'göz sıra düzenli, su yolu bordürlü'
  * ```
  */
-export function generateKilim(seed: string, opts: KilimSecenek = {}): KilimSonuc {
+export function generateKilim(
+  seed: string,
+  opts: KilimSecenek = {},
+): KilimSonuc {
   const size = boyutDogrula(opts.size);
   const rng = mulberry32(fnv1a(String(seed)));
   const sonuc = doku(rng, kademeSec(size));
-  const palet = VARSAYILAN_PALET.renkler;
-  const etiket = opts.label === false ? undefined : (opts.label ?? sonuc.ad);
+
+  // Palet AYRI bir hash akışından geliyor. Gramere yeni bir karar eklendiğinde
+  // palet seçimi kaymasın diye: iki akış birbirinden bağımsız.
+  const paletRng = mulberry32((fnv1a(String(seed)) ^ PALET_TOHUMU) >>> 0);
+  const palet = opts.style ? paletBul(opts.style) : paletRng.pick(PALETLER_V1);
+
+  // Ad, gövdeyle önekin birleşimi. Daha önce string'i geri ayrıştırıyorduk ve
+  // palet adında " — " geçse eski adın kuyruğu yeni ada sızıyordu.
+  const ad = `${palet.ad} — ${sonuc.govde}`;
+  const etiket = opts.label === false ? undefined : (opts.label ?? ad);
+
+  // Abraş: zemin renginin parlaklığı bant bant kayar. Tonlar derleme zamanında
+  // hesaplandığı için burada renk matematiği yok, sadece tablo okuması var.
+  const { bant, dizi } = sonuc.abras;
+  const bantRenkleri = ABRAS_TONLARI[palet.id]?.[dizi] ?? [palet.renkler[0]];
 
   return {
-    svg: toSvg(sonuc.grid, palet, {
-      cell: size / sonuc.grid.w,
+    svg: toSvg(sonuc.grid, palet.renkler, {
+      // Hücre genişliği, yükseklik de tam olarak `size` çıksın diye seçilir:
+      // ızgara 1:1.15'i telafi ediyor ama tam bölmüyor.
+      cell: size / (sonuc.grid.h * CELL_ASPECT),
+      groundAt: (satir) =>
+        bantRenkleri[Math.floor(satir / bant) % bantRenkleri.length] as string,
       ...(etiket === undefined ? {} : { label: etiket }),
     }),
-    name: sonuc.ad,
+    name: ad,
     motifs: sonuc.motifler,
-    palette: palet,
+    style: palet.id,
+    palette: palet.renkler,
     layout: sonuc.duzen,
   };
 }
-

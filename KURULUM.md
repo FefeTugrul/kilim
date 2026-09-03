@@ -101,7 +101,7 @@ npm install
 npm test
 ```
 
-**84 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
+**105 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
 
 Sonra kalan üç kontrol:
 
@@ -111,7 +111,7 @@ npm run build       # dist klasörünü üretir (ESM + CJS + tip tanımları)
 npm run size        # gzip boyutunu ölçer, 4 kB bütçeyi denetler
 ```
 
-`npm run size` çıktısı yaklaşık **5.7 kB** olmalı.
+`npm run size` çıktısı yaklaşık **7.5 kB** olmalı.
 
 ---
 
@@ -190,7 +190,7 @@ Tek seferlik ayar:
 Sonrası her sürümde iki satır:
 
 ```powershell
-npm version 1.0.0
+npm version 0.1.0
 git push --follow-tags
 ```
 
@@ -217,6 +217,7 @@ paketi otomatik yayınlar. Elle `npm publish` yazmana gerek yok.
 - [x] **Faz 1** — Çekirdek: hash, PRNG, ızgara, SVG çıkışı
 - [x] **Faz 2** — Sekiz motif ve dokuma grameri
 
-- [ ] **Faz 3** — Beş yöresel palet, renk kısıtları, abraş
+- [x] **Faz 3** — Altı yöresel palet, renk kısıtları, abraş
+- [x] **Faz 3.5** — Kod denetimi bulguları: boyuttan bağımsız kimlik, bordür, renk katmanları
 - [ ] **Faz 4** — React bileşeni, LOD, npm yayını
 - [ ] **Faz 5** — Demo sitesi ve dokümantasyon

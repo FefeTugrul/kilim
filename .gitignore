@@ -20,3 +20,7 @@ onizleme.html
 
 # kok dizindeki deneme ciktilari
 /*.svg
+
+# gecici derleme ciktilari
+.abras-tmp/
+dist-tmp/

@@ -23,6 +23,14 @@ export interface Motif {
   /** Nerelere girebilir. Gramer bu yetkiye uyar. */
   readonly slots: readonly Slot[];
   readonly grid: readonly string[];
+  /**
+   * İki satırlık varyant — yalnızca bordür motiflerinde.
+   *
+   * Orta kademede bordür bandı 2 hücre kalınlığında. Üç satırlık motifin ilk iki
+   * satırını çizmek motifi kırpıyordu: testerenin tabanı, baklavanın alt yarısı
+   * hiç görünmüyordu ve bordür "serpilmiş noktalar" gibi okunuyordu.
+   */
+  readonly grid2?: readonly string[];
 }
 
 function boyut(grid: readonly string[]): { w: number; h: number } {
@@ -90,12 +98,12 @@ export const KOCBOYNUZU: Motif = {
   anlam: "Erkeklik, güç ve bereket. Sürünün gücünü temsil eder.",
   slots: ["zemin", "gobek"],
   grid: [
-    "XX.....XX",
-    "X.X...X.X",
+    "XXX...XXX",
     "X..X.X..X",
-    "X..XXX..X",
-    ".X.XXX.X.",
-    "..XXXXX..",
+    "X..X.X..X",
+    "XX.X.X.XX",
+    ".XXXXXXX.",
+    "...XXX...",
     "....X....",
   ],
 };
@@ -131,11 +139,11 @@ export const ELIBELINDE: Motif = {
     "....XXX....",
     ".....X.....",
     "...XXXXX...",
-    "X.XXXXXXX.X",
     "XX.XXXXX.XX",
+    "XX.XXXXX.XX",
+    "XXXXXXXXXXX",
     ".XX.XXX.XX.",
-    "..XX.X.XX..",
-    "....XXX....",
+    "..X.XXX.X..",
     "....XXX....",
     "...XXXXX...",
     "..XXXXXXX..",
@@ -154,6 +162,7 @@ export const SU_YOLU: Motif = {
   anlam: "Hayat, süreklilik ve doğurganlık. Bordürde akar.",
   slots: ["bordur"],
   grid: ["X...X", ".X.X.", "..X.."],
+  grid2: ["X..X", ".XX."],
 };
 
 export const TESTERE: Motif = {
@@ -163,6 +172,7 @@ export const TESTERE: Motif = {
   anlam: "Koruma. Dişli sıra, kilimin kenarını kötülükten sakınır.",
   slots: ["bordur"],
   grid: ["..X..", ".XXX.", "XXXXX"],
+  grid2: [".XX.", "XXXX"],
 };
 
 export const BAKLAVA: Motif = {
@@ -172,6 +182,7 @@ export const BAKLAVA: Motif = {
   anlam: "Bereket. Sıralı baklavalar tarlayı ve ürünü anar.",
   slots: ["bordur"],
   grid: ["..X..", ".X.X.", "..X.."],
+  grid2: [".X.X", "X.X."],
 };
 
 // ---------------------------------------------------------------------------

@@ -3,16 +3,24 @@
 //            node scripts/onizleme.mjs furkan ayse mehmet
 // Uretilen onizleme.html git'e girmez (.gitignore).
 import { writeFileSync } from "node:fs";
-import { generateKilim, fnv1a } from "../dist/index.js";
+import { generateKilim, fnv1a, PALETLER_V1 } from "../dist/index.js";
 
 const seeds = process.argv.slice(2);
 if (!seeds.length) {
   seeds.push("furkan", "ayse", "mehmet", "zeynep", "kilim", "FefeTugrul", "deneme", "user@example.com");
 }
 
+const yoreler = PALETLER_V1.map((p) => {
+  const k = generateKilim("furkan", { style: p.id, size: 190 });
+  return `<figure>
+    <div class="f">${k.svg}</div>
+    <figcaption><b>${p.ad}</b><br>${p.not}</figcaption>
+  </figure>`;
+}).join("");
+
 const buyuk = seeds
   .map((s) => {
-    const k = generateKilim(s, { size: 200 });
+    const k = generateKilim(s, { size: 190 });
     return `<figure>
       <div class="f">${k.svg}</div>
       <figcaption><b>${s}</b><br>${k.name}<br>hash ${fnv1a(s)}</figcaption>
@@ -45,7 +53,7 @@ writeFileSync(
  h2{font-size:1.05rem;margin:34px 0 14px;font-weight:600}
  p.alt{color:#7A6F5D;margin:0 0 8px;max-width:62ch}
  .r{display:flex;flex-wrap:wrap;gap:26px}
- figure{margin:0;width:200px}
+ figure{margin:0;width:190px}
  .f{border:1px solid #D6CBB5;display:inline-block;line-height:0}
  .f svg{display:block}
  .lod{display:flex;align-items:flex-end;gap:8px}
@@ -56,11 +64,16 @@ writeFileSync(
             margin-top:8px;line-height:1.45}
  .ok{color:#2E7D32;font-weight:600}.no{color:#A8322A;font-weight:700}
 </style>
-<h1>kilim &mdash; Faz 2 onizleme</h1>
+<h1>kilim &mdash; Faz 3 onizleme</h1>
 <p class="alt">Determinizm kontrolu:
   <span class="${kararli ? "ok" : "no"}">${kararli ? "her seed iki cagrida ayni cikti verdi" : "FARKLI CIKTI - sorun var"}</span>
 </p>
-<h2>Tam kademe (200 px)</h2>
+<h2>Alti yore &mdash; ayni seed ("furkan"), farkli palet</h2>
+<p class="alt">Desen birebir ayni; degisen tek sey renk. Her palet OKLCH kisit
+dogrulayicisindan gecti: kroma sinirlari, yasak hue bolgesi, zeminle en az 0.18
+algisal parlaklik farki.</p>
+<div class="r">${yoreler}</div>
+<h2>Seed'e gore &mdash; palet de seed'den seciliyor</h2>
 <div class="r">${buyuk}</div>
 <h2>Detay kademeleri &mdash; ayni seed, uc boyut</h2>
 <p class="alt">24 pikselde izgara seyreliyor, yoksa avatar lapa olurdu.</p>

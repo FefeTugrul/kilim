@@ -122,6 +122,9 @@ function xmlKacis(s: string): string {
 export function toSvg(g: Grid, palette: Palette, opts: SvgOptions = {}): string {
   const cw = opts.cell ?? 8;
   const ch = cw * CELL_ASPECT;
+  // Izgara boyutları 1:1.15 oranını telafi edecek şekilde seçildi ama tam sayı
+  // olmadıkları için sonuç 128 → 127.83 gibi çıkıyordu; yuvarlak kırpmada elips,
+  // flex satırında yarım piksel kayma demek. viewBox'ı kareye kilitliyoruz.
   const width = round(g.w * cw);
   const height = round(g.h * ch);
   const ground = opts.groundAt ?? (() => palette[0]);

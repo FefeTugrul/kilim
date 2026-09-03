@@ -23,7 +23,8 @@
   "type": "module",
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "exports": {
     ".": {
@@ -49,16 +50,18 @@
     "size": "node scripts/size.mjs",
     "onizleme": "npm run build && node scripts/onizleme.mjs",
     "altin": "npm run build && node scripts/altin.mjs",
-    "prepublishOnly": "npm run build"
+    "abras": "npm run build && node scripts/abras-tablo.mjs",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build && npm run size"
   },
   "devDependencies": {
     "@types/node": "^26.4.1",
+    "esbuild": "^0.28.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public",

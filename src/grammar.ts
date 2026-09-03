@@ -59,6 +59,18 @@ export type Duzen = "tekrar" | "kaydirmali" | "gobek" | "bantli";
 const DUZENLER: readonly Duzen[] = ["tekrar", "kaydirmali", "gobek", "bantli"];
 const DUZEN_AGIRLIK: readonly number[] = [40, 25, 20, 15];
 
+/**
+ * 15x13 ızgarada yalnızca göbek ve tekrar okunur. Kaydırmalı ve bantlı düzenler
+ * lapa olur, o yüzden bu tabloyla indirgenir — yeni bir çekiliş yapılmadan,
+ * böylece kimlik boyutlar arasında korunur.
+ */
+const KUCUK_DUZEN_ESLEME: Record<Duzen, Duzen> = {
+  tekrar: "tekrar",
+  kaydirmali: "tekrar",
+  gobek: "gobek",
+  bantli: "tekrar",
+};
+
 const DUZEN_ADI: Record<Duzen, string> = {
   tekrar: "sıra düzenli",
   kaydirmali: "kaydırmalı",
@@ -73,13 +85,29 @@ interface Alan {
   h: number;
 }
 
+/**
+ * Abraş: doğal boya partileri arasındaki fark.
+ *
+ * Zemin renginin parlaklığı yatay bantlar halinde hafifçe kayar. Bilinçaltında
+ * algılanır; "el yapımı" hissinin çoğu buradan gelir. Kusursuz düz zemin
+ * sentetik görünür.
+ */
+export interface Abras {
+  /** Bant başına kaç hücre. */
+  readonly bant: number;
+  /** ABRAS_TONLARI içindeki kayma dizisinin indeksi. */
+  readonly dizi: number;
+}
+
 export interface DokumaSonuc {
   readonly grid: Grid;
+  /** Zemin renginin bant bant kayması. */
+  readonly abras: Abras;
   /** Kullanılan motiflerin Türkçe adları — tooltip ve README için. */
   readonly motifler: readonly string[];
   readonly duzen: Duzen;
-  /** İnsan okuyabilir ad: "göz zeminli, sulu bordür, sıra düzenli". */
-  readonly ad: string;
+  /** Yöre öneki olmadan ad gövdesi: "göz sıra düzenli, testere bordürlü". */
+  readonly govde: string;
 }
 
 /**
@@ -87,14 +115,33 @@ export interface DokumaSonuc {
  * motifiyle aynı renkte olmak zorunda değildir; bu eksen çeşitliliğin büyük
  * kısmını taşır.
  */
+/**
+ * Vurgu rengi paletin %3-8'lik bütçesine sahiptir; çevreyi baştan başa dolaşan
+ * katmanlar (ince su, selvedge, saçak) tek başına bu bütçeyi aşar ve vurgu
+ * vurgu olmaktan çıkar. Bu yüzden vurgu yalnızca bant ve nokta katmanlarında.
+ *
+ * Selvedge'in işi zeminden ayırmaktır, dikkat çekmek değil: en koyu/en kontrast
+ * rollerle sınırlı. Daha önce açık mavi bir selvedge Sivas kilimini ele
+ * geçiriyordu.
+ */
 const BORDUR_RENKLERI: readonly Cell[] = [CELL.ANA, CELL.IKINCIL, CELL.VURGU];
-const SU_RENKLERI: readonly Cell[] = [CELL.IKINCIL, CELL.VURGU];
-const SACAK_RENKLERI: readonly Cell[] = [CELL.IKINCIL, CELL.VURGU, CELL.KONTUR];
-const SELVEDGE_RENKLERI: readonly Cell[] = [CELL.KONTUR, CELL.ANA, CELL.VURGU];
+const SU_RENKLERI: readonly Cell[] = [CELL.IKINCIL, CELL.KONTUR];
+const SACAK_RENKLERI: readonly Cell[] = [CELL.IKINCIL, CELL.KONTUR];
+const SELVEDGE_RENKLERI: readonly Cell[] = [CELL.KONTUR, CELL.ANA];
 const KOSE_RENKLERI: readonly Cell[] = [CELL.ANA, CELL.IKINCIL, CELL.VURGU];
 
 /** Zeminin dört köşesine konan küçük işaret. Göbekli düzenin boşluğunu kırar. */
 const KOSE_ISARETI: readonly string[] = [".X.", "XXX", ".X."];
+
+/** Kaç farklı abraş kayma dizisi var — bkz. src/kaymalar.ts ve ABRAS_TONLARI. */
+export const ABRAS_DIZI_SAYISI = 5;
+
+/** Bant kalınlığına sığan varyantı seçer — kırpmak yerine. */
+function bandaSigan(motif: Motif, kalinlik: number): readonly string[] {
+  if (motif.grid.length <= kalinlik) return motif.grid;
+  if (motif.grid2 && motif.grid2.length <= kalinlik) return motif.grid2;
+  return motif.grid;
+}
 
 /** Motifi bir bant boyunca yatay tekrarlar. Kenarda dürüstçe kesilir. */
 function bantYatay(
@@ -205,7 +252,9 @@ interface ZeminAyar {
 function yerlestir(g: Grid, alan: Alan, motif: Motif, ayar: ZeminAyar): void {
   const { w: mw, h: mh } = motifBoyut(motif);
   const tamSutun = Math.max(1, Math.floor(alan.w / mw));
-  const sutun = ayar.seyrek ? Math.max(1, tamSutun - 1) : tamSutun;
+  // Seyreklik yalnızca 3+ sütun sığdığında uygulanır. Aksi halde geniş motifler
+  // (elibelinde 11 hücre) tek sütuna düşüyordu ve alan %14 mürekkeple boş kalıyordu.
+  const sutun = ayar.seyrek && tamSutun >= 3 ? tamSutun - 1 : tamSutun;
   const satir = Math.max(1, Math.floor(alan.h / mh));
   const bosX = Math.floor((alan.w - sutun * mw) / (sutun + 1));
   const bosY = Math.floor((alan.h - satir * mh) / (satir + 1));
@@ -253,6 +302,23 @@ function gobekYerlestir(
     alan.y + Math.floor((alan.h - gh) / 2),
   );
 
+  // Göbeğin çevresine baklava halkası. Her gerçek madalyonlu kilimde bu çerçeve
+  // vardır ve göbekle kenar arasındaki ölü halkayı tek kuralla kapatır.
+  const yaricap = Math.floor(Math.min(alan.w, alan.h) * 0.42);
+  const mx = alan.x + Math.floor(alan.w / 2);
+  const my = alan.y + Math.floor(alan.h / 2);
+  for (let d = 0; d <= yaricap; d++) {
+    const e = yaricap - d;
+    for (const [sx, sy] of [
+      [d, e],
+      [d, -e],
+      [-d, e],
+      [-d, -e],
+    ] as ReadonlyArray<readonly [number, number]>) {
+      set(g, mx + sx, my + sy, CELL.KONTUR);
+    }
+  }
+
   const { w: dw, h: dh } = motifBoyut(dolgu);
   if (alan.w < gw + 2 * dw + 2 || alan.h < gh + 2) return; // köşeye yer yoksa boş bırak
   const kose: ReadonlyArray<readonly [number, number]> = [
@@ -265,6 +331,41 @@ function gobekYerlestir(
 }
 
 /**
+ * Bordürün dört köşesini kapatır.
+ *
+ * Yatay ve dikey bantlar köşede farklı fazlarda buluşur ve kırık bir dönüş
+ * bırakır. Gerçek dokumada köşe ayrı bir bloktur; burada da öyle.
+ */
+function koseBlogu(
+  g: Grid,
+  sol: number,
+  ust: number,
+  genislik: number,
+  yukseklik: number,
+  b: number,
+  renk: Cell,
+  dolu: boolean,
+): void {
+  const kose: ReadonlyArray<readonly [number, number]> = [
+    [sol, ust],
+    [sol + genislik - b, ust],
+    [sol, ust + yukseklik - b],
+    [sol + genislik - b, ust + yukseklik - b],
+  ];
+  const orta = (b - 1) / 2;
+  for (const [x0, y0] of kose) {
+    for (let r = 0; r < b; r++) {
+      for (let c = 0; c < b; c++) {
+        // Dolu kare ya da içine oturmuş baklava — tek bir rng kararı belirler.
+        const cizilsin =
+          dolu || Math.abs(r - orta) + Math.abs(c - orta) <= orta;
+        if (cizilsin) set(g, x0 + c, y0 + r, renk);
+      }
+    }
+  }
+}
+
+/**
  * Zeminin dört köşesine küçük bir işaret koyar. Göbekli düzende ortası dolu,
  * kenarları bomboş bir kilim çıkmasını engeller.
  */
@@ -272,13 +373,17 @@ function koseIsaretiKoy(g: Grid, alan: Alan, renk: Cell): void {
   const desen = KOSE_ISARETI.map((satir) => satir.split(CELL.ANA).join(renk));
   const n = 3;
   if (alan.w < 2 * n + 1 || alan.h < 2 * n + 1) return;
-  const kose: ReadonlyArray<readonly [number, number]> = [
-    [alan.x, alan.y],
-    [alan.x + alan.w - n, alan.y],
-    [alan.x, alan.y + alan.h - n],
-    [alan.x + alan.w - n, alan.y + alan.h - n],
+  // Köşelere değil KENAR ORTALARINA: göbekli düzende ölü alan tam orada, artı
+  // biçiminde. Köşeleri zaten dolgu motifi kaplıyordu.
+  const ortaX = alan.x + Math.floor((alan.w - n) / 2);
+  const ortaY = alan.y + Math.floor((alan.h - n) / 2);
+  const yerler: ReadonlyArray<readonly [number, number]> = [
+    [ortaX, alan.y],
+    [ortaX, alan.y + alan.h - n],
+    [alan.x, ortaY],
+    [alan.x + alan.w - n, ortaY],
   ];
-  for (const [x, y] of kose) stamp(g, desen, x, y);
+  for (const [x, y] of yerler) stamp(g, desen, x, y);
 }
 
 /** Yatay şeritlerde dönüşümlü iki motif. */
@@ -286,13 +391,19 @@ function bantliYerlestir(g: Grid, alan: Alan, a: Motif, b: Motif): void {
   const mh = Math.max(motifBoyut(a).h, motifBoyut(b).h);
   const satir = Math.max(1, Math.floor(alan.h / mh));
   const bosY = Math.floor((alan.h - satir * mh) / (satir + 1));
+  const artanY = alan.h - (satir * mh + bosY * (satir + 1));
 
   for (let r = 0; r < satir; r++) {
     const motif = r % 2 === 0 ? a : b;
     const { w: mw, h: hh } = motifBoyut(motif);
     const sutun = Math.max(1, Math.floor(alan.w / mw));
     const bosX = Math.floor((alan.w - sutun * mw) / (sutun + 1));
-    const y = alan.y + bosY * (r + 1) + mh * r + Math.floor((mh - hh) / 2);
+    const y =
+      alan.y +
+      bosY * (r + 1) +
+      mh * r +
+      Math.floor((mh - hh) / 2) +
+      Math.floor(artanY / 2);
     for (let c = 0; c < sutun; c++) {
       stamp(g, motif.grid, alan.x + bosX * (c + 1) + mw * c, y);
     }
@@ -310,12 +421,19 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
   const o = OLCULER[kademe];
   const g = createGrid(o.w, o.h);
 
-  // --- kararlar (sıra önemli) ---
-  // Küçük kademede yalnızca göbek/tekrar okunur; diğer ikisi 15x13'te lapa olur.
+  // --- kararlar (sıra önemli, ve KADEMEDEN BAĞIMSIZ) ---
+  //
+  // Kritik: bütün çekilişler her kademede aynı sırayla yapılır. Daha önce küçük
+  // kademe düzeni ayrı bir ağırlık tablosundan çekiyordu ve sonuç şuydu: bir
+  // kullanıcının 24 pikseldeki avatarı ile 128 pikseldeki avatarı HİÇBİR ZAMAN
+  // aynı düzende olamıyordu (ölçüldü: %0 eşleşme). Bir avatar kütüphanesinde bu
+  // estetik tercih değil, doğruluk hatasıdır.
+  //
+  // Kademe artık yalnızca çizilebilecek olanı sınırlar: küçük ızgarada okunmayan
+  // düzenler sabit bir tabloyla indirgenir — rng harcamadan.
+  const duzenHam = rng.weighted(DUZENLER, DUZEN_AGIRLIK);
   const duzen: Duzen =
-    kademe === "kucuk"
-      ? rng.weighted(["gobek", "tekrar"] as const, [55, 45])
-      : rng.weighted(DUZENLER, DUZEN_AGIRLIK);
+    kademe === "kucuk" ? KUCUK_DUZEN_ESLEME[duzenHam] : duzenHam;
   // Donmuş sözleşme listeleri — bkz. motifs.ts içindeki uyarı.
   const zeminAdaylar = ZEMIN_ADAYLARI_V1;
   const gobekAdaylar = GOBEK_ADAYLARI_V1;
@@ -330,7 +448,10 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
   const suDeseni = rng.pick(SU_DESENLERI);
   const ton = rng.pick(TON_MODLARI);
   const seyrek = rng.bool(0.4);
-  const serpme = rng.bool(0.45) ? rng.pick(bordurAdaylar) : null;
+  // Serpme motifi DOLGU slotundan gelir. Daha önce bordür adaylarından
+  // seçiliyordu; yani gramer kendi yetki tablosunu çiğniyor, bant motiflerini
+  // zemine serpiyordu. motifs.ts açıkça "zeminde tek başına kullanılmaz" diyor.
+  const serpme = rng.bool(0.45) ? rng.pick(dolguAdaylar) : null;
   const bordurRenk = rng.pick(BORDUR_RENKLERI);
   const suRenk = rng.pick(SU_RENKLERI);
   const sacakRenk = rng.pick(SACAK_RENKLERI);
@@ -340,6 +461,8 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
   const gobekIkincil = rng.bool(0.4);
   const koseRenk = rng.pick(KOSE_RENKLERI);
   const koseVar = rng.bool(0.55);
+  const abrasBant = 5 + rng.int(5); // 5–9 hücrelik bantlar
+  const abrasDizi = rng.int(ABRAS_DIZI_SAYISI);
 
   // --- katmanlar, dıştan içe ---
   let ust = 0;
@@ -374,19 +497,19 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
     yukseklik -= 2;
   }
 
-  const b = o.bordur > 2 && !kalinBordur ? o.bordur - 1 : o.bordur;
-  const dikeyDesen = dondur90(bordurMotif.grid);
+  // Bant kalınlığı motifi kırpmayacak kadar geniş olmalı; kırpmak yerine motifin
+  // kendi iki satırlık varyantı kullanılır.
+  const b = o.bordur;
+  const ustDesen = bandaSigan(bordurMotif, b);
+  // Alt bandı aynala: dokunan bir çerçeve daima aynalanır, ötelenmez.
+  const altDesen = [...ustDesen].reverse();
+  const dikeyDesen = dondur90(ustDesen);
   if (b > 0) {
-    bantYatay(
-      g,
-      { x: sol, y: ust, w: genislik, h: b },
-      bordurMotif.grid,
-      bordurRenk,
-    );
+    bantYatay(g, { x: sol, y: ust, w: genislik, h: b }, ustDesen, bordurRenk);
     bantYatay(
       g,
       { x: sol, y: ust + yukseklik - b, w: genislik, h: b },
-      bordurMotif.grid,
+      altDesen,
       bordurRenk,
     );
     bantDikey(
@@ -401,6 +524,7 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
       dikeyDesen,
       bordurRenk,
     );
+    koseBlogu(g, sol, ust, genislik, yukseklik, b, bordurRenk, kalinBordur);
   }
   ust += b;
   sol += b;
@@ -475,9 +599,17 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
         ? ""
         : " iki tonlu";
   // Ad yalnızca çizilen katmanları anlatır: küçük kademede bordür yoktur.
-  const ad = bordurCizildi
+  // Yöre öneki index.ts'te eklenir; burada string birleştirip sonra geri
+  // ayrıştırmak kırılgandı (palet adında " — " geçse kuyruk sızıyordu).
+  const govde = bordurCizildi
     ? `${bas} ${DUZEN_ADI[duzen]}${tonAdi}, ${bordurMotif.ad} bordürlü`
     : `${bas} ${DUZEN_ADI[duzen]}${tonAdi}, sade çerçeveli`;
 
-  return { grid: g, motifler: [...new Set(motifler)], duzen, ad };
+  return {
+    grid: g,
+    abras: { bant: abrasBant, dizi: abrasDizi },
+    motifler: [...new Set(motifler)],
+    duzen,
+    govde,
+  };
 }
