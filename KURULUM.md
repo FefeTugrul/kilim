@@ -132,7 +132,7 @@ node scripts\onizleme.mjs "furkan" "ahmet" "zeynep@mail.com"
 Invoke-Item .\onizleme.html
 ```
 
-Henüz kilim değil, renkli kareler. Motifler Faz 2'de geliyor.
+Bu adımda motifler ve dokuma grameri devreye girdi — çıktı artık gerçek bir kilim.
 
 ---
 
@@ -215,7 +215,8 @@ paketi otomatik yayınlar. Elle `npm publish` yazmana gerek yok.
 ## Şu an nerede duruyoruz
 
 - [x] **Faz 1** — Çekirdek: hash, PRNG, ızgara, SVG çıkışı
-- [ ] **Faz 2** — Altı motif ve dokuma grameri
+- [x] **Faz 2** — Sekiz motif ve dokuma grameri
+
 - [ ] **Faz 3** — Beş yöresel palet, renk kısıtları, abraş
 - [ ] **Faz 4** — React bileşeni, LOD, npm yayını
 - [ ] **Faz 5** — Demo sitesi ve dokümantasyon

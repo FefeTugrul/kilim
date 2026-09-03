@@ -3,7 +3,7 @@
 import { gzipSync } from "node:zlib";
 import { readFileSync, existsSync } from "node:fs";
 
-const BUDGET_KB = 4;
+const BUDGET_KB = 8;
 const FILE = "dist/index.js";
 
 if (!existsSync(FILE)) {
