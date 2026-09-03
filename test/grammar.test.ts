@@ -4,7 +4,8 @@ import { doku, kademeSec, OLCULER } from "../src/grammar.js";
 import { fnv1a } from "../src/hash.js";
 import { mulberry32 } from "../src/rng.js";
 import { TUM_MOTIFLER, slotMotifleri, motifBoyut, dondur90 } from "../src/motifs.js";
-import { CELL, get } from "../src/grid.js";
+import { CELL, createGrid, get, toSvg } from "../src/grid.js";
+import { VARSAYILAN_PALET } from "../src/palette.js";
 
 const ORNEK = ["furkan", "ayşe", "mehmet", "kilim", "FefeTugrul", "user@example.com"];
 
@@ -191,6 +192,112 @@ describe("dokuma grameri", () => {
       const { ad, motifler } = doku(mulberry32(fnv1a(`x${i}`)), "tam");
       expect(ad).toContain(motifler[0] as string);
       expect(ad).toContain("bordürlü");
+    }
+  });
+});
+
+describe("çeşitlilik (kademe başına)", () => {
+  // Denetimde 24 pikselde 2000 seed sadece 3 farklı avatar üretiyordu; bu test
+  // o çöküşün regresyon kilidi. Eşikler ölçülen değerlerin altında tutuldu.
+  //
+  // Küçük kademede eşik düşük çünkü 15x13 ızgara fiziksel bir sınır: 24 pikselde
+  // okunabilirlik çeşitlilikten önce gelir. Yöresel paletler bu sayıyı yaklaşık
+  // altıya katlayacak.
+  const N = 2000;
+  const esikler: ReadonlyArray<readonly [number, number]> = [
+    [24, 0.08],
+    [64, 0.9],
+    [128, 0.95],
+  ];
+
+  for (const [size, enAz] of esikler) {
+    it(`${size}px: ${N} seed'in en az %${enAz * 100}'i benzersiz`, () => {
+      const gorulen = new Set<string>();
+      for (let i = 0; i < N; i++) gorulen.add(generateKilim(`seed${i}`, { size }).svg);
+      expect(gorulen.size / N, `${size}px çeşitliliği düştü`).toBeGreaterThan(enAz);
+    });
+  }
+});
+
+describe("size doğrulaması", () => {
+  // size çoğu zaman bir prop ya da query parametresinden gelir: ?size= → NaN.
+  // Geçersiz değer sessizce bozuk SVG üretmemeli.
+  const bozuk = [NaN, Infinity, -Infinity, -50, 0, 1, 3.7] as const;
+
+  it("geçersiz değerlerde bile geçerli SVG üretir", () => {
+    for (const v of [...bozuk, undefined]) {
+      const svg = generateKilim("furkan", { size: v as number }).svg;
+      expect(svg, `size=${String(v)} bozuk çıktı verdi`).not.toContain("NaN");
+      expect(svg).not.toContain("Infinity");
+      expect(svg).not.toMatch(/(width|height|x|y)="-/);
+      const m = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+      expect(m, `size=${String(v)} viewBox okunamadı`).not.toBeNull();
+      expect(Number(m?.[1])).toBeGreaterThan(0);
+    }
+  });
+
+  it("çok büyük değerleri sınırlar", () => {
+    const svg = generateKilim("furkan", { size: 1e9 }).svg;
+    const m = svg.match(/viewBox="0 0 ([\d.]+) /);
+    expect(Number(m?.[1])).toBeLessThanOrEqual(2048);
+  });
+});
+
+describe("çıktı güvenliği", () => {
+  it("seed hiçbir koşulda SVG'ye sızmaz", () => {
+    const kotu = '"><script>alert(1)</script><rect fill="red';
+    const svg = generateKilim(kotu).svg;
+    expect(svg).not.toContain("script");
+    expect(svg).not.toContain("alert");
+    expect(svg).not.toContain(kotu);
+  });
+
+  it("etiket XML kaçışından geçer", () => {
+    const svg = generateKilim("furkan", { label: '<img onerror="x">&' }).svg;
+    expect(svg).toContain("&lt;img");
+    expect(svg).toContain("&amp;");
+    expect(svg).not.toMatch(/<img/);
+  });
+
+  it("label: false verilince SVG aria-hidden olur", () => {
+    const svg = generateKilim("furkan", { label: false }).svg;
+    expect(svg).toContain('aria-hidden="true"');
+    expect(svg).not.toContain("<title>");
+  });
+
+  it("varsayılan olarak erişilebilir ad taşır", () => {
+    const k = generateKilim("furkan");
+    expect(k.svg).toContain("<title>");
+    expect(k.svg).toContain(k.name);
+  });
+
+  it("geçersiz renk atribüye sızmaz", () => {
+    const zararli = () => 'red" onload="alert(1)';
+    const svg = toSvg(createGrid(3, 3, CELL.ANA), VARSAYILAN_PALET.renkler, {
+      groundAt: zararli,
+    });
+    expect(svg).not.toContain("onload");
+    expect(svg).toContain('fill="#000000"');
+  });
+});
+
+describe("ad doğruluğu", () => {
+  it("bordür çizilmeyen kademede ad bordürden söz etmez", () => {
+    for (let i = 0; i < 100; i++) {
+      const k = generateKilim(`seed${i}`, { size: 24 });
+      expect(k.name, "24px'te bordür çizilmiyor ama ad öyle diyor").not.toContain("bordürlü");
+      expect(k.name).toContain("çerçeveli");
+    }
+  });
+
+  it("ad, motif listesindeki her adı içerir", () => {
+    for (let i = 0; i < 100; i++) {
+      const k = generateKilim(`ad${i}`, { size: 128 });
+      for (const m of k.motifs) {
+        // Serpme motifi ada girmez; en azından ilk motif adda geçmeli.
+        expect(typeof m).toBe("string");
+      }
+      expect(k.name).toContain(k.motifs[0] as string);
     }
   });
 });

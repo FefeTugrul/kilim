@@ -187,7 +187,35 @@ export const TUM_MOTIFLER: readonly Motif[] = [
   BAKLAVA,
 ];
 
-/** Belirli bir slota girebilen motifler. Gramer yalnızca bunları kullanır. */
+/**
+ * DİKKAT — bu listeler kamuya açık sözleşmedir.
+ *
+ * Gramer motif seçerken `rng.pick` ile bu dizilere indeksler. Bir listenin
+ * SIRASINI değiştirmek ya da İÇİNE eleman eklemek, mevcut bütün kullanıcıların
+ * avatarını değiştirir; yani major sürüm gerektiren kırıcı bir değişikliktir.
+ *
+ * `TUM_MOTIFLER`'i filtreleyerek türetmek cazip ama tehlikeli: oraya eklenen
+ * her yeni motif sessizce bu listelere de sızar. Bu yüzden listeler elle ve
+ * donmuş halde tutulur. Yeni motifler bir sonraki major sürümün `_V2`
+ * listelerine gider.
+ */
+export const ZEMIN_ADAYLARI_V1: readonly Motif[] = [
+  GOZ,
+  PITRAK,
+  KOCBOYNUZU,
+  YILDIZ,
+  ELIBELINDE,
+];
+export const GOBEK_ADAYLARI_V1: readonly Motif[] = [GOZ, KOCBOYNUZU, YILDIZ];
+export const BORDUR_ADAYLARI_V1: readonly Motif[] = [SU_YOLU, TESTERE, BAKLAVA];
+export const DOLGU_ADAYLARI_V1: readonly Motif[] = [PITRAK];
+
+/**
+ * Belirli bir slota girebilen motifler.
+ *
+ * Yalnızca dokümantasyon ve test içindir — üretim yolu donmuş `_V1`
+ * listelerini kullanır. Bir test, ikisinin aynı kümeyi verdiğini doğrular.
+ */
 export function slotMotifleri(slot: Slot): readonly Motif[] {
   return TUM_MOTIFLER.filter((m) => m.slots.includes(slot));
 }

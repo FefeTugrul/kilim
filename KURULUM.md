@@ -101,7 +101,7 @@ npm install
 npm test
 ```
 
-**15 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
+**84 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
 
 Sonra kalan üç kontrol:
 
@@ -111,7 +111,7 @@ npm run build       # dist klasörünü üretir (ESM + CJS + tip tanımları)
 npm run size        # gzip boyutunu ölçer, 4 kB bütçeyi denetler
 ```
 
-`npm run size` çıktısı yaklaşık **1.56 kB** olmalı.
+`npm run size` çıktısı yaklaşık **5.7 kB** olmalı.
 
 ---
 

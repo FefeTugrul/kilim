@@ -9,14 +9,21 @@
 import {
   CELL,
   createGrid,
-  get,
   set,
   stamp,
   mirrorVertical,
   type Cell,
   type Grid,
 } from "./grid.js";
-import { dondur90, motifBoyut, slotMotifleri, type Motif } from "./motifs.js";
+import {
+  BORDUR_ADAYLARI_V1,
+  DOLGU_ADAYLARI_V1,
+  GOBEK_ADAYLARI_V1,
+  ZEMIN_ADAYLARI_V1,
+  dondur90,
+  motifBoyut,
+  type Motif,
+} from "./motifs.js";
 import type { Rng } from "./rng.js";
 
 /** Detay kademesi. Küçük boyutta ızgara seyrelir, yoksa avatar lapa olur. */
@@ -36,7 +43,7 @@ export interface Olcu {
  * verecek şekilde seçildi — avatar kare olmak zorunda.
  */
 export const OLCULER: Record<Kademe, Olcu> = {
-  kucuk: { w: 15, h: 13, sacak: 0, selvedge: 2, bordur: 0, inceSu: 0 },
+  kucuk: { w: 15, h: 13, sacak: 0, selvedge: 1, bordur: 0, inceSu: 0 },
   orta: { w: 29, h: 25, sacak: 1, selvedge: 1, bordur: 2, inceSu: 1 },
   tam: { w: 38, h: 33, sacak: 2, selvedge: 1, bordur: 3, inceSu: 1 },
 };
@@ -83,6 +90,11 @@ export interface DokumaSonuc {
 const BORDUR_RENKLERI: readonly Cell[] = [CELL.ANA, CELL.IKINCIL, CELL.VURGU];
 const SU_RENKLERI: readonly Cell[] = [CELL.IKINCIL, CELL.VURGU];
 const SACAK_RENKLERI: readonly Cell[] = [CELL.IKINCIL, CELL.VURGU, CELL.KONTUR];
+const SELVEDGE_RENKLERI: readonly Cell[] = [CELL.KONTUR, CELL.ANA, CELL.VURGU];
+const KOSE_RENKLERI: readonly Cell[] = [CELL.ANA, CELL.IKINCIL, CELL.VURGU];
+
+/** Zeminin dört köşesine konan küçük işaret. Göbekli düzenin boşluğunu kırar. */
+const KOSE_ISARETI: readonly string[] = [".X.", "XXX", ".X."];
 
 /** Motifi bir bant boyunca yatay tekrarlar. Kenarda dürüstçe kesilir. */
 function bantYatay(
@@ -226,11 +238,17 @@ function yerlestir(g: Grid, alan: Alan, motif: Motif, ayar: ZeminAyar): void {
 }
 
 /** Tek büyük göbek + dört köşe dolgusu. */
-function gobekYerlestir(g: Grid, alan: Alan, gobek: Motif, dolgu: Motif): void {
+function gobekYerlestir(
+  g: Grid,
+  alan: Alan,
+  gobek: Motif,
+  dolgu: Motif,
+  ikincil: boolean,
+): void {
   const { w: gw, h: gh } = motifBoyut(gobek);
   stamp(
     g,
-    gobek.grid,
+    ikincil ? ikinciTon(gobek.grid) : gobek.grid,
     alan.x + Math.floor((alan.w - gw) / 2),
     alan.y + Math.floor((alan.h - gh) / 2),
   );
@@ -244,6 +262,23 @@ function gobekYerlestir(g: Grid, alan: Alan, gobek: Motif, dolgu: Motif): void {
     [alan.x + alan.w - dw, alan.y + alan.h - dh],
   ];
   for (const [x, y] of kose) stamp(g, dolgu.grid, x, y);
+}
+
+/**
+ * Zeminin dört köşesine küçük bir işaret koyar. Göbekli düzende ortası dolu,
+ * kenarları bomboş bir kilim çıkmasını engeller.
+ */
+function koseIsaretiKoy(g: Grid, alan: Alan, renk: Cell): void {
+  const desen = KOSE_ISARETI.map((satir) => satir.split(CELL.ANA).join(renk));
+  const n = 3;
+  if (alan.w < 2 * n + 1 || alan.h < 2 * n + 1) return;
+  const kose: ReadonlyArray<readonly [number, number]> = [
+    [alan.x, alan.y],
+    [alan.x + alan.w - n, alan.y],
+    [alan.x, alan.y + alan.h - n],
+    [alan.x + alan.w - n, alan.y + alan.h - n],
+  ];
+  for (const [x, y] of kose) stamp(g, desen, x, y);
 }
 
 /** Yatay şeritlerde dönüşümlü iki motif. */
@@ -276,12 +311,16 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
   const g = createGrid(o.w, o.h);
 
   // --- kararlar (sıra önemli) ---
+  // Küçük kademede yalnızca göbek/tekrar okunur; diğer ikisi 15x13'te lapa olur.
   const duzen: Duzen =
-    kademe === "kucuk" ? "gobek" : rng.weighted(DUZENLER, DUZEN_AGIRLIK);
-  const zeminAdaylar = slotMotifleri("zemin");
-  const gobekAdaylar = slotMotifleri("gobek");
-  const bordurAdaylar = slotMotifleri("bordur");
-  const dolguAdaylar = slotMotifleri("dolgu");
+    kademe === "kucuk"
+      ? rng.weighted(["gobek", "tekrar"] as const, [55, 45])
+      : rng.weighted(DUZENLER, DUZEN_AGIRLIK);
+  // Donmuş sözleşme listeleri — bkz. motifs.ts içindeki uyarı.
+  const zeminAdaylar = ZEMIN_ADAYLARI_V1;
+  const gobekAdaylar = GOBEK_ADAYLARI_V1;
+  const bordurAdaylar = BORDUR_ADAYLARI_V1;
+  const dolguAdaylar = DOLGU_ADAYLARI_V1;
 
   const zeminMotif = rng.pick(zeminAdaylar);
   const gobekMotif = rng.pick(gobekAdaylar);
@@ -296,6 +335,11 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
   const suRenk = rng.pick(SU_RENKLERI);
   const sacakRenk = rng.pick(SACAK_RENKLERI);
   const kalinBordur = rng.bool(0.5);
+  const selvedgeRenk = rng.pick(SELVEDGE_RENKLERI);
+  const kalinSelvedge = rng.bool(0.45);
+  const gobekIkincil = rng.bool(0.4);
+  const koseRenk = rng.pick(KOSE_RENKLERI);
+  const koseVar = rng.bool(0.55);
 
   // --- katmanlar, dıştan içe ---
   let ust = 0;
@@ -314,14 +358,15 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
     yukseklik -= 2 * o.sacak;
   }
 
-  for (let k = 0; k < o.selvedge; k++) {
+  const selvedgeKat = o.selvedge + (kalinSelvedge ? 1 : 0);
+  for (let k = 0; k < selvedgeKat; k++) {
     for (let c = sol; c < sol + genislik; c++) {
-      set(g, c, ust, CELL.KONTUR);
-      set(g, c, ust + yukseklik - 1, CELL.KONTUR);
+      set(g, c, ust, selvedgeRenk);
+      set(g, c, ust + yukseklik - 1, selvedgeRenk);
     }
     for (let r = ust; r < ust + yukseklik; r++) {
-      set(g, sol, r, CELL.KONTUR);
-      set(g, sol + genislik - 1, r, CELL.KONTUR);
+      set(g, sol, r, selvedgeRenk);
+      set(g, sol + genislik - 1, r, selvedgeRenk);
     }
     ust += 1;
     sol += 1;
@@ -396,7 +441,8 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
 
   switch (duzen) {
     case "gobek":
-      gobekYerlestir(g, alan, gobekMotif, dolguMotif);
+      gobekYerlestir(g, alan, gobekMotif, dolguMotif, gobekIkincil);
+      if (koseVar) koseIsaretiKoy(g, alan, koseRenk);
       motifler.push(gobekMotif.ad, dolguMotif.ad);
       break;
     case "bantli":
@@ -417,21 +463,21 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
   // Kilimin bir üstü bir altı vardır: dikey ayna her zaman, yatay ayna asla.
   mirrorVertical(g);
 
-  motifler.push(bordurMotif.ad);
+  const bordurCizildi = b > 0;
+  if (bordurCizildi) motifler.push(bordurMotif.ad);
   const bas = duzen === "gobek" ? gobekMotif.ad : zeminMotif.ad;
-  const tonAdi = duzen === "gobek" || ton === "yok" ? "" : " iki tonlu";
-  const ad = `${bas} ${DUZEN_ADI[duzen]}${tonAdi}, ${bordurMotif.ad} bordürlü`;
+  const tonAdi =
+    duzen === "gobek"
+      ? gobekIkincil
+        ? " ikincil renkte"
+        : ""
+      : ton === "yok"
+        ? ""
+        : " iki tonlu";
+  // Ad yalnızca çizilen katmanları anlatır: küçük kademede bordür yoktur.
+  const ad = bordurCizildi
+    ? `${bas} ${DUZEN_ADI[duzen]}${tonAdi}, ${bordurMotif.ad} bordürlü`
+    : `${bas} ${DUZEN_ADI[duzen]}${tonAdi}, sade çerçeveli`;
 
   return { grid: g, motifler: [...new Set(motifler)], duzen, ad };
-}
-
-/** Test yardımcısı: ızgarada kaç hücre zemin dışı. */
-export function doluHucre(g: Grid): number {
-  let n = 0;
-  for (let y = 0; y < g.h; y++) {
-    for (let x = 0; x < g.w; x++) {
-      if (get(g, x, y) !== (CELL.ZEMIN as Cell)) n++;
-    }
-  }
-  return n;
 }

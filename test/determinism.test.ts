@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { fnv1a } from "../src/hash.js";
 import { mulberry32 } from "../src/rng.js";
-import { debugGrid } from "../src/index.js";
+import { generateKilim } from "../src/index.js";
+import { CELL, CELL_ASPECT, createGrid, toSvg } from "../src/grid.js";
+import { VARSAYILAN_PALET } from "../src/palette.js";
 
 describe("fnv1a", () => {
   // Sabit değerler. Bunlar değişirse tüm kullanıcıların avatarı değişir —
@@ -82,15 +84,15 @@ describe("mulberry32", () => {
 
 describe("uçtan uca determinizm", () => {
   it("aynı seed bayt bayt aynı SVG'yi verir", () => {
-    expect(debugGrid("furkan")).toBe(debugGrid("furkan"));
+    expect(generateKilim("furkan").svg).toBe(generateKilim("furkan").svg);
   });
 
   it("farklı seed farklı SVG verir", () => {
-    expect(debugGrid("furkan")).not.toBe(debugGrid("ayşe"));
+    expect(generateKilim("furkan").svg).not.toBe(generateKilim("ayşe").svg);
   });
 
   it("geçerli ve kendi kendine yeten SVG üretir", () => {
-    const svg = debugGrid("kilim");
+    const svg = generateKilim("kilim").svg;
     expect(svg.startsWith("<svg ")).toBe(true);
     expect(svg.endsWith("</svg>")).toBe(true);
     expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
@@ -101,16 +103,17 @@ describe("uçtan uca determinizm", () => {
   });
 
   it("boş seed de geçerli çıktı verir", () => {
-    expect(() => debugGrid("")).not.toThrow();
-    expect(debugGrid("")).toContain("<rect");
+    expect(() => generateKilim("").svg).not.toThrow();
+    expect(generateKilim("").svg).toContain("<rect");
   });
 
   it("hücre yüksekliği genişliğinden büyüktür (1:1.15)", () => {
-    const svg = debugGrid("furkan", 2);
+    // Izgara boyutları bu oranı telafi edecek şekilde seçildiği için çıktı
+    // karedir; oranı tek hücre üzerinden ölçüyoruz.
+    const g = createGrid(1, 1, CELL.ANA);
+    const svg = toSvg(g, VARSAYILAN_PALET.renkler, { cell: 100 });
     const m = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
     expect(m).not.toBeNull();
-    const w = Number(m?.[1]);
-    const h = Number(m?.[2]);
-    expect(h / w).toBeCloseTo(1.15, 2);
+    expect(Number(m?.[2]) / Number(m?.[1])).toBeCloseTo(CELL_ASPECT, 2);
   });
 });

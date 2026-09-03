@@ -57,6 +57,21 @@ import { VARSAYILAN_PALET } from "./palette.js";
 export interface KilimSecenek {
   /** Kenar uzunluğu (px). Detay kademesini belirler. Varsayılan 128. */
   size?: number;
+  /**
+   * SVG'ye `<title>` olarak basılacak erişilebilir ad. Verilmezse üretilen
+   * kilim adı kullanılır; `false` verilirse SVG `aria-hidden` olur (avatarın
+   * yanında zaten kullanıcı adı yazıyorsa doğru seçim budur).
+   */
+  label?: string | false;
+}
+
+/** Geçersiz `size` sessizce bozuk SVG üretmesin diye tek noktadan sıkıştırılır. */
+const MIN_BOYUT = 8;
+const MAX_BOYUT = 2048;
+
+function boyutDogrula(ham: unknown): number {
+  if (typeof ham !== "number" || !Number.isFinite(ham)) return 128;
+  return Math.min(MAX_BOYUT, Math.max(MIN_BOYUT, Math.floor(ham)));
 }
 
 export interface KilimSonuc {
@@ -82,13 +97,17 @@ export interface KilimSonuc {
  * ```
  */
 export function generateKilim(seed: string, opts: KilimSecenek = {}): KilimSonuc {
-  const size = opts.size ?? 128;
-  const rng = mulberry32(fnv1a(seed));
+  const size = boyutDogrula(opts.size);
+  const rng = mulberry32(fnv1a(String(seed)));
   const sonuc = doku(rng, kademeSec(size));
   const palet = VARSAYILAN_PALET.renkler;
+  const etiket = opts.label === false ? undefined : (opts.label ?? sonuc.ad);
 
   return {
-    svg: toSvg(sonuc.grid, palet, { cell: size / sonuc.grid.w }),
+    svg: toSvg(sonuc.grid, palet, {
+      cell: size / sonuc.grid.w,
+      ...(etiket === undefined ? {} : { label: etiket }),
+    }),
     name: sonuc.ad,
     motifs: sonuc.motifler,
     palette: palet,
@@ -96,16 +115,3 @@ export function generateKilim(seed: string, opts: KilimSecenek = {}): KilimSonuc
   };
 }
 
-/**
- * Faz 1'den kalan doğrulama çıktısı: motifsiz, rastgele doldurulmuş ızgara.
- * Zincirin uçtan uca çalıştığını gösterir; üretimde kullanılmaz.
- *
- * @deprecated `generateKilim` kullan. v1.0.0'da kaldırılacak.
- */
-export function debugGrid(seed: string, size = 12): string {
-  const rng = mulberry32(fnv1a(seed));
-  const roller = ["X", "+", "#", "O", "."] as const;
-  const g = { w: size, h: size, cells: [] as string[] };
-  for (let i = 0; i < size * size; i++) g.cells.push(rng.pick(roller));
-  return toSvg(g as never, VARSAYILAN_PALET.renkler, { cell: 8 });
-}

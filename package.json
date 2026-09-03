@@ -48,9 +48,11 @@
     "typecheck": "tsc --noEmit",
     "size": "node scripts/size.mjs",
     "onizleme": "npm run build && node scripts/onizleme.mjs",
+    "altin": "npm run build && node scripts/altin.mjs",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "@types/node": "^26.4.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
