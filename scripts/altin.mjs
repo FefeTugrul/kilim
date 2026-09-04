@@ -8,7 +8,6 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { generateKilim } from "../dist/index.js";
 
 const SEEDS = [
-  "",
   "a",
   "furkan",
   "ayşe",

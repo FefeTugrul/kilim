@@ -12,7 +12,12 @@ import {
   dondur90,
 } from "../src/motifs.js";
 import { CELL, createGrid, get, toSvg } from "../src/grid.js";
-import { ABRAS_TONLARI, PALETLER_V1, VARSAYILAN_PALET, paletBul } from "../src/palette.js";
+import {
+  ABRAS_TONLARI,
+  PALETLER_V1,
+  VARSAYILAN_PALET,
+  paletBul,
+} from "../src/palette.js";
 import { ABRAS_KAYMALARI } from "../src/kaymalar.js";
 import {
   hexToOklch,
@@ -22,7 +27,14 @@ import {
   parlaklikKaydir,
 } from "../src/oklch.js";
 
-const ORNEK = ["furkan", "ayşe", "mehmet", "kilim", "FefeTugrul", "user@example.com"];
+const ORNEK = [
+  "furkan",
+  "ayşe",
+  "mehmet",
+  "kilim",
+  "FefeTugrul",
+  "user@example.com",
+];
 
 describe("motif kütüphanesi", () => {
   it("her motif dikdörtgen bir ızgaradır", () => {
@@ -39,7 +51,10 @@ describe("motif kütüphanesi", () => {
     for (const m of TUM_MOTIFLER) {
       for (const satir of m.grid) {
         for (const ch of satir) {
-          expect(izinli.has(ch as never), `${m.id} içinde geçersiz kod: ${ch}`).toBe(true);
+          expect(
+            izinli.has(ch as never),
+            `${m.id} içinde geçersiz kod: ${ch}`,
+          ).toBe(true);
         }
       }
     }
@@ -91,7 +106,8 @@ describe("generateKilim", () => {
 
   it("1000 seed'in en az %95'i benzersizdir", () => {
     const seen = new Set<string>();
-    for (let i = 0; i < 1000; i++) seen.add(generateKilim(`seed${i}`, { size: 200 }).svg);
+    for (let i = 0; i < 1000; i++)
+      seen.add(generateKilim(`seed${i}`, { size: 200 }).svg);
     expect(seen.size).toBeGreaterThanOrEqual(950);
   });
 
@@ -115,14 +131,31 @@ describe("generateKilim", () => {
     expect(k.motifs.length).toBeGreaterThan(0);
     expect(k.palette).toHaveLength(5);
     for (const hex of k.palette) expect(hex).toMatch(/^#[0-9A-Fa-f]{6}$/);
-    expect(PALETLER_V1.map((p) => p.id)).toContain(k.style);
+    expect(PALETLER_V1.map((p) => p.id)).toContain(k.region);
   });
 
-  it("boş seed ve tek karakter de çalışır", () => {
-    for (const s of ["", "a", " ", "🧶"]) {
+  it("tek karakter, boşluk ve emoji seed'ler çalışır", () => {
+    for (const s of ["a", " ", "🧶", "  çok   boşluklu  "]) {
       expect(() => generateKilim(s)).not.toThrow();
       expect(generateKilim(s).svg).toContain("<rect");
     }
+  });
+
+  it("string olmayan seed sessizce kabul edilmez", () => {
+    // user.id bir yerde undefined gelirse etkilenen herkes aynı avatarı
+    // paylaşırdı ve kimse fark etmezdi.
+    for (const kotu of [undefined, null, 123, {}, []]) {
+      expect(() => generateKilim(kotu as never), String(kotu)).toThrow(
+        /seed must be a string/,
+      );
+    }
+  });
+
+  it("İngilizce erişilebilir ad üretir, Türkçe adı ayrı tutar", () => {
+    const k = generateKilim("furkan");
+    expect(k.name).toMatch(/[çğıöşü]/); // Türkçe motif adları
+    expect(k.nameEn).not.toMatch(/[çğışöü]/);
+    expect(k.svg).toContain(`<title>${k.nameEn}</title>`);
   });
 
   it("çıktı kareye yakındır — avatar kare olmak zorunda", () => {
@@ -146,8 +179,12 @@ describe("detay kademesi (LOD)", () => {
   });
 
   it("küçük kademe daha az hücre çizer", () => {
-    const kucuk = (generateKilim("furkan", { size: 24 }).svg.match(/<rect/g) ?? []).length;
-    const tam = (generateKilim("furkan", { size: 200 }).svg.match(/<rect/g) ?? []).length;
+    const kucuk = (
+      generateKilim("furkan", { size: 24 }).svg.match(/<rect/g) ?? []
+    ).length;
+    const tam = (
+      generateKilim("furkan", { size: 200 }).svg.match(/<rect/g) ?? []
+    ).length;
     expect(kucuk).toBeLessThan(tam / 2);
   });
 
@@ -229,8 +266,11 @@ describe("çeşitlilik (kademe başına)", () => {
   for (const [size, enAz] of esikler) {
     it(`${size}px: ${N} seed'in en az %${enAz * 100}'i benzersiz`, () => {
       const gorulen = new Set<string>();
-      for (let i = 0; i < N; i++) gorulen.add(generateKilim(`seed${i}`, { size }).svg);
-      expect(gorulen.size / N, `${size}px çeşitliliği düştü`).toBeGreaterThan(enAz);
+      for (let i = 0; i < N; i++)
+        gorulen.add(generateKilim(`seed${i}`, { size }).svg);
+      expect(gorulen.size / N, `${size}px çeşitliliği düştü`).toBeGreaterThan(
+        enAz,
+      );
     });
   }
 });
@@ -287,7 +327,8 @@ describe("çıktı güvenliği", () => {
   it("varsayılan olarak erişilebilir ad taşır", () => {
     const k = generateKilim("furkan");
     expect(k.svg).toContain("<title>");
-    expect(k.svg).toContain(k.name);
+    // Erişilebilir ad İngilizce; Türkçe `name` kültürel içerik olarak ayrı durur.
+    expect(k.svg).toContain(k.nameEn);
   });
 
   it("geçersiz renk atribüye sızmaz", () => {
@@ -304,7 +345,10 @@ describe("ad doğruluğu", () => {
   it("bordür çizilmeyen kademede ad bordürden söz etmez", () => {
     for (let i = 0; i < 100; i++) {
       const k = generateKilim(`seed${i}`, { size: 24 });
-      expect(k.name, "24px'te bordür çizilmiyor ama ad öyle diyor").not.toContain("bordürlü");
+      expect(
+        k.name,
+        "24px'te bordür çizilmiyor ama ad öyle diyor",
+      ).not.toContain("bordürlü");
       expect(k.name).toContain("çerçeveli");
     }
   });
@@ -328,7 +372,9 @@ describe("yöresel paletler", () => {
       expect(
         ihlaller,
         `${p.ad} paleti kısıtları ihlal ediyor:\n` +
-          ihlaller.map((i) => `  ${i.slot} ${i.hex}: ${i.kural} (${i.deger})`).join("\n"),
+          ihlaller
+            .map((i) => `  ${i.slot} ${i.hex}: ${i.kural} (${i.deger})`)
+            .join("\n"),
       ).toEqual([]);
     }
   });
@@ -353,34 +399,46 @@ describe("yöresel paletler", () => {
     const sayac = new Map<string, number>();
     const N = 3000;
     for (let i = 0; i < N; i++) {
-      const s = generateKilim(`p${i}`).style;
+      const s = generateKilim(`p${i}`).region;
       sayac.set(s, (sayac.get(s) ?? 0) + 1);
     }
     expect(sayac.size).toBe(PALETLER_V1.length);
     const beklenen = N / PALETLER_V1.length;
     for (const [id, adet] of sayac) {
-      expect(Math.abs(adet - beklenen) / beklenen, `${id} dağılımı sapmış`).toBeLessThan(0.25);
+      expect(
+        Math.abs(adet - beklenen) / beklenen,
+        `${id} dağılımı sapmış`,
+      ).toBeLessThan(0.25);
     }
   });
 
   it("style seçeneği seed'in seçimini geçersiz kılar", () => {
     for (const p of PALETLER_V1) {
-      const k = generateKilim("furkan", { style: p.id });
-      expect(k.style).toBe(p.id);
+      const k = generateKilim("furkan", { region: p.id as never });
+      expect(k.region).toBe(p.id);
       expect(k.palette).toEqual(p.renkler);
       expect(k.name.startsWith(p.ad)).toBe(true);
     }
   });
 
-  it("geçersiz style sessizce varsayılana düşer", () => {
-    const k = generateKilim("furkan", { style: "boyle-bir-yore-yok" });
-    expect(k.style).toBe(VARSAYILAN_PALET.id);
+  it("geçersiz region hem tipte hem çalışma zamanında yakalanır", () => {
+    // Sessizce farklı bir avatar vermek yerine durur: "sivsa" yazan biri
+    // hatasını görmeli. Büyük harf ve baştaki/sondaki boşluk da geçmez.
+    for (const kotu of ["boyle-bir-yore-yok", "SIVAS", "", "milas "]) {
+      expect(
+        () => generateKilim("furkan", { region: kotu as never }),
+        kotu,
+      ).toThrow(/unknown region/);
+    }
+    // Alt seviye yardımcı gevşek kalıyor; hatayı veren kapı generateKilim.
     expect(paletBul(undefined)).toBe(VARSAYILAN_PALET);
+    expect(paletBul("yok-boyle")).toBe(VARSAYILAN_PALET);
   });
 
   it("style sabitken bile farklı seed farklı kilim verir", () => {
     const gorulen = new Set<string>();
-    for (let i = 0; i < 500; i++) gorulen.add(generateKilim(`s${i}`, { style: "konya" }).svg);
+    for (let i = 0; i < 500; i++)
+      gorulen.add(generateKilim(`s${i}`, { region: "konya" }).svg);
     expect(gorulen.size / 500).toBeGreaterThan(0.85);
   });
 });
@@ -391,9 +449,11 @@ describe("abraş", () => {
     let abrasliBulundu = false;
     for (let i = 0; i < 60 && !abrasliBulundu; i++) {
       const svg = generateKilim(`ab${i}`, { size: 200 }).svg;
-      const satirRenkleri = [...svg.matchAll(/<rect x="0" y="[\d.]+" width="[\d.]+" height="[\d.]+" fill="(#[0-9A-F]{6})"\/>/g)].map(
-        (m) => m[1],
-      );
+      const satirRenkleri = [
+        ...svg.matchAll(
+          /<rect x="0" y="[\d.]+" width="[\d.]+" height="[\d.]+" fill="(#[0-9A-F]{6})"\/>/g,
+        ),
+      ].map((m) => m[1]);
       if (new Set(satirRenkleri).size > 1) abrasliBulundu = true;
     }
     expect(abrasliBulundu, "hiçbir kilimde abraş görülmedi").toBe(true);
@@ -425,9 +485,18 @@ describe("OKLCH dönüşümü", () => {
   });
 
   it("doğrulayıcı bilinen kötü renkleri yakalar", () => {
-    expect(paletDenetle(["#FFFFFF", "#A8322A", "#C9922E", "#2E2419", "#2C5580"]).length).toBeGreaterThan(0);
-    expect(paletDenetle(["#EFE5D0", "#FF00FF", "#C9922E", "#2E2419", "#2C5580"]).length).toBeGreaterThan(0);
-    expect(paletDenetle(["#EFE5D0", "#EDE4D0", "#C9922E", "#2E2419", "#2C5580"]).length).toBeGreaterThan(0);
+    expect(
+      paletDenetle(["#FFFFFF", "#A8322A", "#C9922E", "#2E2419", "#2C5580"])
+        .length,
+    ).toBeGreaterThan(0);
+    expect(
+      paletDenetle(["#EFE5D0", "#FF00FF", "#C9922E", "#2E2419", "#2C5580"])
+        .length,
+    ).toBeGreaterThan(0);
+    expect(
+      paletDenetle(["#EFE5D0", "#EDE4D0", "#C9922E", "#2E2419", "#2C5580"])
+        .length,
+    ).toBeGreaterThan(0);
   });
 });
 
@@ -476,9 +545,9 @@ describe("boyuttan bağımsız kimlik", () => {
   it("palet her boyutta aynı", () => {
     for (let i = 0; i < N; i++) {
       const s = `kimlik${i}`;
-      const p = generateKilim(s, { size: 128 }).style;
-      expect(generateKilim(s, { size: 24 }).style, s).toBe(p);
-      expect(generateKilim(s, { size: 64 }).style, s).toBe(p);
+      const p = generateKilim(s, { size: 128 }).region;
+      expect(generateKilim(s, { size: 24 }).region, s).toBe(p);
+      expect(generateKilim(s, { size: 64 }).region, s).toBe(p);
     }
   });
 
@@ -555,10 +624,98 @@ describe("gramer değişmezleri", () => {
     const N2 = 1500;
     let enAz = Infinity;
     for (let i = 0; i < N2; i++) {
-      const rect = (generateKilim(`ink${i}`, { size: 128 }).svg.match(/<rect/g) ?? []).length;
+      const rect = (
+        generateKilim(`ink${i}`, { size: 128 }).svg.match(/<rect/g) ?? []
+      ).length;
       if (rect < enAz) enAz = rect;
     }
     // 33 satır zemin şeridi her zaman var; anlamlı taban bunun üstü.
     expect(enAz, "bir çıktı neredeyse boş").toBeGreaterThan(150);
+  });
+});
+
+describe("değişmezlik ve girdi doğrulaması", () => {
+  // Denetimde bulunan en ciddi hata: dönen `palette`, modül seviyesindeki
+  // kanonik dizinin referansıydı. Tüketicinin onu değiştirmesi, o process'teki
+  // BÜTÜN sonraki çağrıları kalıcı olarak bozuyordu — bir sunucuda tek bir
+  // hatalı handler tüm kullanıcıların rengini değiştirebilirdi.
+  it("dönen palette paylaşılan referans değil", () => {
+    const a = generateKilim("t1", { region: "konya" });
+    const b = generateKilim("t2", { region: "konya" });
+    expect(a.palette).not.toBe(b.palette);
+
+    const orijinal = [...a.palette];
+    a.palette[0] = "#000001";
+    expect(generateKilim("t3", { region: "konya" }).palette).toEqual(orijinal);
+  });
+
+  it("kanonik paletler donmuş", () => {
+    for (const p of PALETLER_V1) {
+      expect(Object.isFrozen(p), p.id).toBe(true);
+      expect(Object.isFrozen(p.renkler), p.id).toBe(true);
+    }
+    expect(Object.isFrozen(PALETLER_V1)).toBe(true);
+  });
+
+  it("motifs dizisi de her çağrıda yeni", () => {
+    const a = generateKilim("m1");
+    const b = generateKilim("m1");
+    expect(a.motifs).not.toBe(b.motifs);
+    expect(a.motifs).toEqual(b.motifs);
+  });
+
+  it("label string veya false olmalı", () => {
+    // label={true} yazmak sezgisel bir hata ("göster" demek istenir) ve
+    // dahili bir TypeError ile SSR'ı çöktürüyordu.
+    for (const kotu of [true, 5, {}, [], null]) {
+      expect(
+        () => generateKilim("x", { label: kotu as never }),
+        String(kotu),
+      ).toThrow(/label must be a string or false/);
+    }
+  });
+
+  it("opts nesne olmayan değerlerde anlamlı hata verir", () => {
+    for (const kotu of [null, 5, "abc", true]) {
+      expect(() => generateKilim("x", kotu as never), String(kotu)).toThrow(
+        /options must be an object/,
+      );
+    }
+    // undefined varsayılana düşer, hata değil.
+    expect(() => generateKilim("x", undefined)).not.toThrow();
+  });
+});
+
+describe("kare çıktı garantisi", () => {
+  // Avatarlar çoğu sitede yuvarlak kırpılır; dikdörtgen çıktı elips demek.
+  it.each([8, 24, 32, 48, 64, 80, 128, 256, 512, 1024, 2048])(
+    "size=%i için width === height === size",
+    (size) => {
+      const svg = generateKilim("kare-testi", { size }).svg;
+      const m = svg.match(/width="([\d.]+)" height="([\d.]+)"/);
+      expect(m).not.toBeNull();
+      expect(Number(m?.[1])).toBe(size);
+      expect(Number(m?.[2])).toBe(size);
+    },
+  );
+});
+
+describe("public yardımcıların hata dalları", () => {
+  it("weighted uzunluk uyuşmazlığında hata verir", () => {
+    expect(() => mulberry32(1).weighted(["a"], [1, 2])).toThrow(/same length/);
+    expect(() => mulberry32(1).weighted([], [])).toThrow(/empty array/);
+  });
+
+  it("createGrid geçersiz boyutta hata verir", () => {
+    for (const [w, h] of [
+      [0, 5],
+      [5, 0],
+      [-1, 5],
+      [2.5, 5],
+    ]) {
+      expect(() => createGrid(w as number, h as number)).toThrow(
+        /positive integer/,
+      );
+    }
   });
 });

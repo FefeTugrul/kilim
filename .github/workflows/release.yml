@@ -38,8 +38,8 @@ jobs:
       - run: npm run size
 
       # Paket yüzeyi denetimi: exports haritası, tip çözümlemesi, tarball içeriği.
-      - run: npx publint --strict
-      - run: npx --yes @arethetypeswrong/cli --pack .
+      - run: npx --yes publint@0.3.24 --strict
+      - run: npx --yes @arethetypeswrong/cli@0.18 --pack .
 
       - run: npm publish --provenance --access public
         env:

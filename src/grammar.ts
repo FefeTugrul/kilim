@@ -78,6 +78,20 @@ const DUZEN_ADI: Record<Duzen, string> = {
   bantli: "bantlı",
 };
 
+/**
+ * Düzenlerin İngilizce karşılıkları.
+ *
+ * Erişilebilir ad (`<title>`) İngilizce üretilir: ekran okuyucu kullanan bir
+ * geliştirici Tokyo'da da olabilir ve Türkçe bir cümle ona hiçbir şey anlatmaz.
+ * Motif adları kültürel içerik olduğu için `name` alanında Türkçe kalır.
+ */
+const DUZEN_ADI_EN: Record<Duzen, string> = {
+  tekrar: "rows",
+  kaydirmali: "brick-laid",
+  gobek: "medallion",
+  bantli: "banded",
+};
+
 interface Alan {
   x: number;
   y: number;
@@ -108,6 +122,8 @@ export interface DokumaSonuc {
   readonly duzen: Duzen;
   /** Yöre öneki olmadan ad gövdesi: "göz sıra düzenli, testere bordürlü". */
   readonly govde: string;
+  /** İngilizce gövde: "evil eye in rows, sawtooth border". */
+  readonly govdeEn: string;
 }
 
 /**
@@ -605,11 +621,25 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
     ? `${bas} ${DUZEN_ADI[duzen]}${tonAdi}, ${bordurMotif.ad} bordürlü`
     : `${bas} ${DUZEN_ADI[duzen]}${tonAdi}, sade çerçeveli`;
 
+  const basEn = duzen === "gobek" ? gobekMotif.en : zeminMotif.en;
+  const tonAdiEn =
+    duzen === "gobek"
+      ? gobekIkincil
+        ? ", secondary tone"
+        : ""
+      : ton === "yok"
+        ? ""
+        : ", two-tone";
+  const govdeEn = bordurCizildi
+    ? `${basEn} in ${DUZEN_ADI_EN[duzen]}${tonAdiEn}, ${bordurMotif.en} border`
+    : `${basEn} in ${DUZEN_ADI_EN[duzen]}${tonAdiEn}, plain frame`;
+
   return {
     grid: g,
     abras: { bant: abrasBant, dizi: abrasDizi },
     motifler: [...new Set(motifler)],
     duzen,
     govde,
+    govdeEn,
   };
 }

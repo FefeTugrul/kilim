@@ -22,3 +22,40 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run size
+
+      # Paket yüzeyi denetimini PR'da yapıyoruz ki tag atıldıktan sonra sürpriz
+      # olmasın. Sürümler pinli: yeni bir kural release'i durdurmasın.
+      - run: npx --yes publint@0.3.24 --strict
+      - run: npx --yes @arethetypeswrong/cli@0.18 --pack .
+
+  # engines ">=18" diyor ama geliştirme araçları Node 20+ istiyor. Bu iş yalnızca
+  # DERLENMİŞ çıktıyı Node 18'de çalıştırır — iddianın kanıtı.
+  node18-dist:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: dist Node 18'de çalışıyor mu
+        run: |
+          node -e "
+            const { generateKilim } = require('./dist/index.cjs');
+            const a = generateKilim('furkan');
+            if (!a.svg.startsWith('<svg')) throw new Error('CJS bozuk');
+            if (a.svg !== generateKilim('furkan').svg) throw new Error('determinizm bozuk');
+            console.log('Node 18 CJS tamam:', a.name);
+          "
+          node --input-type=module -e "
+            import { generateKilim } from './dist/index.js';
+            const a = generateKilim('furkan');
+            if (!a.svg.startsWith('<svg')) throw new Error('ESM bozuk');
+            console.log('Node 18 ESM tamam');
+          "

@@ -21,8 +21,17 @@
  */
 import type { Palette } from "./grid.js";
 
+/**
+ * Yöresel palet kimlikleri — tek gerçeklik kaynağı.
+ *
+ * `index.ts` bunu yeniden dışa aktarır. Daha önce orada elle yazılmış bir union
+ * vardı ve `palet.id as KilimYore` cast'i ile bağlanıyordu; yedinci bir palet
+ * eklendiğinde tip yalan söyleyecek, derleyici susacaktı.
+ */
+export type KilimYore = "konya" | "milas" | "sivas" | "yoruk" | "usak" | "iznik";
+
 export interface YoreselPalet {
-  readonly id: string;
+  readonly id: KilimYore;
   /** Çıktının adında geçen yöre adı. */
   readonly ad: string;
   /** Paletin karakteri — dokümantasyon ve demo için. */
@@ -91,14 +100,31 @@ export const IZNIK: YoreselPalet = {
  * girerse mevcut bütün kullanıcıların paleti değişir. Yeni paletler bir sonraki
  * major sürümde eklenir.
  */
-export const PALETLER_V1: readonly YoreselPalet[] = [KONYA, MILAS, SIVAS, YORUK, USAK, IZNIK];
+export const PALETLER_V1: readonly YoreselPalet[] = Object.freeze([
+  KONYA,
+  MILAS,
+  SIVAS,
+  YORUK,
+  USAK,
+  IZNIK,
+].map((p) => Object.freeze({ ...p, renkler: Object.freeze(p.renkler) as Palette })));
+
+/** Bilinen yöre kimlikleri — çalışma zamanı doğrulaması için. */
+export const YORE_KIMLIKLERI: readonly string[] = Object.freeze(
+  PALETLER_V1.map((p) => p.id),
+);
 
 /** Tüm paletler — dokümantasyon ve demo için. */
 export const PALETLER: readonly YoreselPalet[] = PALETLER_V1;
 
 export const VARSAYILAN_PALET = MILAS;
 
-/** Kimliğe göre palet bulur; bulunamazsa varsayılana düşer. */
+/**
+ * Kimliğe göre palet bulur; bulunamazsa varsayılana düşer.
+ *
+ * Alt seviye yardımcı olduğu için gevşek kalıyor. Geçersiz değeri hatayla
+ * karşılayan kapı `generateKilim` — tüketicinin gördüğü yüzey orası.
+ */
 export function paletBul(id: string | undefined): YoreselPalet {
   if (!id) return VARSAYILAN_PALET;
   return PALETLER_V1.find((p) => p.id === id) ?? VARSAYILAN_PALET;

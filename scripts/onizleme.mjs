@@ -11,7 +11,7 @@ if (!seeds.length) {
 }
 
 const yoreler = PALETLER_V1.map((p) => {
-  const k = generateKilim("furkan", { style: p.id, size: 190 });
+  const k = generateKilim("furkan", { region: p.id, size: 190 });
   return `<figure>
     <div class="f">${k.svg}</div>
     <figcaption><b>${p.ad}</b><br>${p.not}</figcaption>
@@ -64,7 +64,7 @@ writeFileSync(
             margin-top:8px;line-height:1.45}
  .ok{color:#2E7D32;font-weight:600}.no{color:#A8322A;font-weight:700}
 </style>
-<h1>kilim &mdash; Faz 3 onizleme</h1>
+<h1>kilim &mdash; onizleme</h1>
 <p class="alt">Determinizm kontrolu:
   <span class="${kararli ? "ok" : "no"}">${kararli ? "her seed iki cagrida ayni cikti verdi" : "FARKLI CIKTI - sorun var"}</span>
 </p>

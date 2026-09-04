@@ -30,9 +30,13 @@ export interface Grid {
   readonly cells: Cell[];
 }
 
-export function createGrid(w: number, h: number, fill: Cell = CELL.ZEMIN): Grid {
+export function createGrid(
+  w: number,
+  h: number,
+  fill: Cell = CELL.ZEMIN,
+): Grid {
   if (!Number.isInteger(w) || !Number.isInteger(h) || w <= 0 || h <= 0) {
-    throw new Error("kilim: ızgara boyutu pozitif tam sayı olmalı");
+    throw new Error("kilim: grid size must be a positive integer");
   }
   return { w, h, cells: new Array<Cell>(w * h).fill(fill) };
 }
@@ -51,7 +55,12 @@ export function set(g: Grid, x: number, y: number, c: Cell): void {
  * Bir motifi ızgaraya damgalar. Zemin hücreleri ('.') şeffaftır — altındakini
  * silmez, böylece motifler üst üste bindirilebilir.
  */
-export function stamp(g: Grid, pattern: readonly string[], x0: number, y0: number): void {
+export function stamp(
+  g: Grid,
+  pattern: readonly string[],
+  x0: number,
+  y0: number,
+): void {
   for (let r = 0; r < pattern.length; r++) {
     const row = pattern[r] as string;
     for (let c = 0; c < row.length; c++) {
@@ -76,8 +85,18 @@ export function mirrorVertical(g: Grid): void {
 export type Palette = readonly [string, string, string, string, string];
 
 export interface SvgOptions {
-  /** Hücre genişliği (px). Yükseklik CELL_ASPECT ile çarpılır. */
+  /** Hücre genişliği (px). */
   cell?: number;
+  /**
+   * Hücre yüksekliği (px). Verilmezse `cell * CELL_ASPECT`.
+   *
+   * Ayrı verilebilmesinin sebebi: ızgara boyutları 1:1.15 oranını yalnızca
+   * yaklaşık telafi ediyor (38/33 = 1.1515), o yüzden tek bir hücre ölçüsüyle
+   * çıktı %0.13-0.34 dikdörtgen kalıyordu. Avatar yuvarlak kırpılınca bu elips
+   * demek. İkisini ayrı vererek çıktıyı tam kareye oturtuyoruz; hücre oranındaki
+   * binde birkaçlık sapma görünmez.
+   */
+  cellH?: number;
   /** Satır bazlı zemin rengi geçersiz kılma — abraş için. */
   groundAt?: (row: number) => string;
   /** <title> olarak basılacak erişilebilir ad. */
@@ -119,12 +138,13 @@ function xmlKacis(s: string): string {
  * `round((x+1)*cw) - round(x*cw)` ile hesaplanır, böylece komşu dikdörtgenler
  * arasında saç teli kalınlığında boşluk kalmaz.
  */
-export function toSvg(g: Grid, palette: Palette, opts: SvgOptions = {}): string {
+export function toSvg(
+  g: Grid,
+  palette: Palette,
+  opts: SvgOptions = {},
+): string {
   const cw = opts.cell ?? 8;
-  const ch = cw * CELL_ASPECT;
-  // Izgara boyutları 1:1.15 oranını telafi edecek şekilde seçildi ama tam sayı
-  // olmadıkları için sonuç 128 → 127.83 gibi çıkıyordu; yuvarlak kırpmada elips,
-  // flex satırında yarım piksel kayma demek. viewBox'ı kareye kilitliyoruz.
+  const ch = opts.cellH ?? cw * CELL_ASPECT;
   const width = round(g.w * cw);
   const height = round(g.h * ch);
   const ground = opts.groundAt ?? (() => palette[0]);

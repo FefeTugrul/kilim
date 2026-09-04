@@ -78,7 +78,7 @@ describe("mulberry32", () => {
   });
 
   it("boş dizide anlamlı hata verir", () => {
-    expect(() => mulberry32(1).pick([])).toThrow(/boş diziden/);
+    expect(() => mulberry32(1).pick([])).toThrow(/empty array/);
   });
 });
 
@@ -102,9 +102,9 @@ describe("uçtan uca determinizm", () => {
     expect(svg).not.toContain("<circle");
   });
 
-  it("boş seed de geçerli çıktı verir", () => {
-    expect(() => generateKilim("").svg).not.toThrow();
-    expect(generateKilim("").svg).toContain("<rect");
+  it("boş seed reddedilir", () => {
+    // `user.id ?? ""` tam olarak bu arızayı üretir: etkilenen herkes aynı avatar.
+    expect(() => generateKilim("")).toThrow(/must not be an empty string/);
   });
 
   it("hücre yüksekliği genişliğinden büyüktür (1:1.15)", () => {

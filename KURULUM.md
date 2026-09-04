@@ -101,7 +101,7 @@ npm install
 npm test
 ```
 
-**105 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
+**135 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
 
 Sonra kalan üç kontrol:
 
@@ -219,5 +219,5 @@ paketi otomatik yayınlar. Elle `npm publish` yazmana gerek yok.
 
 - [x] **Faz 3** — Altı yöresel palet, renk kısıtları, abraş
 - [x] **Faz 3.5** — Kod denetimi bulguları: boyuttan bağımsız kimlik, bordür, renk katmanları
-- [ ] **Faz 4** — React bileşeni, LOD, npm yayını
+- [x] **Faz 4** — React bileşeni, npm yayını
 - [ ] **Faz 5** — Demo sitesi ve dokümantasyon

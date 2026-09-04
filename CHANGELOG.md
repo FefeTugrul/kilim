@@ -6,9 +6,9 @@ Bu paket [Semantic Versioning](https://semver.org/lang/tr/) izler.
 girdinin farklı çıktı vermesi bir iyileştirme değil, **kırıcı değişikliktir** —
 çünkü herkesin avatarı değişir. `test/golden.test.ts` bunu kilitler.
 
-## [Yayınlanmamış]
+## [0.1.0] — 2026-09-04
 
-İlk yayın hazırlığı. Aşağıdakiler `0.1.0` ile çıkacak.
+İlk yayın.
 
 ### Eklendi
 
@@ -18,12 +18,24 @@ girdinin farklı çıktı vermesi bir iyileştirme değil, **kırıcı değişik
 - Dokuma grameri: saçak, selvedge, bordür, ince su, zemin katmanları; dört zemin
   düzeni; her zaman dikey ayna, asla yatay
 - Altı yöresel palet: Konya, Milas, Sivas, Yörük, Uşak ve palet teması İznik.
-  `opts.style` ile sabitlenebilir
+  `opts.region` ile sabitlenebilir
 - OKLCH tabanlı palet kısıt doğrulayıcısı — her palet her testte denetlenir
 - Abraş: zemin renginin bant bant algısal kayması
 - Üç detay kademesi; 24 pikselde ızgara seyreliyor
 - `opts.label` ile erişilebilir ad; `false` ile `aria-hidden`
-- Sıfır bağımlılık, ESM + CJS + tip tanımları
+- `kilim/react` alt yolunda `<Kilim />` bileşeni ve `useKilim` hook'u. React
+  isteğe bağlı peer bağımlılık; çekirdeği kullanan onu hiç çekmiyor
+- Girdi doğrulaması: geçersiz seed, boş seed, bilinmeyen yöre ve hatalı `label`
+  sessizce yanlış çalışmak yerine anlamlı hata verir
+- Sıfır bağımlılık, ESM + CJS + tip tanımları, iki giriş noktası
+
+### Kararlar
+
+- Erişilebilir ad (`<title>`) İngilizce; Türkçe `name` alanı kültürel içerik
+  olarak ayrı duruyor
+- `style` değil `region`: React'ta `style` her zaman CSS demek
+- Kaynak haritalar yayınlanmıyor — tarball'ın dörtte üçünü tutuyorlardı ve çıktı
+  minify edilmediği için yığın izleri haritasız da okunabilir
 
 ### Bilinen sınırlar
 

@@ -1,19 +1,29 @@
 {
   "name": "kilim",
-  "version": "0.0.0",
-  "description": "Deterministic Anatolian kilim avatars from any string. Zero dependencies, pure SVG.",
+  "version": "0.1.0",
+  "description": "Deterministic Anatolian kilim avatars from any string. Zero dependencies, pure SVG, SSR-safe.",
   "keywords": [
     "avatar",
+    "avatar-generator",
     "identicon",
+    "profile-picture",
+    "default-avatar",
+    "placeholder",
     "generative",
     "svg",
-    "kilim",
-    "pattern",
     "deterministic",
-    "placeholder"
+    "zero-dependency",
+    "ssr",
+    "react",
+    "kilim",
+    "anatolian",
+    "turkish"
   ],
   "license": "MIT",
-  "author": "Furkan Efe Tuğrul",
+  "author": {
+    "name": "Furkan Efe Tuğrul",
+    "url": "https://github.com/FefeTugrul"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FefeTugrul/kilim.git"
@@ -36,7 +46,18 @@
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       }
-    }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.js"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -51,11 +72,19 @@
     "onizleme": "npm run build && node scripts/onizleme.mjs",
     "altin": "npm run build && node scripts/altin.mjs",
     "abras": "npm run build && node scripts/abras-tablo.mjs",
-    "prepublishOnly": "npm run typecheck && npm test && npm run build && npm run size"
+    "prepublishOnly": "npm run typecheck && npm test && npm run build && npm run size",
+    "prepack": "npm run build"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^26.4.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
     "esbuild": "^0.28.2",
+    "jsdom": "^30.0.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
@@ -66,5 +95,20 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "typesVersions": {
+    "*": {
+      "react": [
+        "./dist/react.d.ts"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   }
 }

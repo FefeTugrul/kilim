@@ -36,16 +36,16 @@ export function mulberry32(seed: number): Rng {
   const int = (maxExclusive: number): number => Math.floor(next() * maxExclusive);
 
   const pick = <T,>(items: readonly T[]): T => {
-    if (items.length === 0) throw new Error("kilim: boş diziden seçim yapılamaz");
+    if (items.length === 0) throw new Error("kilim: cannot pick from an empty array");
     return items[int(items.length)] as T;
   };
 
   const bool = (p = 0.5): boolean => next() < p;
 
   const weighted = <T,>(items: readonly T[], weights: readonly number[]): T => {
-    if (items.length === 0) throw new Error("kilim: boş diziden seçim yapılamaz");
+    if (items.length === 0) throw new Error("kilim: cannot pick from an empty array");
     if (items.length !== weights.length) {
-      throw new Error("kilim: items ve weights aynı uzunlukta olmalı");
+      throw new Error("kilim: items and weights must have the same length");
     }
     let total = 0;
     for (const w of weights) total += w;
