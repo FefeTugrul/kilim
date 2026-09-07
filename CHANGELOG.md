@@ -23,7 +23,7 @@ girdinin farklı çıktı vermesi bir iyileştirme değil, **kırıcı değişik
 - Abraş: zemin renginin bant bant algısal kayması
 - Üç detay kademesi; 24 pikselde ızgara seyreliyor
 - `opts.label` ile erişilebilir ad; `false` ile `aria-hidden`
-- `kilim/react` alt yolunda `<Kilim />` bileşeni ve `useKilim` hook'u. React
+- `kilim-avatars/react` alt yolunda `<Kilim />` bileşeni ve `useKilim` hook'u. React
   isteğe bağlı peer bağımlılık; çekirdeği kullanan onu hiç çekmiyor
 - Girdi doğrulaması: geçersiz seed, boş seed, bilinmeyen yöre ve hatalı `label`
   sessizce yanlış çalışmak yerine anlamlı hata verir

@@ -1,11 +1,11 @@
 /**
- * React sarmalayıcı — `kilim/react` alt yolundan gelir.
+ * React sarmalayıcı — `kilim-avatars/react` alt yolundan gelir.
  *
  * Neden ayrı giriş noktası:
  *
  * 1. `peerDependencies`. React ana girişte olsaydı, çekirdeği Node'da, bir
  *    worker'da ya da Deno'da kullanan herkes React peer uyarısı alırdı. Ayrı
- *    alt yolda peer yalnızca `kilim/react` import edeni ilgilendirir.
+ *    alt yolda peer yalnızca `kilim-avatars/react` import edeni ilgilendirir.
  * 2. Tree-shaking. `react/jsx-runtime` import'u ana girişte olsaydı bazı
  *    paketleyiciler onu ayıklayamazdı. Ayrı entry'de bu sorun hiç doğmaz.
  * 3. Çekirdeğin boyutu React kullanmayanlara yansımaz.

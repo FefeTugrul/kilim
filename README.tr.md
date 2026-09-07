@@ -1,15 +1,15 @@
-# kilim
+# kilim-avatars
 
 Herhangi bir metinden deterministik Anadolu kilimi. Sıfır bağımlılık, saf SVG.
 
 [English](./README.md) · **Türkçe**
 
 ```bash
-npm install kilim
+npm install kilim-avatars
 ```
 
 ```ts
-import { generateKilim } from "kilim";
+import { generateKilim } from "kilim-avatars";
 
 const k = generateKilim("furkan");
 
@@ -33,11 +33,11 @@ generateKilim("furkan", { region: "sivas" }); // lacivert zeminli
 ## React
 
 ```bash
-npm install kilim react
+npm install kilim-avatars react
 ```
 
 ```tsx
-import { Kilim } from "kilim/react";
+import { Kilim } from "kilim-avatars/react";
 
 <Kilim seed={user.id} size={40} rounded />;
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "kilim",
+  "name": "kilim-avatars",
   "version": "0.1.0",
   "description": "Deterministic Anatolian kilim avatars from any string. Zero dependencies, pure SVG, SSR-safe.",
   "keywords": [

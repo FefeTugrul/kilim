@@ -12,8 +12,8 @@ import { gzipSync } from "node:zlib";
 
 /** Giris noktasi -> gzip butcesi (kB). React harici tutulur, peer bagimlilik. */
 const BUTCELER = [
-  { giris: "dist/index.js", butce: 8, ad: "kilim" },
-  { giris: "dist/react.js", butce: 9, ad: "kilim/react" },
+  { giris: "dist/index.js", butce: 8, ad: "kilim-avatars" },
+  { giris: "dist/react.js", butce: 9, ad: "kilim-avatars/react" },
 ];
 
 let hata = false;

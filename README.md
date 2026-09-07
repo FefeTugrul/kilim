@@ -1,15 +1,15 @@
-# kilim
+# kilim-avatars
 
 Deterministic Anatolian kilim avatars from any string. Zero dependencies, pure SVG, SSR-safe.
 
 **English** · [Türkçe](./README.tr.md)
 
 ```bash
-npm install kilim
+npm install kilim-avatars
 ```
 
 ```ts
-import { generateKilim } from "kilim";
+import { generateKilim } from "kilim-avatars";
 
 const k = generateKilim("furkan");
 
@@ -60,11 +60,11 @@ with a documented meaning, and it names every result it produces.
 ## React
 
 ```bash
-npm install kilim react
+npm install kilim-avatars react
 ```
 
 ```tsx
-import { Kilim } from "kilim/react";
+import { Kilim } from "kilim-avatars/react";
 
 <Kilim seed={user.id} size={40} rounded />;
 ```
