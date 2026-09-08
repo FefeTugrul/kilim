@@ -19,12 +19,31 @@ export const ANLAM_EN: Record<string, string> = {
   suyolu: "Life, continuity and fertility. It runs in the border.",
   testere: "Protection. The toothed row keeps evil away from the kilim's edge.",
   baklava: "Abundance. Rows of diamonds recall the field and its crop.",
+  bereket:
+    "Abundance. Read as elibelinde joined to a ram's horn — womanhood and strength in one sign.",
+  cengel: "Holding fast, and warding off the evil eye.",
+  akrep:
+    "Read as a wish for protection from harm; it recalls the stinging animal.",
+  kurtagzi:
+    "Read as a wish to keep the flock and the home out of danger.",
+  sandik: "Dowry and savings. It recalls the bride's chest.",
+  muska:
+    "Read as protection from evil; it recalls the triangular amulet worn against it.",
+  sacbagi: "Read as a wish for marriage and union.",
+  gobek: "The centre of the kilim. Read as hearth and family.",
+  kirkbudak:
+    "Multiplication and abundance. It recalls a plant of many branches.",
+  tarak:
+    "Read as a wish for cleanliness and order; it recalls the bride's comb.",
 };
 
 /**
  * `Motif.id` bir birleşim tipi değil, düpedüz `string` — yani derleyici eksik
- * çeviriyi yakalayamıyor ve kütüphaneye dokuzuncu bir motif eklendiğinde
- * İngilizce sayfa sessizce boş bir kutu basardı. Derleme zamanında duruyoruz.
+ * çeviriyi yakalayamıyor ve kütüphaneye yeni bir motif eklendiğinde İngilizce
+ * sayfa sessizce boş bir kutu basardı. Derleme zamanında duruyoruz.
+ *
+ * Bu bekçi işini yaptı: 0.2.0 on yeni motif getirdi ve çeviriler eklenene kadar
+ * `next build` kırıldı. Kırılması doğrusuydu.
  */
 for (const m of TUM_MOTIFLER) {
   if (!(m.id in ANLAM_EN)) {
