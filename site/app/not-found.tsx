@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SITE_URL } from "@/lib/paket";
 import "./globals.css";
 import s from "./not-found.module.css";
+import { yol } from "@/lib/yol";
 
 /**
  * İki kök layout olduğu için 404 sayfası kendi <html>'ini basmak zorunda:
@@ -24,7 +25,7 @@ export default function Bulunamadi() {
               The address does not match anything here. Everything the site has
               is on one page.
             </p>
-            <a className={s.geri} href="/">
+            <a className={s.geri} href={yol("/")}>
               kilim
             </a>
           </div>

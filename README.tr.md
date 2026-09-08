@@ -7,7 +7,7 @@ Herhangi bir metinden deterministik Anadolu kilimi. Sıfır bağımlılık, saf 
 [![CI](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml/badge.svg)](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/kilim-avatars?color=%235C6B3C&labelColor=%232E2419)](./LICENSE)
 
-[English](./README.md) · **Türkçe**
+**[Canlı demo](https://fefetugrul.github.io/kilim)** · [English](./README.md) · **Türkçe**
 
 ```bash
 npm install kilim-avatars

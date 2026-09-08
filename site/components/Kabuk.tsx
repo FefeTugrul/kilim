@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { NPM_URL, REPO, SURUM } from "@/lib/paket";
 import type { BolumMetni, Icerik } from "@/lib/icerik";
 import s from "./Kabuk.module.css";
+import { yol } from "@/lib/yol";
 
 function bolumSirasi(icerik: Icerik): readonly BolumMetni[] {
   const b = icerik.bolumler;
@@ -11,7 +12,7 @@ function bolumSirasi(icerik: Icerik): readonly BolumMetni[] {
 export function Ustbilgi({ icerik }: { icerik: Icerik }) {
   return (
     <header className={s.ustbilgi}>
-      <a className={s.marka} href={icerik.anasayfa}>
+      <a className={s.marka} href={yol(icerik.anasayfa)}>
         kilim
       </a>
       <span className={s.surum}>{SURUM}</span>
@@ -30,7 +31,7 @@ export function Ustbilgi({ icerik }: { icerik: Icerik }) {
 
       <nav className={s.baglantilar} aria-label={icerik.digerDil.etiket}>
         <a
-          href={icerik.digerDil.href}
+          href={yol(icerik.digerDil.href)}
           hrefLang={icerik.digerDil.hreflang}
           lang={icerik.digerDil.hreflang}
         >

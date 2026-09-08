@@ -1,0 +1,74 @@
+name: Pages
+
+# Demo sitesini GitHub Pages'e yayınlar.
+#
+# Site `output: "export"` ile tamamen statik üretiliyor; sunucu tarafı hiçbir
+# şey yok. Bu yüzden Pages, Vercel'e göre bir taviz değil: aynı çıktıyı, aynı
+# depoda, ticari kullanım kısıtı olmadan servis ediyor.
+#
+# Yayın adresi bir proje sayfası olduğu için siteyi KÖKTE değil `/kilim`
+# altında sunuyor. Bu yüzden iki ortam değişkeni şart:
+#   NEXT_PUBLIC_BASE_PATH — Next'in varlık ve <Link> yollarını öneklemesi için
+#   NEXT_PUBLIC_SITE_URL  — canonical ve og:image mutlak adres istiyor
+#
+# Repo ayarı (bir kez yapılır):
+#   Settings > Pages > Build and deployment > Source: GitHub Actions
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Aynı anda tek yayın. `cancel-in-progress: false` çünkü yarıda kesilen bir
+# deploy siteyi tutarsız bırakabilir; sıradakini beklemek daha ucuz.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_BASE_PATH: /kilim
+      NEXT_PUBLIC_SITE_URL: https://fefetugrul.github.io/kilim
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Site kütüphaneyi `file:..` ile, yani DERLENMİŞ çıktı üzerinden tüketiyor.
+      # Önce paketi derlemezsek site kendi bağımlılığını bulamaz.
+      - run: npm ci
+      - run: npm run build
+
+      - run: npm install
+        working-directory: site
+      - run: npm run build
+        working-directory: site
+
+      # Pages varsayılan olarak Jekyll'den geçiriyor ve alt çizgiyle başlayan
+      # klasörleri atıyor. Next bütün varlıklarını `_next/` altına koyduğu için
+      # bu dosya olmadan site CSS'siz ve JS'siz yayınlanır.
+      - run: touch site/out/.nojekyll
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
