@@ -142,10 +142,25 @@ inline on one page without colliding.
 | su yolu | running water | Life and continuity | border only |
 | testere | sawtooth | Protection | border only |
 | baklava | diamond | Abundance | border only |
+| bereket | fertility | Abundance; read as elibelinde joined to a ram's horn | field, medallion |
+| çengel | hook | Holding fast, and warding off the evil eye | field, filler |
+| akrep | scorpion | Protection from harm | field only |
+| kurtağzı | wolf's mouth | Keeping the flock and the home from danger | border only |
+| sandık | chest | Dowry and savings; the bride's chest | field only |
+| muska | amulet | Protection from evil | filler only |
+| saçbağı | hair-tie | A wish for marriage and union | field only |
+| göbek | medallion | The centre of the kilim; hearth and family | medallion only |
+| kırkbudak | forty branches | Multiplication and abundance | field only |
+| tarak | comb | Cleanliness and order; the bride's comb | border only |
 
 Placement is not decoration. A figurative motif never enters the border and a
 band motif never stands alone in the field — the generator enforces this and the
 tests check it.
+
+Meanings are **common readings, not settled fact.** Most of what circulates today
+traces back to Güran Erbek's catalogue and the literature that followed it, and
+the same shape is named differently from village to village. Treat the column
+above as ethnographic convention, not as a dictionary.
 
 ## Structure of a woven kilim
 
@@ -159,23 +174,57 @@ Where a repeating border does not divide evenly into an edge it is **cut at the
 corner** rather than squeezed to fit. A weaver does the same; that honest cut is
 most of the difference between "an algorithm made this" and "someone wove this".
 
-## Regional palettes
+## Regions
 
 Style names are not invented. `bauhaus` and `marble` are aesthetic whims;
 `konya` and `milas` are documented weaving traditions.
 
-| Region | Character |
-| --- | --- |
-| `konya` | Red ground, cream motifs, deep navy and gold |
-| `milas` | Cream ground, thin border, mustard and navy |
-| `sivas` | Navy ground, dense layout, separated by a light outline |
-| `yoruk` | Brown-black ground, few colours, earth tones |
-| `usak` | Muted grey-cream ground, sparse medallion, olive and burgundy |
-| `iznik` | İznik pigments — cobalt, turquoise, coral |
+A region is not just a colour scheme. It sets the **colour, the layout
+distribution, the density, the border width and the motif weights** — so the
+same seed weaves a visibly different kilim in Konya and in Yörük.
 
-İznik is a **palette theme only**; the geometry stays kilim. Tile work is curved
-and free, kilim is angular and grid-bound — merging the two in geometry produces
-something that is neither.
+| Region | Colour | Layout bias | Border | Density | Leading motifs |
+| --- | --- | --- | --- | --- | --- |
+| `konya` | Red ground, cream motifs, navy and gold | medallion | normal | medium | göbek, çengel, elibelinde, tarak |
+| `milas` | Cream ground, mustard and navy | rows | **widest** | low | koçboynuzu, çengel, su yolu |
+| `sivas` | Navy ground, light outline | rows, banded | thin | **highest** | bereket, kırkbudak, baklava, pıtrak |
+| `yoruk` | Brown-black ground, earth tones | rows | **narrowest** | **lowest** | akrep, saçbağı, koçboynuzu, testere |
+| `usak` | Grey-cream ground, olive and burgundy | **brick-laid** | wide | medium | yıldız, baklava, sandık, muska |
+| `iznik` | İznik pigments — cobalt, turquoise, coral | neutral | normal | medium | none assigned |
+
+### Weights, not whitelists
+
+No source consulted assigns a motif to a single region. göz, koçboynuzu,
+elibelinde and yıldız are pan-Anatolian; what separates one tradition from
+another is which motif takes the central role, how dense the field is, and how
+wide the border runs. So the profiles **weight** motifs rather than filtering
+them: every motif can appear in every region, only the odds shift. A test proves
+it — draw enough seeds and each region eventually weaves every field motif.
+
+The strongest documented match is Uşak. The Turkish Patent geographical
+indication (No. 152, 2012) defines the "Starred Uşak" type as *eight-pointed
+stars alternating with small diamond medallions on staggered axes* — which is a
+literal description of this library's `yıldız` and `baklava` motifs in the
+brick-laid layout.
+
+### İznik carries no motifs, on purpose
+
+A kilim tradition for İznik was searched for and **not found**: the name appears
+only in tile and ceramic scholarship. İznik's real vocabulary — rumi, hatayi,
+tulip, carnation — is curved and floral, and does not translate into the stepped,
+right-angled geometry of a flatweave. So İznik contributes pigment only and its
+profile is deliberately neutral. Assigning it an invented motif set would have
+broken the one thing this library actually promises.
+
+### What the profiles are, and are not
+
+The weights are a **design interpretation derived from sources, not a quotation.**
+Density and border width in particular have no quantitative measurement in the
+literature; they were inferred from qualitative descriptions. Milas is primarily
+a knotted-carpet centre and no strong academic source for a distinct Milas
+*kilim* scheme was found. No direct source describes border structure in Yörük
+kilims. Each profile in [`src/yore.ts`](./src/yore.ts) carries its own sources
+and its own limitations in the comment above it.
 
 ### Colours were measured, not eyeballed
 
@@ -284,4 +333,8 @@ npm run altin     # refresh the golden hashes (after a deliberate breaking chang
 
 MIT © Furkan Efe Tuğrul
 
-Motif names and meanings are documented from public sources.
+Motif names, meanings and regional characteristics are documented from public
+sources — among them *Arış* (Atatürk Kültür Merkezi), Güran Erbek's *Kilim
+Catalogue No. 1*, the Turkish Patent geographical indication register and Koç
+University's Josephine Powell collection. Full citations sit in the comments of
+[`src/yore.ts`](./src/yore.ts).

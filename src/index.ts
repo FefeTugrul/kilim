@@ -3,7 +3,9 @@
  *
  * Faz 1: seed → hash → PRNG → ızgara → SVG zinciri.
  * Faz 2: motifler ve dokuma grameri.
- * Faz 3'te yöresel paletler, abraş ve renk kısıtları gelecek.
+ * Faz 3: yöresel paletler, abraş ve renk kısıtları.
+ * Faz 6 (0.2.0): yöre artık yalnızca palet değil — motif ağırlığını, düzen
+ * dağılımını, yoğunluğu ve bordür genişliğini de belirliyor (bkz. src/yore.ts).
  */
 
 export { fnv1a } from "./hash.js";
@@ -35,12 +37,34 @@ export {
   SU_YOLU,
   TESTERE,
   BAKLAVA,
+  BEREKET,
+  CENGEL,
+  AKREP,
+  KURT_AGZI,
+  SANDIK,
+  MUSKA,
+  SAC_BAGI,
+  GOBEK_MOTIFI,
+  KIRKBUDAK,
+  TARAK,
+  ZEMIN_ADAYLARI_V2,
+  GOBEK_ADAYLARI_V2,
+  BORDUR_ADAYLARI_V2,
+  DOLGU_ADAYLARI_V2,
   type Motif,
   type Slot,
 } from "./motifs.js";
 export {
+  YORE_PROFILLERI,
+  NOTR_PROFIL,
+  profilBul,
+  type YoreProfil,
+  type MotifAgirlik,
+} from "./yore.js";
+export {
   doku,
   kademeSec,
+  bordurKalinlik,
   OLCULER,
   type Duzen,
   type Kademe,
@@ -65,6 +89,7 @@ import { fnv1a } from "./hash.js";
 import { mulberry32 } from "./rng.js";
 import { toSvg } from "./grid.js";
 import { doku, kademeSec, type Duzen } from "./grammar.js";
+import { profilBul } from "./yore.js";
 import {
   ABRAS_TONLARI,
   YORE_KIMLIKLERI,
@@ -187,15 +212,20 @@ export function generateKilim(
 ): KilimSonuc {
   girdiDogrula(seed, opts);
   const size = boyutDogrula(opts.size);
-  const rng = mulberry32(fnv1a(seed));
-  const sonuc = doku(rng, kademeSec(size));
-
   // Palet AYRI bir hash akışından geliyor. Gramere yeni bir karar eklendiğinde
   // palet seçimi kaymasın diye: iki akış birbirinden bağımsız.
+  //
+  // 0.2.0'da palet seçimi dokumanın ÖNÜNE alındı: yöre artık dokumayı da
+  // belirlediği için önce hangi yörede olduğumuzu bilmek gerekiyor. İki akış
+  // bağımsız olduğu için bu sıra değişikliği palet seçimini etkilemez — aynı
+  // seed 0.1.0'daki yöresinde kalır, değişen yalnızca dokumadır.
   const paletRng = mulberry32((fnv1a(seed) ^ PALET_TOHUMU) >>> 0);
   const palet = opts.region
     ? paletBul(opts.region)
     : paletRng.pick(PALETLER_V1);
+
+  const rng = mulberry32(fnv1a(seed));
+  const sonuc = doku(rng, kademeSec(size), profilBul(palet.id));
 
   // Ad, gövdeyle önekin birleşimi. Daha önce string'i geri ayrıştırıyorduk ve
   // palet adında " — " geçse eski adın kuyruğu yeni ada sızıyordu.

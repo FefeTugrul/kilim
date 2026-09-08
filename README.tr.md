@@ -117,9 +117,24 @@ her birinin belgelenmiş bir anlamı vardır ve ürettiği her sonucu adıyla s�
 | su yolu | running water | Hayat ve süreklilik | yalnız bordür |
 | testere | sawtooth | Koruma | yalnız bordür |
 | baklava | diamond | Bereket | yalnız bordür |
+| bereket | fertility | Bolluk; elibelinde ile koçboynuzunun bileşimi | zemin, göbek |
+| çengel | hook | Tutunma ve nazardan korunma | zemin, dolgu |
+| akrep | scorpion | Zararlıdan korunma | yalnız zemin |
+| kurtağzı | wolf's mouth | Sürüyü ve evi tehlikeden sakınma | yalnız bordür |
+| sandık | chest | Çeyiz ve birikim; gelinin sandığı | yalnız zemin |
+| muska | amulet | Kötülükten korunma | yalnız dolgu |
+| saçbağı | hair-tie | Evlenme ve birleşme dileği | yalnız zemin |
+| göbek | medallion | Kilimin merkezi; ocak ve aile | yalnız göbek |
+| kırkbudak | forty branches | Çoğalma ve bereket | yalnız zemin |
+| tarak | comb | Temizlik ve düzen; gelin tarağı | yalnız bordür |
 
 Yerleşim süs değildir. Figüratif motif bordüre asla girmez, bant motifi zeminde
 tek başına duramaz — üreteç bu kuralı zorlar, testler de bunu doğrular.
+
+Anlamlar **yaygın yorumdur, kesin bilgi değil.** Bugün dolaşımdaki eşleştirmelerin
+büyük kısmı Güran Erbek'in kataloğuna ve onu izleyen literatüre dayanır; aynı
+biçim köyden köye başka adla anılır. Yukarıdaki sütunu bir sözlük değil, etnografik
+bir teamül olarak oku.
 
 ## Bir kilimin katmanları
 
@@ -130,24 +145,58 @@ Zemin dört düzenden biriyle dokunur — `tekrar` (sıra düzenli), `kaydırmal
 ve tamamı dikey olarak aynalanır. Yatay olarak asla: kilimin bir üstü bir altı
 vardır ve bu tek asimetri, çıktıyı duvar kâğıdından ayıran şeydir.
 
-## Yöresel paletler
+## Yöreler
 
 Stil adları uydurma değil. `bauhaus` ve `marble` estetik kaprisdir; `konya` ve
 `milas` belgelenebilir dokuma gerçeğidir. Bu, projenin en güçlü ayırt edici
 kararı — çıktının bir yöresi olması onu "renkli desen üreteci" olmaktan çıkarır.
 
-| Yöre | Karakter |
-| --- | --- |
-| `konya` | Kırmızı zemin, krem motif, koyu lacivert ve altın vurgu |
-| `milas` | Krem zemin, ince bordür, hardal ve lacivert |
-| `sivas` | Lacivert zemin, yoğun düzen, açık konturla ayrılmış |
-| `yoruk` | Kahve-siyah zemin, az renk, toprak tonları |
-| `usak` | Soluk zemin, seyrek göbek, zeytin ve gül |
-| `iznik` | Çini pigmentleri — kobalt, turkuaz, mercan |
+Yöre yalnızca bir renk şeması değildir. Rengi, **düzen dağılımını, yoğunluğu,
+bordür genişliğini ve motif ağırlıklarını** birlikte belirler — aynı seed Konya'da
+ve Yörük'te gözle görülür biçimde farklı bir kilim dokur.
 
-İznik yalnızca bir **palet temasıdır**; geometri kilim olarak kalır. Çini
-eğrisel ve serbesttir, kilim açısal ve ızgara kısıtlıdır — ikisini geometride
-birleştirmek ne kilim ne çini olan bir şey üretir.
+| Yöre | Renk | Düzen eğilimi | Bordür | Yoğunluk | Öne çıkan motifler |
+| --- | --- | --- | --- | --- | --- |
+| `konya` | Kırmızı zemin, krem motif, lacivert ve altın | göbekli | normal | orta | göbek, çengel, elibelinde, tarak |
+| `milas` | Krem zemin, hardal ve lacivert | sıra düzenli | **en geniş** | düşük | koçboynuzu, çengel, su yolu |
+| `sivas` | Lacivert zemin, açık kontur | sıra düzenli, bantlı | ince | **en yüksek** | bereket, kırkbudak, baklava, pıtrak |
+| `yoruk` | Kahve-siyah zemin, toprak tonları | sıra düzenli | **en dar** | **en düşük** | akrep, saçbağı, koçboynuzu, testere |
+| `usak` | Soluk zemin, zeytin ve gül | **kaydırmalı** | geniş | orta | yıldız, baklava, sandık, muska |
+| `iznik` | Çini pigmentleri — kobalt, turkuaz, mercan | nötr | normal | orta | atama yok |
+
+### Eleme değil, ağırlık
+
+Taranan hiçbir kaynak bir motifi tek bir yöreye hasretmiyor. Göz, koçboynuzu,
+elibelinde ve yıldız pan-Anadolu'dur; bir geleneği diğerinden ayıran şey hangi
+motifin merkezî rolü aldığı, zeminin ne kadar dolu olduğu ve bordürün ne kadar
+geniş gittiğidir. Bu yüzden profiller motifleri **elemiyor, ağırlıklandırıyor**:
+her motif her yörede çıkabilir, sadece olasılığı kayar. Bir test bunu kanıtlıyor
+— yeterince seed çekildiğinde her yöre bütün zemin motiflerini er geç dokuyor.
+
+En güçlü belgelenmiş eşleme Uşak'ta. Türk Patent'in coğrafi işaret tescili
+(No. 152, 2012) "Yıldızlı Uşak" tipini *sekiz kollu yıldızlarla küçük baklava
+biçimindeki madalyonların kaydırılmış eksenler üzerinde alternatif sıralanması*
+diye tanımlıyor — bu, kütüphanenin `yıldız` ve `baklava` motiflerinin kaydırmalı
+düzendeki hâlinin birebir tarifi.
+
+### İznik'e bilerek motif atanmadı
+
+İznik için bir kilim/düz dokuma geleneği arandı, **bulunamadı**: İznik adı
+yalnızca çini ve seramik literatüründe geçiyor. Gerçek dağarcığı — rumi, hatayi,
+lale, karanfil — eğrisel ve bitkiseldir; kilimin basamaklı, dik açılı geometrisine
+tercüme olmaz. Bu yüzden İznik yalnızca pigment veriyor ve profili bilinçli
+olarak nötr. Ona uydurma bir motif seti atamak, bu kütüphanenin gerçekten vaat
+ettiği tek şeyi bozardı.
+
+### Profiller ne, ne değil
+
+Ağırlıklar kaynaklardan **türetilmiş tasarım yorumudur, alıntı değildir.**
+Özellikle yoğunluk ve bordür genişliği için literatürde nicel ölçüm yok; nitel
+tariflerden çıkarıldı. Milas ağırlıklı bir düğümlü halı merkezidir ve Milas'a
+özgü ayrı bir *kilim* şeması için güçlü akademik kaynak bulunamadı. Yörük
+kilimlerinde bordür yapısını doğrudan anlatan bir kaynak yok. Her profil,
+[`src/yore.ts`](./src/yore.ts) içinde kendi kaynaklarını ve kendi sınırlarını
+üstündeki yorumda taşıyor.
 
 ### Renkler ölçülerek seçildi
 
@@ -326,12 +375,17 @@ listelerine girene kadar üretime karışmaz.
 - [x] **Faz 1** — Çekirdek: FNV-1a hash, mulberry32 PRNG, hücre ızgarası, SVG çıkışı
 - [x] **Faz 2** — Sekiz motif ve dokuma grameri
 - [x] **Faz 3** — Altı yöresel palet, algısal renk kısıtları, *abraş*
-- [ ] **Faz 4** — React bileşeni, npm yayını
+- [x] **Faz 4** — React bileşeni, npm yayını
 - [ ] **Faz 5** — Demo sitesi ve dokümantasyon
+- [x] **Faz 6** — Yöre profilleri: yöre artık motifi, düzeni, yoğunluğu ve
+      bordürü de belirliyor; on yeni motif
 
 ## Lisans
 
 MIT © Furkan Efe Tuğrul
 
-Motif adları ve anlamları kamuya açık kaynaklardan derlenmiştir; tam kaynak
-listesi Faz 5'te demo sitesiyle birlikte yayınlanacak.
+Motif adları, anlamları ve yöresel karakteristikler kamuya açık kaynaklardan
+derlenmiştir — başlıcaları *Arış* (Atatürk Kültür Merkezi), Güran Erbek'in
+*Kilim Catalogue No. 1*'i, Türk Patent coğrafi işaret tescil kayıtları ve Koç
+Üniversitesi'nin Josephine Powell koleksiyonu. Tam künyeler
+[`src/yore.ts`](./src/yore.ts) içindeki yorumlarda.
