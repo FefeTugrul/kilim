@@ -59,3 +59,25 @@ jobs:
             if (!a.svg.startsWith('<svg')) throw new Error('ESM bozuk');
             console.log('Node 18 ESM tamam');
           "
+
+  # Demo sitesi kutuphaneyi `file:..` ile, yani derlenmis paketin exports
+  # haritasi uzerinden tuketiyor. Bu is, cekirdekte yapilan bir degisikligin
+  # siteyi sessizce kirmasini engelliyor: anatomi levhasinin katman dogrulamasi
+  # da burada, `next build` sirasinda calisiyor.
+  site:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm install
+        working-directory: site
+      - run: npm run typecheck
+        working-directory: site
+      - run: npm run build
+        working-directory: site
