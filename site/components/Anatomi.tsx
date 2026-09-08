@@ -25,7 +25,10 @@ export default function Anatomi({ icerik }: { icerik: Icerik }) {
   const kullanilan = tohum.length > 0 ? tohum : YEDEK_TOHUM;
   const t = icerik.anatomi;
 
-  const a = useMemo(() => anatomiCoz(kullanilan, BOY), [kullanilan]);
+  const a = useMemo(
+    () => anatomiCoz(kullanilan, BOY, yore),
+    [kullanilan, yore],
+  );
   const kilim = useMemo(
     () => generateKilim(kullanilan, { size: BOY, region: yore, label: false }),
     [kullanilan, yore],

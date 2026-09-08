@@ -98,11 +98,11 @@ export const NOTR: Omit<YoreProfil, "id"> = {
  * kompozisyon mantığı kilime kısmen taşınır, birebir değil.
  */
 const KONYA_PROFIL: Omit<YoreProfil, "id"> = {
-  duzen: [25, 15, 45, 15],
+  duzen: [20, 10, 55, 15],
   bordurCarpani: 1,
   seyreklik: 0.5,
   serpmeOlasiligi: 0.35,
-  zeminAgirlik: { elibelinde: 3, cengel: 3, kocboynuzu: 2, bereket: 2 },
+  zeminAgirlik: { elibelinde: 6, cengel: 6, kocboynuzu: 2.5, bereket: 2 },
   gobekAgirlik: { gobek: 4, bereket: 2.5, kocboynuzu: 2 },
   bordurAgirlik: { tarak: 3, suyolu: 1.5 },
   dolguAgirlik: { cengel: 2.5 },
@@ -122,11 +122,11 @@ const KONYA_PROFIL: Omit<YoreProfil, "id"> = {
  * Muğla yöresi düz dokuma verisinden türetildi.
  */
 const MILAS_PROFIL: Omit<YoreProfil, "id"> = {
-  duzen: [40, 20, 25, 15],
+  duzen: [55, 20, 15, 10],
   bordurCarpani: 1.7,
   seyreklik: 0.65,
   serpmeOlasiligi: 0.3,
-  zeminAgirlik: { kocboynuzu: 3, cengel: 2, goz: 2, yildiz: 1.5, akrep: 1.5 },
+  zeminAgirlik: { kocboynuzu: 7, goz: 4, cengel: 2.5, yildiz: 1.5 },
   gobekAgirlik: { kocboynuzu: 2.5, gobek: 2 },
   bordurAgirlik: { suyolu: 2, baklava: 1.5 },
   dolguAgirlik: {},
@@ -142,16 +142,15 @@ const MILAS_PROFIL: Omit<YoreProfil, "id"> = {
  * sonsuz tekrar. Koyu zemin üzerine parlak motif. Konya'nın tam zıddı.
  */
 const SIVAS_PROFIL: Omit<YoreProfil, "id"> = {
-  duzen: [45, 25, 10, 20],
+  duzen: [25, 25, 5, 45],
   bordurCarpani: 0.85,
   seyreklik: 0.15,
   serpmeOlasiligi: 0.7,
   zeminAgirlik: {
-    bereket: 3.5,
-    kirkbudak: 3.5,
-    kocboynuzu: 2.5,
+    bereket: 6,
+    kirkbudak: 6,
+    kocboynuzu: 2,
     goz: 2,
-    elibelinde: 1.5,
   },
   gobekAgirlik: { bereket: 2.5, kocboynuzu: 2.5 },
   bordurAgirlik: { baklava: 2.5, kurtagzi: 2 },
@@ -173,7 +172,7 @@ const SIVAS_PROFIL: Omit<YoreProfil, "id"> = {
  * çıkarılmış bir yorumdur.
  */
 const YORUK_PROFIL: Omit<YoreProfil, "id"> = {
-  duzen: [50, 15, 25, 10],
+  duzen: [55, 5, 35, 5],
   bordurCarpani: 0.5,
   seyreklik: 0.85,
   serpmeOlasiligi: 0.2,
@@ -181,12 +180,10 @@ const YORUK_PROFIL: Omit<YoreProfil, "id"> = {
   // iri ölçek. Ağırlık bu yüzden az sayıda motifte YOĞUNLAŞTIRILDI — diğer
   // yörelerde ağırlık daha geniş tabana yayılır.
   zeminAgirlik: {
-    akrep: 5,
-    sacbagi: 5,
+    akrep: 8,
+    sacbagi: 8,
     kocboynuzu: 3,
-    elibelinde: 2,
-    yildiz: 1.5,
-    pitrak: 1.5,
+    elibelinde: 1.5,
   },
   gobekAgirlik: { kocboynuzu: 3, yildiz: 2 },
   bordurAgirlik: { testere: 2, kurtagzi: 2 },
@@ -204,11 +201,11 @@ const YORUK_PROFIL: Omit<YoreProfil, "id"> = {
  * Köy kilimlerinde (Ersan, Arış 26, 2025) sandık, muska, dörtgöz, "top" geçiyor.
  */
 const USAK_PROFIL: Omit<YoreProfil, "id"> = {
-  duzen: [20, 55, 15, 10],
+  duzen: [15, 65, 12, 8],
   bordurCarpani: 1.4,
   seyreklik: 0.3,
   serpmeOlasiligi: 0.55,
-  zeminAgirlik: { yildiz: 4, sandik: 3, kirkbudak: 1.5 },
+  zeminAgirlik: { yildiz: 8, sandik: 6 },
   gobekAgirlik: { yildiz: 3, gobek: 2.5 },
   bordurAgirlik: { baklava: 3, tarak: 1.5 },
   dolguAgirlik: { muska: 3 },
