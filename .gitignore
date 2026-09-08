@@ -32,3 +32,7 @@ site/next-env.d.ts
 
 # masaustu uygulamasinin ekran goruntusu klasoru
 Claude outputs/
+
+# Claude oturumlarindan gelen teslim dosyalari. Yamalarin icerigi zaten
+# gecmiste duruyor; kok dizinde birikmelerinin bir faydasi yok.
+*.patch
