@@ -1,0 +1,67 @@
+.ustbilgi {
+  display: flex;
+  align-items: baseline;
+  gap: var(--bosluk-4);
+  padding: var(--bosluk-3) var(--ic-bosluk);
+  border-bottom: 1px solid var(--cizgi);
+  flex-wrap: wrap;
+}
+
+.marka {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.surum {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  color: var(--soluk);
+}
+
+.bolumler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-2) var(--bosluk-4);
+  font-size: var(--yazi-kucuk);
+  margin-left: var(--bosluk-5);
+}
+
+.bolumler a {
+  color: var(--soluk);
+  text-decoration: none;
+}
+
+.bolumler a:hover {
+  color: var(--murekkep);
+}
+
+.baglantilar {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: var(--bosluk-4);
+  font-size: var(--yazi-kucuk);
+}
+
+.altbilgi {
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-4) var(--ic-bosluk);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-2) var(--bosluk-5);
+  align-items: baseline;
+  font-size: var(--yazi-kucuk);
+  color: var(--soluk);
+}
+
+.altbilgiSag {
+  margin-left: auto;
+}
+
+@media (max-width: 980px) {
+  .bolumler {
+    display: none;
+  }
+}

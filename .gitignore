@@ -24,3 +24,11 @@ onizleme.html
 # gecici derleme ciktilari
 .abras-tmp/
 dist-tmp/
+
+# demo sitesi (site/)
+site/.next/
+site/out/
+site/next-env.d.ts
+
+# masaustu uygulamasinin ekran goruntusu klasoru
+Claude outputs/

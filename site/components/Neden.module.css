@@ -1,0 +1,136 @@
+.ust {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.iddia {
+  font-family: var(--serif);
+  font-size: clamp(1.375rem, 1rem + 1.2vw, 1.875rem);
+  line-height: 1.3;
+  padding: var(--bosluk-5) var(--ic-bosluk);
+  max-width: 26ch;
+}
+
+.akis {
+  padding: var(--bosluk-5) var(--ic-bosluk);
+  border-left: 1px solid var(--cizgi);
+  display: flex;
+  flex-direction: column;
+  gap: var(--bosluk-3);
+}
+
+.akisMetin {
+  font-size: var(--yazi-govde);
+  line-height: 1.6;
+  color: var(--soluk);
+  max-width: 56ch;
+}
+
+/* --- karşılaştırma tablosu --- */
+
+.tabloKutu {
+  border-top: 1px solid var(--cizgi);
+  padding: 0 var(--ic-bosluk) var(--bosluk-5);
+  overflow-x: auto;
+}
+
+.tablo {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--yazi-kucuk);
+  text-align: left;
+}
+
+.tablo th,
+.tablo td {
+  padding: var(--bosluk-3) var(--bosluk-4) var(--bosluk-3) 0;
+  border-bottom: 1px solid var(--cizgi);
+  vertical-align: baseline;
+  font-weight: 400;
+}
+
+.tablo thead th {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--soluk);
+  padding-top: var(--bosluk-4);
+}
+
+.bosBaslik {
+  width: 22%;
+}
+
+.olcut {
+  color: var(--soluk);
+  width: 22%;
+}
+
+/* Kendi sütunumuz mürekkep renginde; karşılaştırılan sütun soluk. Renk yok,
+   yalnızca ağırlık farkı. */
+.tablo td {
+  color: var(--soluk);
+  width: 39%;
+}
+
+.tablo td.bizSutun,
+.tablo thead th.bizSutun {
+  color: var(--murekkep);
+}
+
+.tablo tbody tr:last-child th,
+.tablo tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* --- alttaki üç not --- */
+
+.altSatir {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--cizgi);
+}
+
+.not {
+  border-left: 1px solid var(--cizgi);
+  padding: var(--bosluk-4) var(--ic-bosluk) var(--bosluk-5);
+  min-width: 0;
+}
+
+.not:first-child {
+  border-left: 0;
+}
+
+.notBaslik {
+  font-size: var(--yazi-oge);
+  line-height: 1.2;
+}
+
+.notMetin {
+  margin-top: var(--bosluk-3);
+  font-size: var(--yazi-kucuk);
+  line-height: 1.55;
+  color: var(--soluk);
+}
+
+@media (max-width: 900px) {
+  .ust {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .akis {
+    border-left: 0;
+    border-top: 1px solid var(--cizgi);
+  }
+  .altSatir {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .not {
+    border-left: 0;
+    border-top: 1px solid var(--cizgi);
+  }
+  .not:first-child {
+    border-top: 0;
+  }
+}

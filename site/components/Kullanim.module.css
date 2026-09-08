@@ -1,0 +1,165 @@
+.giris {
+  padding: var(--bosluk-5) var(--ic-bosluk);
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.girisMetin {
+  font-family: var(--serif);
+  font-size: 1.3125rem;
+  line-height: 1.45;
+  max-width: 54ch;
+}
+
+/*
+ * Adımlar alt alta, her biri iki sütun: solda ne yaptığı, sağda kodu.
+ * Önce yan yana üç sütundu ve kod satırları kırpılıyordu — bir kullanım
+ * bölümünde okunamayan kod, olmayan koddan beterdir.
+ */
+.adimlar {
+  display: grid;
+}
+
+.adim {
+  display: grid;
+  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+  gap: var(--bosluk-5);
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-5) var(--ic-bosluk);
+  min-width: 0;
+}
+
+.adim:first-child {
+  border-top: 0;
+}
+
+.adimSol {
+  min-width: 0;
+}
+
+.adimSag {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bosluk-3);
+}
+
+.adimBaslik {
+  display: flex;
+  align-items: baseline;
+  gap: var(--bosluk-3);
+}
+
+.adimNo {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  color: var(--soluk);
+}
+
+.adimBaslik h3 {
+  font-size: var(--yazi-oge);
+  line-height: 1.15;
+}
+
+.adimNot {
+  font-size: var(--yazi-kucuk);
+  color: var(--soluk);
+  line-height: 1.55;
+  margin-top: var(--bosluk-3);
+}
+
+/* --- seçenek ve alan tabloları --- */
+
+.tablolar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--cizgi);
+}
+
+.tablo {
+  border-left: 1px solid var(--cizgi);
+  padding: var(--bosluk-4) var(--ic-bosluk) var(--bosluk-5);
+  min-width: 0;
+}
+
+.tablo:first-child {
+  border-left: 0;
+}
+
+.dl {
+  margin: 0;
+}
+
+.satir {
+  display: grid;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+  gap: var(--bosluk-2) var(--bosluk-4);
+  padding: var(--bosluk-3) 0;
+  border-bottom: 1px solid var(--cizgi);
+  align-items: baseline;
+}
+
+.satir:last-child {
+  border-bottom: 0;
+}
+
+.ad {
+  font-family: var(--mono);
+  font-size: var(--yazi-kucuk);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.tip {
+  color: var(--soluk);
+  font-size: var(--yazi-mono);
+}
+
+.aciklama {
+  margin: 0;
+  font-size: var(--yazi-kucuk);
+  line-height: 1.5;
+  color: var(--soluk);
+}
+
+.varsayilan {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  color: var(--murekkep);
+  margin-bottom: 2px;
+}
+
+/* --- hata bölümü --- */
+
+.hata {
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-4) var(--ic-bosluk) var(--bosluk-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--bosluk-3);
+}
+
+.hataNot {
+  font-size: var(--yazi-kucuk);
+  color: var(--soluk);
+  line-height: 1.55;
+  max-width: 70ch;
+}
+
+@media (max-width: 860px) {
+  .adim {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--bosluk-4);
+  }
+  .tablolar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tablo {
+    border-left: 0;
+  }
+  .tablo + .tablo {
+    border-top: 1px solid var(--cizgi);
+  }
+}

@@ -1,0 +1,216 @@
+.duzen {
+  display: grid;
+  grid-template-columns: minmax(0, 33rem) minmax(0, 1fr);
+  align-items: start;
+}
+
+/* --- levha --- */
+
+.levhaKutu {
+  margin: 0;
+  padding: var(--bosluk-5) var(--bosluk-5) var(--bosluk-5) var(--ic-bosluk);
+  border-right: 1px solid var(--cizgi);
+}
+
+.levha {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--cizgi);
+}
+
+/*
+ * Seçili katmanın sınırı: altta kâğıt renginde kalın, üstte mürekkep renginde
+ * ince bir çizgi. Gölge değil — iki çizgi. Kremin üstünde mürekkep, lacivertin
+ * üstünde kâğıt okunuyor; hangi rengin üstüne düştüğünden bağımsız görünür.
+ */
+.sinirAlt {
+  fill: none;
+  stroke: var(--kagit);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.sinir {
+  fill: none;
+  stroke: var(--murekkep);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.kunye {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-2) var(--bosluk-4);
+  margin-top: var(--bosluk-3);
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  color: var(--soluk);
+}
+
+.kunyeSag {
+  margin-left: auto;
+}
+
+/* --- yan sütun --- */
+
+.yan {
+  padding: var(--bosluk-5) var(--ic-bosluk);
+  min-width: 0;
+}
+
+.dokumaAdi {
+  font-family: var(--serif);
+  font-size: var(--yazi-oge);
+  font-style: italic;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.yanGiris {
+  font-size: var(--yazi-kucuk);
+  color: var(--soluk);
+  line-height: 1.55;
+  margin-top: var(--bosluk-3);
+  max-width: 52ch;
+}
+
+.liste {
+  list-style: none;
+  margin: var(--bosluk-5) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--cizgi);
+}
+
+.katman {
+  display: grid;
+  grid-template-columns: 26px minmax(5.5rem, auto) minmax(0, 1fr);
+  gap: var(--bosluk-3);
+  align-items: baseline;
+  width: 100%;
+  text-align: left;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--cizgi);
+  padding: var(--bosluk-3) 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.katmanAcik {
+  background: var(--kagit-vurgu);
+}
+
+.katmanAd {
+  font-family: var(--mono);
+  font-size: var(--yazi-kucuk);
+}
+
+.katmanNot {
+  font-size: var(--yazi-kucuk);
+  color: var(--soluk);
+  line-height: 1.4;
+}
+
+.katmanAcik .katmanNot {
+  color: var(--murekkep);
+}
+
+/* --- satır başındaki şema --- */
+
+.simge {
+  width: 26px;
+  height: 26px;
+  display: block;
+  align-self: center;
+}
+
+.simgeCerceve {
+  fill: none;
+  stroke: var(--cizgi);
+  stroke-width: 1;
+}
+
+.simgeDolu {
+  fill: var(--cizgi-koyu);
+}
+
+.katmanAcik .simgeDolu {
+  fill: var(--murekkep);
+}
+
+.simgeCizgi {
+  stroke: var(--cizgi-koyu);
+  stroke-width: 1.5;
+}
+
+.katmanAcik .simgeCizgi {
+  stroke: var(--murekkep);
+}
+
+/* --- yöre seçimi --- */
+
+.yoreSecim {
+  margin-top: var(--bosluk-5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--bosluk-2) var(--bosluk-3);
+}
+
+.yoreEtiket {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--soluk);
+}
+
+.yoreDugmeler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-2);
+}
+
+.yoreDugme {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--cizgi-etkilesim);
+  color: var(--soluk);
+  font-family: var(--sans);
+  font-size: var(--yazi-kucuk);
+  padding: var(--bosluk-1) var(--bosluk-2);
+  cursor: pointer;
+}
+
+.yoreDugme:hover {
+  border-color: var(--murekkep);
+  color: var(--murekkep);
+}
+
+.yoreAcik {
+  border-color: var(--murekkep);
+  color: var(--kagit);
+  background: var(--murekkep);
+}
+
+.altyazi {
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-3) var(--ic-bosluk) var(--bosluk-4);
+}
+
+@media (max-width: 900px) {
+  .duzen {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .levhaKutu {
+    border-right: 0;
+    border-bottom: 1px solid var(--cizgi);
+  }
+  .levha {
+    max-width: 440px;
+    margin-inline: auto;
+  }
+}
