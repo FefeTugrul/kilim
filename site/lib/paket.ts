@@ -23,8 +23,8 @@ export const REPO = `https://${REPO_KISA}`;
 
 /**
  * Sitenin kendi adresi. `metadataBase` bunu kullanıyor: og:image ve canonical
- * mutlak adres ister. Vercel'de gerçek alan adını `NEXT_PUBLIC_SITE_URL`
- * ortam değişkeniyle ver; yoksa varsayılan proje adresine düşer.
+ * mutlak adres ister. Yayın adresi `NEXT_PUBLIC_SITE_URL` ile veriliyor
+ * (bkz. .github/workflows/pages.yml); yoksa GitHub Pages adresine düşer.
  */
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://kilim-avatars.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://fefetugrul.github.io/kilim";

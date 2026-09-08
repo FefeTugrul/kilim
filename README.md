@@ -7,7 +7,7 @@ Deterministic Anatolian kilim avatars from any string. Zero dependencies, pure S
 [![CI](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml/badge.svg)](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/kilim-avatars?color=%235C6B3C&labelColor=%232E2419)](./LICENSE)
 
-**English** · [Türkçe](./README.tr.md)
+**[Live demo](https://fefetugrul.github.io/kilim)** · **English** · [Türkçe](./README.tr.md)
 
 ```bash
 npm install kilim-avatars
