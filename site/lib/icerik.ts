@@ -151,7 +151,7 @@ export const EN: Icerik = {
     rozetOnEk: "one avatar at 128 px",
     rozetGzip: "gzipped",
     rozetOlculuyor: "measuring",
-    yoreNot: "the same seed, six regional palettes",
+    yoreNot: "the same seed, six regions",
     akisNot:
       "Whatever you type here is what the anatomy plate further down takes apart.",
   },
@@ -362,7 +362,7 @@ export const TR: Icerik = {
     rozetOnEk: "128 px'te tek avatar",
     rozetGzip: "gzip",
     rozetOlculuyor: "ölçülüyor",
-    yoreNot: "aynı tohum, altı yöresel palet",
+    yoreNot: "aynı tohum, altı yöre",
     akisNot: "Buraya ne yazarsan, aşağıdaki anatomi levhası onu söküyor.",
   },
 
