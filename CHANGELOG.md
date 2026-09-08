@@ -6,6 +6,29 @@ Bu paket [Semantic Versioning](https://semver.org/lang/tr/) izler.
 girdinin farklı çıktı vermesi bir iyileştirme değil, **kırıcı değişikliktir** —
 çünkü herkesin avatarı değişir. `test/golden.test.ts` bunu kilitler.
 
+## [0.2.1] — 2026-09-08
+
+Yalnızca paket yüzeyi ve yayın hattı; üretilen SVG'de tek bir bayt değişmedi.
+`test/golden.test.ts` tablosu dokunulmadan geçiyor — bu sürümün kırıcı bir yanı
+olmadığının kanıtı da bu.
+
+### Değişti
+
+- README'lere npm sürümü, bağımlılık sayısı, CI durumu ve lisans rozetleri
+  eklendi. README tarball'a dahil olduğu için npm sayfası da güncelleniyor;
+  sürümün yayınlanma sebebi bu
+- Yayın artık **trusted publishing (OIDC)** ile yapılıyor: depoda saklanan bir
+  npm token'ı yok, GitHub her koşu için kısa ömürlü bir kimlik üretiyor
+- `release.yml`: `setup-node`'un `registry-url` girdisi kaldırıldı (boş bir
+  `_authToken` yazıp OIDC'yi engelliyordu), Node 22'ye ve npm 12'ye çıkıldı
+  (trusted publishing npm 11.5.1+ istiyor)
+
+### Not
+
+Bu sürüm aynı zamanda otomatik yayın hattının ilk gerçek sınavı. 0.2.0 elle
+yayınlanmıştı; hattı boş bir sürümle denemek, onu ilk kez içerik dolu bir
+sürümde denemekten daha ucuz.
+
 ## [0.2.0] — 2026-09-08
 
 **KIRICI:** yöre artık yalnızca renk paleti değil. Motif ağırlığını, düzen
