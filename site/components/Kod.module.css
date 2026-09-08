@@ -1,0 +1,74 @@
+.blok {
+  border: 1px solid var(--cizgi);
+}
+
+.ust {
+  display: flex;
+  align-items: center;
+  gap: var(--bosluk-3);
+  padding: var(--bosluk-2) var(--bosluk-4);
+  border-bottom: 1px solid var(--cizgi);
+  min-height: 2.25rem;
+}
+
+.baslik {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--soluk);
+}
+
+.dugme {
+  margin-left: auto;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--cizgi-etkilesim);
+  color: var(--soluk);
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  letter-spacing: 0.06em;
+  padding: var(--bosluk-1) var(--bosluk-2);
+  cursor: pointer;
+  flex: none;
+}
+
+.dugme:hover {
+  border-color: var(--murekkep);
+  color: var(--murekkep);
+}
+
+.pre {
+  margin: 0;
+  padding: var(--bosluk-4);
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+
+/* Yorumlar kendi sütununda: renk yerine hizalama. */
+.satir {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  gap: var(--bosluk-5);
+}
+
+.k {
+  white-space: pre;
+}
+
+.y {
+  color: var(--soluk);
+  white-space: pre;
+}
+
+@media (max-width: 640px) {
+  .satir {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .y {
+    display: block;
+  }
+}

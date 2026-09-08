@@ -1,0 +1,77 @@
+.grup {
+  padding: var(--bosluk-4) var(--ic-bosluk) var(--bosluk-5);
+}
+
+/*
+ * Kenarlık gruplar ARASINA konuyor.
+ *
+ * Önce `.grup { border-top }` + `.grup:first-child { border-top: 0 }` vardı ve
+ * `:first-child` hiç eşleşmiyordu: bölümün ilk çocuğu başlık şeridi. Sonuç,
+ * başlığın alt çizgisiyle ilk grubun üst çizgisinin üst üste binip 2 px
+ * kalınlığa çıkmasıydı — her şeyi tek piksele emanet eden bir sayfada görünür
+ * bir kusur.
+ */
+.grup + .grup {
+  border-top: 1px solid var(--cizgi);
+}
+
+.liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.kunye {
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+  gap: var(--bosluk-1) var(--bosluk-5);
+  padding: var(--bosluk-3) 0;
+  border-bottom: 1px solid var(--cizgi);
+  align-items: baseline;
+}
+
+.kunye:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.kim {
+  font-size: var(--yazi-kucuk);
+  font-weight: 500;
+  min-width: 0;
+}
+
+.govde {
+  min-width: 0;
+}
+
+.ne {
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.25;
+}
+
+.nerede {
+  font-size: var(--yazi-kucuk);
+  color: var(--soluk);
+  margin-top: var(--bosluk-1);
+}
+
+.bag {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  margin-top: var(--bosluk-2);
+  display: inline-block;
+}
+
+.uyari {
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-3) var(--ic-bosluk) var(--bosluk-4);
+}
+
+@media (max-width: 640px) {
+  .kunye {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--bosluk-1);
+  }
+}

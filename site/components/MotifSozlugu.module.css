@@ -1,0 +1,118 @@
+.izgara {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/*
+ * Yatay dolgu bilerek sayfa oluğundan (44 px) dar: 44 px'te metin ölçüsü
+ * ~28 karaktere düşüyordu ve her açıklama dört satıra bölünüp tırtıklanıyordu.
+ */
+.hucre {
+  border-left: 1px solid var(--cizgi);
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--bosluk-4);
+  min-width: 0;
+}
+
+.hucre:nth-child(-n + 4) {
+  border-top: 0;
+}
+
+.hucre:nth-child(4n + 1) {
+  border-left: 0;
+}
+
+.kare {
+  width: 100%;
+  max-width: 168px;
+}
+
+.kare svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.metin {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.adSatiri {
+  display: flex;
+  align-items: baseline;
+  gap: var(--bosluk-2);
+  flex-wrap: wrap;
+}
+
+.ad {
+  font-family: var(--serif);
+  font-size: var(--yazi-oge);
+  line-height: 1.1;
+}
+
+.adEn {
+  font-size: var(--yazi-kucuk);
+  color: var(--soluk);
+}
+
+/* Slot satırları bütün hücrelerde aynı hizada bitsin: anlam metni boşluğu
+   yiyor, yetki satırı hücrenin dibine oturuyor. */
+.anlam {
+  font-size: var(--yazi-kucuk);
+  line-height: 1.55;
+  margin-top: var(--bosluk-2);
+  flex: 1;
+}
+
+.slotlar {
+  margin-top: var(--bosluk-3);
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  letter-spacing: 0.06em;
+  color: var(--soluk);
+  display: flex;
+  gap: var(--bosluk-1);
+  align-items: baseline;
+}
+
+.slotAyrac {
+  color: var(--cizgi-koyu);
+}
+
+.kural {
+  padding: var(--bosluk-3) var(--ic-bosluk) var(--bosluk-4);
+  border-top: 1px solid var(--cizgi);
+}
+
+@media (max-width: 1000px) {
+  .izgara {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hucre:nth-child(4n + 1) {
+    border-left: 1px solid var(--cizgi);
+  }
+  .hucre:nth-child(odd) {
+    border-left: 0;
+  }
+  .hucre:nth-child(-n + 4) {
+    border-top: 1px solid var(--cizgi);
+  }
+  .hucre:nth-child(-n + 2) {
+    border-top: 0;
+  }
+}
+
+/* Tek sütuna hiç inmiyor: 390 px'te bile iki motif yan yana okunuyor ve
+   sayfa 16 000 px'e uzamıyor. */
+@media (max-width: 560px) {
+  .hucre {
+    padding: var(--bosluk-4);
+    gap: var(--bosluk-3);
+  }
+}

@@ -1,0 +1,184 @@
+.ikili {
+  display: grid;
+  /* Üye listesi dar bir kolon: gerçek arayüzlerde de öyle. Yorum akışı kalanı
+     alıyor, metin 62ch'te kesiliyor. */
+  grid-template-columns: minmax(0, 1fr) clamp(240px, 27%, 330px);
+}
+
+.sutun {
+  padding: var(--bosluk-4) var(--ic-bosluk) var(--bosluk-5);
+  min-width: 0;
+}
+
+.sutun + .sutun {
+  border-left: 1px solid var(--cizgi);
+}
+
+/* --- yorum akışı --- */
+
+.yorumlar,
+.uyeler {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.yorum {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: var(--bosluk-3);
+  padding: var(--bosluk-4) 0;
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.yorum:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.yorumBas {
+  display: flex;
+  align-items: baseline;
+  gap: var(--bosluk-2);
+  flex-wrap: wrap;
+}
+
+.kisiAd {
+  font-size: var(--yazi-kucuk);
+  font-weight: 500;
+}
+
+.zaman {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  color: var(--soluk);
+}
+
+.yorumMetin {
+  font-size: var(--yazi-kucuk);
+  line-height: 1.5;
+  margin-top: var(--bosluk-1);
+}
+
+/* --- üye listesi --- */
+
+.uye {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: var(--bosluk-3);
+  align-items: center;
+  padding: var(--bosluk-2) 0;
+  border-bottom: 1px solid var(--cizgi);
+}
+
+.uye:last-child {
+  border-bottom: 0;
+}
+
+.uyeAd {
+  font-size: var(--yazi-kucuk);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+ * Avatarlar dairesel: çoğu arayüz öyle gösteriyor, kilim de öyle sınanmalı.
+ *
+ * Krem zeminli paletler (Milas, Uşak, İznik) kâğıda karşı 1.09:1 kalıyor ve
+ * 24 pikselde avatar bir nesne olmaktan çıkıp saçağın iki koyu hilaline
+ * indirgeniyordu. Tek piksellik halka onları geri getiriyor — sayfanın zaten
+ * tek malzemesi olan çizgiyle.
+ */
+.avatar {
+  display: block;
+}
+
+.avatar svg {
+  display: block;
+  border-radius: 50%;
+  outline: 1px solid var(--cizgi);
+  outline-offset: -1px;
+}
+
+/* --- boy merdiveni --- */
+
+.merdiven {
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-4) var(--ic-bosluk) var(--bosluk-5);
+}
+
+.gizliTanim {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.merdivenSira {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: var(--bosluk-5);
+}
+
+.basamak {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bosluk-3);
+  align-items: center;
+}
+
+/* Gerçek boylar ortak bir tabana oturuyor: merdiven ancak öyle merdiven. */
+.gercekYuva {
+  height: 128px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.gercekYuva svg {
+  display: block;
+  outline: 1px solid var(--cizgi);
+}
+
+/*
+ * İkinci satır: dördü de aynı boyda çizilmiş hâlleri. Üst satır gerçek boyları
+ * gösteriyor, bu satır aynı ızgaraları eşitleyip yan yana koyuyor — 24 pikselin
+ * neyi feda ettiği ancak böyle görünüyor. Kilimler burada kare; karşılaştırılan
+ * şey detay kademesi ve daire kırpması saçakla bordürü yer.
+ */
+.buyutme {
+  width: 128px;
+  height: 128px;
+  display: block;
+  outline: 1px solid var(--cizgi);
+}
+
+.basamakNot {
+  font-family: var(--mono);
+  font-size: var(--yazi-mono);
+  color: var(--soluk);
+  letter-spacing: 0.04em;
+}
+
+.merdivenNot {
+  margin-top: var(--bosluk-3);
+}
+
+.altyazi {
+  border-top: 1px solid var(--cizgi);
+  padding: var(--bosluk-3) var(--ic-bosluk) var(--bosluk-4);
+}
+
+@media (max-width: 720px) {
+  .ikili {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sutun + .sutun {
+    border-left: 0;
+    border-top: 1px solid var(--cizgi);
+  }
+  .merdivenSira {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--bosluk-5) 0;
+  }
+}
