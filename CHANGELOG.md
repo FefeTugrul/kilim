@@ -6,6 +6,53 @@ Bu paket [Semantic Versioning](https://semver.org/lang/tr/) izler.
 girdinin farklı çıktı vermesi bir iyileştirme değil, **kırıcı değişikliktir** —
 çünkü herkesin avatarı değişir. `test/golden.test.ts` bunu kilitler.
 
+## [0.3.0] — 2026-09-08
+
+**KIRICI:** yöre profilleri keskinleştirildi; bütün seed'lerin dokuması değişti.
+Yöre seçimi ve paletler değişmedi.
+
+### Neden
+
+0.2.0 yöreleri *toplamda* ayırıyordu — 1000 tohumda hiçbir yöre çifti aynı
+geometriyi vermiyordu. Ama **tek bir tohum için** ayrışma zayıftı: altı profilin
+dördü varsayılan olarak "sıra düzenli" düzene düşüyordu. Ölçüldü: rastgele iki
+yöre %69.5 oranında aynı düzeni, %31.7 oranında hem aynı düzeni hem aynı ana
+motifi seçiyordu.
+
+Bu, istatistiksel olarak savunulabilir ama pratikte yanlış: demo tek tohum
+gösteriyor, kullanıcı da gördüğüne bakarak karar veriyor. "Uşak ile İznik aynı"
+demek için haklı bir sebep vardı.
+
+### Değişti
+
+- **Düzen ağırlıkları keskinleştirildi.** Her yöre artık kendi baskın düzenine
+  sahip: Konya göbekli (%55), Uşak kaydırmalı (%65), Sivas bantlı (%45),
+  Yörük sıra düzenli + göbek, Milas sıra düzenli. İznik nötr kalıyor
+- **İmza motif ağırlıkları güçlendirildi.** Ağırlıklar 11 aday arasında
+  dağılırken sinyal sönüyordu; Yörük'te akrep ve saçbağı 8'e, Uşak'ta yıldız
+  8'e, Milas'ta koçboynuzu 7'ye çıktı
+- Ölçüm sonucu: aynı düzen **%69.5 → %50.7**, aynı düzen ve ana motif
+  **%31.7 → %15.3**. İznik hariç bakıldığında %13.1
+
+### Düzeltildi
+
+- **Demo sitesindeki anatomi levhası yöreyi görmüyordu.** `anatomiCoz` doku
+  çağrısını profilsiz yapıyordu; levha altında "usak" yazarken İznik'in
+  dokumasını çiziyor, katman sınırlarını da yörenin bordür kalınlığından
+  habersiz hesaplıyordu (Milas'ın bordürü 5 hücre, Yörük'ünki 2; ikisi de 3
+  sanılıyordu). Yöre parametresi artık zorunlu — varsayılana düşmek tam olarak
+  bu hatayı geri getirirdi
+- Sitenin derleme zamanı katman denetimi artık 300 tohumu **altı yörenin
+  hepsinde** tarıyor (1800 kontrol). Eskiden tek profil taranıyordu, yani
+  Milas'ın kalın bordürünün zemini ezdiği bir durum fark edilmeden yayına
+  çıkabilirdi
+
+### Değişmeyen
+
+Motif kütüphanesi, paletler, katman yığını, aday listeleri ve `rng` çekiliş
+sırası aynı. Değişen yalnızca ağırlık sayıları — yani bu sürüm yeni bir yetenek
+eklemiyor, var olan yeteneği görünür kılıyor.
+
 ## [0.2.1] — 2026-09-08
 
 Yalnızca paket yüzeyi ve yayın hattı; üretilen SVG'de tek bir bayt değişmedi.

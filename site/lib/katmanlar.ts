@@ -1,11 +1,14 @@
 import {
+  bordurKalinlik,
   doku,
   fnv1a,
   get,
   kademeSec,
   mulberry32,
   OLCULER,
+  profilBul,
   type DokumaSonuc,
+  type KilimYore,
 } from "kilim-avatars";
 
 /**
@@ -57,10 +60,28 @@ function selvedgeKalin(sonuc: DokumaSonuc, sacak: number, w: number): boolean {
   return true;
 }
 
-export function anatomiCoz(tohum: string, piksel: number): Anatomi {
+/**
+ * Yöre parametresi 0.3.0'da eklendi ve zorunlu.
+ *
+ * Önceden burada `doku(rng, kademe)` çağrılıyordu — yöresiz, yani NÖTR profille.
+ * 0.2.0'da yöre dokumayı da belirlemeye başlayınca levha sessizce yalan söyler
+ * hale geldi: altında "usak" yazarken İznik'in dokumasını çiziyor, katman
+ * sınırlarını da yörenin bordür kalınlığından habersiz hesaplıyordu. Milas'ın
+ * bordürü 5 hücre, Yörük'ünki 2; ikisi de 3 sanılıyordu.
+ *
+ * İsteğe bağlı bir parametre yapmadım: varsayılana düşmek tam olarak eski
+ * hatayı geri getirirdi.
+ */
+export function anatomiCoz(
+  tohum: string,
+  piksel: number,
+  yore: KilimYore,
+): Anatomi {
   const kademe = kademeSec(piksel);
   const o = OLCULER[kademe];
-  const sonuc = doku(mulberry32(fnv1a(tohum)), kademe);
+  const profil = profilBul(yore);
+  const sonuc = doku(mulberry32(fnv1a(tohum)), kademe, profil);
+  const bordur = bordurKalinlik(o.bordur, profil.bordurCarpani);
 
   const kalin = o.selvedge > 0 && selvedgeKalin(sonuc, o.sacak, o.w);
   const selvedgeKat = o.selvedge + (kalin ? 1 : 0);
@@ -95,17 +116,17 @@ export function anatomiCoz(tohum: string, piksel: number): Anatomi {
     yuk -= 2 * selvedgeKat;
   }
 
-  if (o.bordur > 0) {
+  if (bordur > 0) {
     katmanlar.push({
       id: "bordur",
       bicim: "halka",
       dis: { x: sol, y: ust, w: gen, h: yuk },
-      kalinlik: o.bordur,
+      kalinlik: bordur,
     });
-    ust += o.bordur;
-    sol += o.bordur;
-    gen -= 2 * o.bordur;
-    yuk -= 2 * o.bordur;
+    ust += bordur;
+    sol += bordur;
+    gen -= 2 * bordur;
+    yuk -= 2 * bordur;
   }
 
   if (o.inceSu > 0) {
