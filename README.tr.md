@@ -2,6 +2,11 @@
 
 Herhangi bir metinden deterministik Anadolu kilimi. Sıfır bağımlılık, saf SVG.
 
+[![npm](https://img.shields.io/npm/v/kilim-avatars?color=%23A8322A&labelColor=%232E2419)](https://www.npmjs.com/package/kilim-avatars)
+[![dependencies](https://img.shields.io/badge/dependencies-0-%232C5580?labelColor=%232E2419)](https://www.npmjs.com/package/kilim-avatars?activeTab=dependencies)
+[![CI](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml/badge.svg)](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/kilim-avatars?color=%235C6B3C&labelColor=%232E2419)](./LICENSE)
+
 [English](./README.md) · **Türkçe**
 
 ```bash

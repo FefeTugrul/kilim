@@ -1,7 +1,19 @@
 name: Release
 
 # v1.0.0 gibi bir tag push edildiğinde npm'e yayınlar.
-# Gereken tek ayar: repo Settings > Secrets > Actions > NPM_TOKEN
+#
+# Kimlik doğrulama TRUSTED PUBLISHING (OIDC) ile yapılır: depoda saklanan bir
+# npm token'ı YOKTUR. GitHub, bu iş için kısa ömürlü bir kimlik belgesi üretir,
+# npm de onu kendi tarafındaki "trusted publisher" kaydıyla karşılaştırır.
+# Sızacak bir sır olmadığı için süresi dolan token, yanlışlıkla loglanan token
+# ve "token'ı yenilemeyi unuttuk" sınıfı arızalar tamamen ortadan kalkar.
+#
+# npm tarafındaki ayar (bir kez yapılır):
+#   npmjs.com > kilim-avatars > Settings > Trusted publishing > GitHub Actions
+#   Organization or user: FefeTugrul
+#   Repository:           kilim
+#   Workflow filename:    release.yml
+#   Environment:          (boş)
 on:
   push:
     tags: ["v*"]
@@ -16,9 +28,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org
+          node-version: 22
           cache: npm
+
+      # `registry-url` BİLEREK yok. Onu verdiğimizde setup-node bir .npmrc yazıp
+      # içine `_authToken=${NODE_AUTH_TOKEN}` koyuyor; token artık tanımsız
+      # olduğu için oraya BOŞ bir değer düşüyor ve npm, OIDC'ye hiç geçmeden
+      # "geçersiz kimlik" diye duruyor. Varsayılan registry zaten npmjs.org.
+
+      # Trusted publishing npm 11.5.1+ istiyor; Node 22 npm 10 ile geliyor.
+      # Sürüm pinli: yeni bir npm majoru yayını sessizce değiştirmesin.
+      - run: npm install -g npm@12
+      - run: npm --version
+
       - run: npm ci
 
       # Tag ile package.json sürümü ayrışırsa yanlış sürüm yayınlanır ve
@@ -41,6 +63,8 @@ jobs:
       - run: npx --yes publint@0.3.24 --strict
       - run: npx --yes @arethetypeswrong/cli@0.18 --pack .
 
+      # `--provenance` bayrağı duruyor: dokümantasyon trusted publishing'de
+      # provenance'ın kendiliğinden üretildiğini söylese de pratikte bayrak
+      # olmadan üretilmediği raporlanıyor. Bayrak zararsız, eksikliği rozetsiz
+      # bir sürüm demek.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
