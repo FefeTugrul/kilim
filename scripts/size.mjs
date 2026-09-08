@@ -10,10 +10,15 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 
+// 0.2.0'da butce 8 -> 9 kB'ye cikarildi. Sebep tek kalemde: on yeni motif
+// (ASCII izgaralar + adlari, Ingilizceleri ve anlamlari) ve alti yore profili.
+// Olculdu: 6.36 -> 7.88 kB gzip. Butce bir tavan degil bir alarm; yukselttik
+// cunku artis bilincli ve karsiliginda somut icerik geldi. Bir sonraki artis
+// icin ayni gerekce yeniden yazilmali.
 /** Giris noktasi -> gzip butcesi (kB). React harici tutulur, peer bagimlilik. */
 const BUTCELER = [
-  { giris: "dist/index.js", butce: 8, ad: "kilim-avatars" },
-  { giris: "dist/react.js", butce: 9, ad: "kilim-avatars/react" },
+  { giris: "dist/index.js", butce: 9, ad: "kilim-avatars" },
+  { giris: "dist/react.js", butce: 10, ad: "kilim-avatars/react" },
 ];
 
 let hata = false;

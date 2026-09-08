@@ -16,15 +16,16 @@ import {
   type Grid,
 } from "./grid.js";
 import {
-  BORDUR_ADAYLARI_V1,
-  DOLGU_ADAYLARI_V1,
-  GOBEK_ADAYLARI_V1,
-  ZEMIN_ADAYLARI_V1,
+  BORDUR_ADAYLARI_V2,
+  DOLGU_ADAYLARI_V2,
+  GOBEK_ADAYLARI_V2,
+  ZEMIN_ADAYLARI_V2,
   dondur90,
   motifBoyut,
   type Motif,
 } from "./motifs.js";
 import type { Rng } from "./rng.js";
+import { NOTR_PROFIL, agirliklar, type YoreProfil } from "./yore.js";
 
 /** Detay kademesi. Küçük boyutta ızgara seyrelir, yoksa avatar lapa olur. */
 export type Kademe = "kucuk" | "orta" | "tam";
@@ -57,7 +58,6 @@ export function kademeSec(pikselBoyut: number): Kademe {
 export type Duzen = "tekrar" | "kaydirmali" | "gobek" | "bantli";
 
 const DUZENLER: readonly Duzen[] = ["tekrar", "kaydirmali", "gobek", "bantli"];
-const DUZEN_AGIRLIK: readonly number[] = [40, 25, 20, 15];
 
 /**
  * 15x13 ızgarada yalnızca göbek ve tekrar okunur. Kaydırmalı ve bantlı düzenler
@@ -151,6 +151,20 @@ const KOSE_ISARETI: readonly string[] = [".X.", "XXX", ".X."];
 
 /** Kaç farklı abraş kayma dizisi var — bkz. src/kaymalar.ts ve ABRAS_TONLARI. */
 export const ABRAS_DIZI_SAYISI = 5;
+
+/**
+ * Yörenin bordür çarpanını kademe kalınlığına uygular.
+ *
+ * Sonuç [0, taban+2] aralığına sıkıştırılır: Milas'ın 1.7 çarpanı tam kademede
+ * 3'ü 5'e çıkarıyor ve zemin 22x13'e iniyor — elibelinde (11x13) hâlâ sığıyor.
+ * Sınırı kaldırmak zemini yok edip "bordürden ibaret" bir kare üretirdi.
+ * Küçük kademede taban zaten 0 olduğu için çarpan etkisizdir; bu bilinçli:
+ * 24 pikselde bordür okunmuyor.
+ */
+export function bordurKalinlik(taban: number, carpan: number): number {
+  if (taban === 0) return 0;
+  return Math.max(0, Math.min(taban + 2, Math.round(taban * carpan)));
+}
 
 /** Bant kalınlığına sığan varyantı seçer — kırpmak yerine. */
 function bandaSigan(motif: Motif, kalinlik: number): readonly string[] {
@@ -433,9 +447,14 @@ function bantliYerlestir(g: Grid, alan: Alan, a: Motif, b: Motif): void {
  * değiştirmek aynı seed için farklı kilim üretir, yani kırıcı bir değişikliktir.
  * Yeni karar eklerken sona ekle.
  */
-export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
+export function doku(
+  rng: Rng,
+  kademe: Kademe,
+  profil: YoreProfil = NOTR_PROFIL,
+): DokumaSonuc {
   const o = OLCULER[kademe];
   const g = createGrid(o.w, o.h);
+  const agirlik = agirliklar(profil);
 
   // --- kararlar (sıra önemli, ve KADEMEDEN BAĞIMSIZ) ---
   //
@@ -447,27 +466,33 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
   //
   // Kademe artık yalnızca çizilebilecek olanı sınırlar: küçük ızgarada okunmayan
   // düzenler sabit bir tabloyla indirgenir — rng harcamadan.
-  const duzenHam = rng.weighted(DUZENLER, DUZEN_AGIRLIK);
+  const duzenHam = rng.weighted(DUZENLER, profil.duzen);
   const duzen: Duzen =
     kademe === "kucuk" ? KUCUK_DUZEN_ESLEME[duzenHam] : duzenHam;
-  // Donmuş sözleşme listeleri — bkz. motifs.ts içindeki uyarı.
-  const zeminAdaylar = ZEMIN_ADAYLARI_V1;
-  const gobekAdaylar = GOBEK_ADAYLARI_V1;
-  const bordurAdaylar = BORDUR_ADAYLARI_V1;
-  const dolguAdaylar = DOLGU_ADAYLARI_V1;
+  // Üretim listeleri — bkz. motifs.ts içindeki uyarı. Yöre profili bu listeleri
+  // ELEMİYOR, yalnızca ağırlıklandırıyor: her motif her yörede çıkabilir.
+  //
+  // `weighted` de tıpkı `pick` gibi TEK bir çekiliş harcar. Bu kasıtlı: aynı
+  // seed farklı yörelerde aynı karar dizisini yürür, sadece sonuçlar kayar.
+  const zeminAdaylar = ZEMIN_ADAYLARI_V2;
+  const gobekAdaylar = GOBEK_ADAYLARI_V2;
+  const bordurAdaylar = BORDUR_ADAYLARI_V2;
+  const dolguAdaylar = DOLGU_ADAYLARI_V2;
 
-  const zeminMotif = rng.pick(zeminAdaylar);
-  const gobekMotif = rng.pick(gobekAdaylar);
-  const bordurMotif = rng.pick(bordurAdaylar);
-  const dolguMotif = rng.pick(dolguAdaylar);
-  const ikinciMotif = rng.pick(zeminAdaylar);
+  const zeminMotif = rng.weighted(zeminAdaylar, agirlik.zemin);
+  const gobekMotif = rng.weighted(gobekAdaylar, agirlik.gobek);
+  const bordurMotif = rng.weighted(bordurAdaylar, agirlik.bordur);
+  const dolguMotif = rng.weighted(dolguAdaylar, agirlik.dolgu);
+  const ikinciMotif = rng.weighted(zeminAdaylar, agirlik.zemin);
   const suDeseni = rng.pick(SU_DESENLERI);
   const ton = rng.pick(TON_MODLARI);
-  const seyrek = rng.bool(0.4);
+  const seyrek = rng.bool(profil.seyreklik);
   // Serpme motifi DOLGU slotundan gelir. Daha önce bordür adaylarından
   // seçiliyordu; yani gramer kendi yetki tablosunu çiğniyor, bant motiflerini
   // zemine serpiyordu. motifs.ts açıkça "zeminde tek başına kullanılmaz" diyor.
-  const serpme = rng.bool(0.45) ? rng.pick(dolguAdaylar) : null;
+  const serpme = rng.bool(profil.serpmeOlasiligi)
+    ? rng.weighted(dolguAdaylar, agirlik.dolgu)
+    : null;
   const bordurRenk = rng.pick(BORDUR_RENKLERI);
   const suRenk = rng.pick(SU_RENKLERI);
   const sacakRenk = rng.pick(SACAK_RENKLERI);
@@ -515,7 +540,7 @@ export function doku(rng: Rng, kademe: Kademe): DokumaSonuc {
 
   // Bant kalınlığı motifi kırpmayacak kadar geniş olmalı; kırpmak yerine motifin
   // kendi iki satırlık varyantı kullanılır.
-  const b = o.bordur;
+  const b = bordurKalinlik(o.bordur, profil.bordurCarpani);
   const ustDesen = bandaSigan(bordurMotif, b);
   // Alt bandı aynala: dokunan bir çerçeve daima aynalanır, ötelenmez.
   const altDesen = [...ustDesen].reverse();
