@@ -188,7 +188,7 @@ export const EN: Icerik = {
     motifler: {
       kimlik: "motifs",
       sira: "05",
-      baslik: "The eight motifs",
+      baslik: "The eighteen motifs",
       kisa: "Motifs",
       ozet:
         "Each one is an ASCII grid with a documented meaning and a place it is allowed to stand.",
@@ -399,7 +399,7 @@ export const TR: Icerik = {
     motifler: {
       kimlik: "motifler",
       sira: "05",
-      baslik: "Sekiz motif",
+      baslik: "On sekiz motif",
       kisa: "Motifler",
       ozet:
         "Her biri bir ASCII ızgara: belgelenmiş bir anlamı ve durabileceği bir yeri var.",

@@ -183,7 +183,7 @@ export interface KilimSonuc {
   motifs: readonly string[];
   /** Seçilen yörenin kimliği: 'konya', 'milas', 'sivas', 'yoruk', 'usak', 'iznik'. */
   region: KilimYore;
-  /** İngilizce ad: "Milas — ram's horn brick-laid, two-tone, sawtooth border". */
+  /** İngilizce ad: "Milas kilim — ram's horn in rows, two-tone, diamond border". */
   nameEn: string;
   /**
    * Kullanılan beş hex — her çağrıda yeni bir kopya.
