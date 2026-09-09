@@ -20,10 +20,10 @@ const MS_SATIR = 12;
  */
 const YORE_NOT_EN: Record<KilimYore, string> = {
   konya: "Red ground, cream motifs, deep navy and gold",
-  milas: "Cream ground, thin border, mustard and navy",
+  milas: "Cream ground, widest border, mustard and navy",
   sivas: "Navy ground, dense layout, separated by a light outline",
   yoruk: "Brown-black ground, few colours, earth tones",
-  usak: "Muted grey-cream ground, sparse medallion, olive and burgundy",
+  usak: "Muted grey-cream ground, brick-laid layout, olive and burgundy",
   iznik: "İznik pigments — cobalt, turquoise, coral",
 };
 

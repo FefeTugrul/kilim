@@ -248,7 +248,7 @@ export const EN: Icerik = {
       {
         baslik: "The same user, the same kilim, at every size",
         metin:
-          "Palette, main motif and layout do not depend on size. A user's 24 px avatar in a comment list and their 128 px avatar on a profile page are the same kilim, drawn with more or less detail. Tests verify this over 1000 seeds.",
+          "Palette, main motif, and layout do not depend on size. A user's 24 px avatar in a comment list and their 128 px avatar on a profile page are the same kilim, drawn with more or less detail. Tests verify this over 1,000 seeds.",
       },
       {
         baslik: "It stops rather than guess",
@@ -322,7 +322,7 @@ export const EN: Icerik = {
     merdivenBuyutme:
       "Top row: the size each one is actually drawn at. Bottom row: the same four at one size — the only way to see what the small ones give up.",
     altyazi:
-      "Only the level of detail depends on size, and the grid thins out with it. Measured over 2000 seeds, uniqueness is 85% at 24 px and 100% at 64 px and above; variety is deliberately lower at the smallest size, because at 24 px legibility comes before variety and identity across sizes comes before both. The round crop is the one place this page breaks its own no-rounded-corners rule, because that is how most interfaces draw an avatar and the kilim has to survive it. Every avatar here is drawn with label: false, so the SVG is aria-hidden: the name is already next to it and a screen reader should not read the pattern twice.",
+      "Only the level of detail depends on size, and the grid thins out with it. Measured over 2,000 seeds, uniqueness is 85% at 24 px and 100% at 64 px and above; variety is deliberately lower at the smallest size, because at 24 px legibility comes before variety and identity across sizes comes before both. The round crop is the one place this page breaks its own no-rounded-corners rule, because that is how most interfaces draw an avatar and the kilim has to survive it. Every avatar here is drawn with label: false, so the SVG is aria-hidden: the name is already next to it and a screen reader should not read the pattern twice.",
   },
 
   kaynaklar: {
@@ -463,7 +463,7 @@ export const TR: Icerik = {
       {
         baslik: "Aynı kullanıcı her boyda aynı kilimi alır",
         metin:
-          "Palet, ana motif ve düzen boyuta bağlı değil. Bir kullanıcının yorum listesindeki 24 pikselik avatarı ile profil sayfasındaki 128 pikseliki aynı kilimdir; yalnız daha az ya da daha çok detayla çizilir. Testler bunu 1000 tohumda doğruluyor.",
+          "Palet, ana motif ve düzen boyuta bağlı değil. Bir kullanıcının yorum listesindeki 24 piksellik avatarı ile profil sayfasındaki 128 piksellik avatarı aynı kilimdir; yalnız daha az ya da daha çok detayla çizilir. Testler bunu 1.000 tohumda doğruluyor.",
       },
       {
         baslik: "Tahmin etmez, durur",
@@ -537,7 +537,7 @@ export const TR: Icerik = {
     merdivenBuyutme:
       "Üst sıra: her birinin gerçekte çizildiği boy. Alt sıra: dördü de tek boyda — küçüklerin neyi feda ettiği ancak böyle görünüyor.",
     altyazi:
-      "Boyuta bağlı olan tek şey detay kademesi; ızgara da onunla birlikte seyreliyor. 2000 tohumda ölçüldü: benzersizlik 24 pikselde %85, 64 piksel ve üstünde %100. En küçük boyda çeşitlilik bilerek daha düşük; çünkü 24 pikselde okunurluk çeşitlilikten, boyutlar arası kimlik ikisinden de önce gelir. Yuvarlak kırpma, bu sayfanın kendi “köşe yuvarlama yok” kuralını çiğnediği tek yer: arayüzlerin çoğu avatarı böyle gösteriyor ve kilimin buna dayanması gerekiyor. Buradaki her avatar label: false ile çiziliyor, yani SVG aria-hidden: adı zaten yanında yazıyor ve ekran okuyucunun deseni ikinci kez okumasına gerek yok.",
+      "Boyuta bağlı olan tek şey detay kademesi; ızgara da onunla birlikte seyreliyor. 2.000 tohumda ölçüldü: benzersizlik 24 pikselde %85, 64 piksel ve üstünde %100. En küçük boyda çeşitlilik bilerek daha düşük; çünkü 24 pikselde okunurluk çeşitlilikten, boyutlar arası kimlik ikisinden de önce gelir. Yuvarlak kırpma, bu sayfanın kendi “köşe yuvarlama yok” kuralını çiğnediği tek yer: arayüzlerin çoğu avatarı böyle gösteriyor ve kilimin buna dayanması gerekiyor. Buradaki her avatar label: false ile çiziliyor, yani SVG aria-hidden: adı zaten yanında yazıyor ve ekran okuyucunun deseni ikinci kez okumasına gerek yok.",
   },
 
   kaynaklar: {

@@ -47,11 +47,11 @@ export const KONYA: YoreselPalet = {
   renkler: ["#A8322A", "#EFE5D0", "#132946", "#2E2419", "#D6A340"],
 };
 
-/** Krem zemin, ince bordür — en yaygın okunan kilim. */
+/** Krem zemin, en geniş bordür — en yaygın okunan kilim. */
 export const MILAS: YoreselPalet = {
   id: "milas",
   ad: "Milas",
-  not: "Krem zemin, ince bordür, hardal ve lacivert",
+  not: "Krem zemin, en geniş bordür, hardal ve lacivert",
   renkler: ["#EFE5D0", "#A8322A", "#C9922E", "#2E2419", "#2C5580"],
 };
 
@@ -71,11 +71,11 @@ export const YORUK: YoreselPalet = {
   renkler: ["#2E2419", "#A84635", "#E4D8BE", "#A98763", "#C4A177"],
 };
 
-/** Soluk palet, seyrek göbek. */
+/** Soluk palet, kaydırmalı düzen. */
 export const USAK: YoreselPalet = {
   id: "usak",
   ad: "Uşak",
-  not: "Soluk gri-krem zemin, seyrek göbek, zeytin ve bordo",
+  not: "Soluk gri-krem zemin, kaydırmalı düzen, zeytin ve bordo",
   renkler: ["#E0D8CC", "#B4462F", "#5C6B3C", "#6B4A2F", "#7A2B3C"],
 };
 

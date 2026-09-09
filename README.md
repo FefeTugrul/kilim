@@ -299,7 +299,7 @@ same seed weaves a visibly different kilim in Konya and in Yörük.
 | `milas` | Cream ground, mustard and navy | rows | **widest** | low | koçboynuzu, çengel, su yolu |
 | `sivas` | Navy ground, light outline | rows, banded | thin | **highest** | bereket, kırkbudak, baklava, pıtrak |
 | `yoruk` | Brown-black ground, earth tones | rows | **narrowest** | **lowest** | akrep, saçbağı, koçboynuzu, testere |
-| `usak` | Grey-cream ground, olive and burgundy | **brick-laid** | wide | medium | yıldız, baklava, sandık, muska |
+| `usak` | Grey-cream ground, olive and burgundy | **brick-laid** | wide | high | yıldız, baklava, sandık, muska |
 | `iznik` | İznik pigments — cobalt, turquoise, coral | neutral | normal | medium | none assigned |
 
 ### Weights, not whitelists
