@@ -53,6 +53,56 @@ as you have the user id you can regenerate the pattern, so there is nothing to
 keep. Using `Math.random` here would not be a stylistic choice — it would be a
 bug, because generation *is* the storage.
 
+## Where it fits
+
+Computing an avatar instead of storing one is a good trade in one specific
+situation: **you need a visual identity for every account, and most of them will
+never upload a picture.** That describes more products than it sounds like.
+
+- **Dashboards, admin panels, user tables.** The avatar's job here is to make a
+  row findable while you scan, not to show a face. Colour and pattern do that
+  faster than a name does.
+- **Comment threads, forums, changelogs, review queues.** Most people never set
+  a photo, and the grey silhouette makes all of them look like the same person.
+- **Chat and collaboration.** In a dense thread, "who said this" is answered by
+  the shape in the margin before the name is read.
+- **Non-human accounts.** Bots, service accounts, API keys, CI runners,
+  webhooks, integrations. They will never have a photo and they still have to be
+  told apart — and a kilim beats a coloured letter in a circle.
+- **Seeded demo data, fixtures, screenshots.** `generateKilim("customer-1")`
+  gives you a full, plausible user list without borrowing a real person's face
+  or paying for stock photography.
+- **Tests and visual snapshots.** The output is byte-stable, so the avatar never
+  becomes the reason a snapshot test flakes.
+- **Products under GDPR or KVKK.** No upload means no image to store, resize,
+  moderate, back up, or delete when someone asks to be forgotten.
+- **Offline-first and local-first apps.** Nothing is fetched, so the avatar is
+  there before the network is.
+
+In a product that *does* let people upload a photo, this is the layer
+underneath: show the kilim until they choose otherwise. That is usually most of
+your users, most of the time.
+
+## Where it doesn't
+
+- **When the avatar has to identify, not just distinguish.** Measured on 0.3.0:
+  roughly 3.9 million visually distinct weaves. At 1,000 users the chance that
+  any two share a pattern is about 12%; at 5,000 it is near certain, with about
+  three colliding pairs. That is fine for recognising a row at a glance and
+  wrong for anything where two people must never look alike.
+- **When users expect their own face.** A social product where the photo *is*
+  the point should not replace it — use this as the fallback, not the answer.
+- **When your interface is strictly monochrome or very minimal.** A flat-woven
+  rug with five saturated dye colours is a strong visual voice. It will not
+  quietly blend in, and it is not meant to.
+- **At 32 px and below.** The border and the fringe are dropped by design at
+  that size, because they turn to mush. What remains still reads as a pattern, but
+  the layered structure is gone.
+- **Under a hard circular crop.** The output is a rug: fringe at top and bottom,
+  a border on all four sides. A circle mask cuts the corners and most of the
+  fringe. Rounded corners work; a full circle throws away the part that makes it
+  look woven.
+
 ## Why kilim
 
 Existing avatar generators draw abstract shapes. Boring Avatars ships six styles,

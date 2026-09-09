@@ -110,6 +110,57 @@ yoktur.
 `kilim` gerçek Anadolu motiflerini dokur — *göz*, *elibelinde*, *koçboynuzu* —
 her birinin belgelenmiş bir anlamı vardır ve ürettiği her sonucu adıyla söyler.
 
+## Nerede işine yarar
+
+Avatarı saklamak yerine hesaplamak, tek bir durumda iyi bir takas:
+**her hesabın görsel bir kimliğe ihtiyacı var ve çoğu hiçbir zaman fotoğraf
+yüklemeyecek.** Bu, kulağa geldiğinden daha çok ürünü tarif ediyor.
+
+- **Panolar, yönetim ekranları, kullanıcı tabloları.** Buradaki iş yüz göstermek
+  değil, gözle tararken satırı bulunur kılmak. Renk ve desen bunu isimden daha
+  hızlı yapar.
+- **Yorum akışları, forumlar, değişiklik günlükleri, inceleme kuyrukları.**
+  İnsanların çoğu fotoğraf koymaz ve gri siluet hepsini aynı kişiye çevirir.
+- **Sohbet ve ortak çalışma.** Yoğun bir akışta "bunu kim yazdı" sorusunu,
+  isim okunmadan önce kenardaki biçim cevaplar.
+- **İnsan olmayan hesaplar.** Botlar, servis hesapları, API anahtarları, CI
+  koşucuları, webhook'lar, entegrasyonlar. Hiçbiri fotoğraf koymayacak ama yine
+  de ayırt edilmeleri gerekiyor — ve bir kilim, daire içindeki renkli harften
+  iyidir.
+- **Tohumlanmış demo verisi, fixture, ekran görüntüsü.**
+  `generateKilim("musteri-1")` sana gerçek birinin yüzünü ödünç almadan ve stok
+  fotoğrafa para vermeden inandırıcı bir kullanıcı listesi verir.
+- **Testler ve görsel anlık görüntüler.** Çıktı bayt bayt kararlı, dolayısıyla
+  avatar hiçbir zaman bir snapshot testinin çatlama sebebi olmaz.
+- **KVKK ya da GDPR kapsamındaki ürünler.** Yükleme yoksa; saklanacak,
+  boyutlanacak, denetlenecek, yedeklenecek ve "unutulma hakkı" geldiğinde
+  silinecek bir görsel de yoktur.
+- **Önce-çevrimdışı çalışan uygulamalar.** Hiçbir şey indirilmiyor, yani avatar
+  ağdan önce orada.
+
+Fotoğraf yüklemeye izin veren bir üründe bu, alttaki katman: kullanıcı aksini
+seçene kadar kilimi göster. Pratikte bu, kullanıcılarının çoğu, zamanın çoğunda
+demek.
+
+## Nerede işine yaramaz
+
+- **Avatarın ayırt etmesi değil, kimliklendirmesi gerekiyorsa.** 0.3.0'da
+  ölçüldü: yaklaşık 3,9 milyon görsel olarak ayrışan dokuma. 1.000 kullanıcıda
+  herhangi iki kişinin aynı deseni paylaşma ihtimali %12; 5.000'de neredeyse
+  kesin, ortalama üç çift. Bir satırı gözle tanımak için fazlasıyla yeterli,
+  "iki kişi asla birbirine benzememeli" diyen bir yer için yanlış.
+- **Kullanıcı kendi yüzünü bekliyorsa.** Fotoğrafın kendisinin mesele olduğu bir
+  sosyal üründe bunu fotoğrafın yerine koyma; cevap değil, yedek olarak kullan.
+- **Arayüzün tek renkli ya da çok sade ise.** Beş doygun kök boya rengiyle
+  dokunmuş bir kilim güçlü bir görsel sestir. Sessizce arka plana karışmaz,
+  zaten karışması da amaçlanmadı.
+- **32 piksel ve altında.** Bordür ve saçak o boyutta bilerek düşürülüyor,
+  çünkü lapaya dönüyorlar. Kalan şey hâlâ desen olarak okunuyor ama katmanlı yapı
+  gidiyor.
+- **Sert bir daire kırpması altında.** Çıktı bir kilim: üstte ve altta saçak,
+  dört yanda bordür. Daire maskesi köşeleri ve saçağın çoğunu kesip atar.
+  Yuvarlatılmış köşe çalışır; tam daire, onu dokuma gibi gösteren kısmı atar.
+
 ## Motifler
 
 | Motif | İngilizce | Anlamı | Girebildiği yer |
