@@ -23,12 +23,12 @@ export const TEMEL_KOD: readonly KodSatiri[] = [
   { k: "const k = generateKilim(user.id);" },
   "",
   { k: "k.svg", y: "'<svg …>' — kendi kendine yeter, dış kaynak yok" },
-  { k: "k.name", y: "'Milas — koçboynuzu kaydırmalı, testere bordürlü'" },
-  { k: "k.nameEn", y: "\"Milas kilim — ram's horn in brick-laid…\"" },
-  { k: "k.motifs", y: "['koçboynuzu', 'testere']" },
+  { k: "k.name", y: "'Milas — koçboynuzu sıra düzenli iki tonlu, baklava bordürlü'" },
+  { k: "k.nameEn", y: "\"Milas kilim — ram's horn in rows, two-tone…\"" },
+  { k: "k.motifs", y: "['koçboynuzu', 'baklava']" },
   { k: "k.region", y: "'milas' — tohumdan seçildi" },
   { k: "k.palette", y: "['#EFE5D0', '#A8322A', '#C9922E', …]" },
-  { k: "k.layout", y: "'kaydirmali'" },
+  { k: "k.layout", y: "'tekrar'" },
 ];
 
 export const TEMEL_KOD_EN: readonly KodSatiri[] = [
@@ -37,12 +37,12 @@ export const TEMEL_KOD_EN: readonly KodSatiri[] = [
   { k: "const k = generateKilim(user.id);" },
   "",
   { k: "k.svg", y: "'<svg …>' — self-contained, no external references" },
-  { k: "k.name", y: "'Milas — koçboynuzu kaydırmalı, testere bordürlü'" },
-  { k: "k.nameEn", y: "\"Milas kilim — ram's horn in brick-laid…\"" },
-  { k: "k.motifs", y: "['koçboynuzu', 'testere']" },
+  { k: "k.name", y: "'Milas — koçboynuzu sıra düzenli iki tonlu, baklava bordürlü'" },
+  { k: "k.nameEn", y: "\"Milas kilim — ram's horn in rows, two-tone…\"" },
+  { k: "k.motifs", y: "['koçboynuzu', 'baklava']" },
   { k: "k.region", y: "'milas' — picked from the seed" },
   { k: "k.palette", y: "['#EFE5D0', '#A8322A', '#C9922E', …]" },
-  { k: "k.layout", y: "'kaydirmali'" },
+  { k: "k.layout", y: "'tekrar'" },
 ];
 
 export const REACT_KOD: readonly KodSatiri[] = [

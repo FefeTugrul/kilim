@@ -101,7 +101,7 @@ npm install
 npm test
 ```
 
-**135 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
+**166 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
 
 Sonra kalan üç kontrol:
 
@@ -215,7 +215,7 @@ paketi otomatik yayınlar. Elle `npm publish` yazmana gerek yok.
 ## Şu an nerede duruyoruz
 
 - [x] **Faz 1** — Çekirdek: hash, PRNG, ızgara, SVG çıkışı
-- [x] **Faz 2** — Sekiz motif ve dokuma grameri
+- [x] **Faz 2** — İlk sekiz motif ve dokuma grameri
 
 - [x] **Faz 3** — Altı yöresel palet, renk kısıtları, abraş
 - [x] **Faz 3.5** — Kod denetimi bulguları: boyuttan bağımsız kimlik, bordür, renk katmanları
