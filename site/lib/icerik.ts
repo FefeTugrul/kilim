@@ -153,7 +153,7 @@ export const EN: Icerik = {
     rozetOlculuyor: "measuring",
     yoreNot: "the same seed, six regions",
     akisNot:
-      "Whatever you type here is what the anatomy plate further down takes apart.",
+      "Whatever you type here is what the anatomy plate further down takes apart — and it never leaves your browser.",
   },
 
   bolumler: {
@@ -236,7 +236,7 @@ export const EN: Icerik = {
       {
         olcut: "Deletion request",
         yuklenen: "File, row and CDN cache",
-        kilim: "Nothing to delete",
+        kilim: "No separate avatar record to delete",
       },
       {
         olcut: "Moderation",
@@ -363,7 +363,8 @@ export const TR: Icerik = {
     rozetGzip: "gzip",
     rozetOlculuyor: "ölçülüyor",
     yoreNot: "aynı tohum, altı yöre",
-    akisNot: "Buraya ne yazarsan, aşağıdaki anatomi levhası onu söküyor.",
+    akisNot:
+      "Buraya ne yazarsan, aşağıdaki anatomi levhası onu söküyor — ve yazdığın şey tarayıcından çıkmıyor.",
   },
 
   bolumler: {
@@ -450,7 +451,7 @@ export const TR: Icerik = {
       {
         olcut: "Silme talebi",
         yuklenen: "Dosya, satır ve CDN önbelleği",
-        kilim: "Silinecek bir şey yok",
+        kilim: "Ayrıca silinecek bir avatar kaydı yok",
       },
       {
         olcut: "Moderasyon",

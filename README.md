@@ -7,7 +7,7 @@ Deterministic Anatolian kilim avatars from any string. Zero dependencies, pure S
 [![CI](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml/badge.svg)](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/kilim-avatars?color=%235C6B3C&labelColor=%232E2419)](./LICENSE)
 
-**[Live demo](https://fefetugrul.github.io/kilim)** · **English** · [Türkçe](./README.tr.md)
+**[Live demo](https://fefetugrul.github.io/kilim)** · [Privacy](./PRIVACY.md) · [Security](./SECURITY.md) · **English** · [Türkçe](./README.tr.md)
 
 ```bash
 npm install kilim-avatars
@@ -46,12 +46,43 @@ backups, moderation, resizing, and data-protection obligations.
 | Network request | CDN fetch | None |
 | Personal data | The uploaded photo is stored | Nothing is stored |
 | Offline | Fails | Works |
-| Deletion request | File + row + CDN cache | Nothing to delete |
+| Deletion request | File + row + CDN cache | No separate avatar record to delete |
 
 This is why determinism is the whole point: **the seed is the record.** As long
 as you have the user id you can regenerate the pattern, so there is nothing to
 keep. Using `Math.random` here would not be a stylistic choice — it would be a
 bug, because generation *is* the storage.
+
+## Choosing a seed
+
+Generation is deterministic and the algorithm is public. That is the point — and
+it is also why the seed is a decision rather than a detail: **the pattern is a
+recomputable identifier of whatever you put in.**
+
+Seed with an email address and anyone who guesses that address can render its
+kilim offline and compare it with the one your page shows, confirming the
+account exists without signing in. The same address also produces the same
+kilim on every site that uses this library, which makes accounts linkable
+across services.
+
+**Use an opaque internal id — a UUID — as the seed.** It is stable, it is
+already in your database, and it says nothing about the person.
+
+If the seed has to come from an email, salt it with a per-application secret
+first:
+
+```ts
+import { createHmac } from "node:crypto";
+
+const seed = createHmac("sha256", process.env.AVATAR_SECRET)
+  .update(user.email)
+  .digest("hex");
+
+generateKilim(seed);
+```
+
+The avatar stays stable for your users, and both the guessing and the
+cross-site linkage stop working.
 
 ## Why kilim
 
@@ -61,6 +92,12 @@ cultural motif.
 
 `kilim` weaves real Anatolian motifs — *göz*, *elibelinde*, *koçboynuzu* — each
 with a documented meaning, and it names every result it produces.
+
+The other common answer is Gravatar, which resolves an avatar by having the
+visitor's browser request `gravatar.com/avatar/<sha256 of the email>`. That
+request carries the hash together with the visitor's IP address and referring
+page to a third party, on every page view. `kilim` makes no request at all: the
+pattern is computed where it is displayed.
 
 ## React
 

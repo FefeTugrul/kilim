@@ -52,3 +52,23 @@ npm run onizleme  # onizleme.html üretir, açıp çıktıya bak
 
 Görsel bir değişiklik yaptıysan `npm run onizleme` çıktısını PR'a ekran görüntüsü
 olarak ekle. Kilim, testlerin göremediği bir şeydir.
+
+## Commit üstverisi kalıcıdır
+
+Bir katkı gönderdiğinde commit'indeki ad ve e-posta adresi git geçmişine yazılır
+ve depoyu klonlayan herkeste kalır. Geçmişi sonradan temizlemek force-push
+gerektirir ve klonlanmış kopyaları düzeltmez.
+
+Adresini gizli tutmak istiyorsan GitHub'ın `noreply` adresini kullan:
+
+```bash
+git config user.email "KULLANICI_ADIN@users.noreply.github.com"
+```
+
+## Siteye üçüncü taraf ekleme
+
+Demo sitesi bilerek sıfır çerez, sıfır depolama ve sıfır üçüncü taraf isteğiyle
+çalışıyor; `PRIVACY.md` bunu ölçülmüş bir iddia olarak yazıyor. Analitik, gömülü
+video, harici yazı tipi ya da yorum bileşeni eklemek bu iddiayı geçersiz kılar.
+Böyle bir şey eklenecekse `PRIVACY.md` aynı PR'da güncellenmeli ve çerez/rıza
+durumu yeniden değerlendirilmeli.

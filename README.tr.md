@@ -7,7 +7,7 @@ Herhangi bir metinden deterministik Anadolu kilimi. Sıfır bağımlılık, saf 
 [![CI](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml/badge.svg)](https://github.com/FefeTugrul/kilim/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/kilim-avatars?color=%235C6B3C&labelColor=%232E2419)](./LICENSE)
 
-**[Canlı demo](https://fefetugrul.github.io/kilim)** · [English](./README.md) · **Türkçe**
+**[Canlı demo](https://fefetugrul.github.io/kilim)** · [Gizlilik](./PRIVACY.md) · [Güvenlik](./SECURITY.md) · [English](./README.md) · **Türkçe**
 
 ```bash
 npm install kilim-avatars
@@ -93,13 +93,43 @@ moderasyon, boyutlandırma ve KVKK/GDPR yükümlülüğü doğar.
 | Ağ isteği | CDN'den indirme | Yok |
 | Kişisel veri | Yüklenen fotoğraf saklanır | Hiçbir şey saklanmaz |
 | Çevrimdışı | Çalışmaz | Çalışır |
-| Silme talebi | Dosya + kayıt + CDN önbelleği | Silinecek bir şey yok |
+| Silme talebi | Dosya + kayıt + CDN önbelleği | Ayrıca silinecek bir avatar kaydı yok |
 
 Determinizmin bütün mesele olmasının sebebi budur: **kaydın kendisi seed'dir.**
 Kullanıcı kimliğini elinde tuttuğun sürece deseni yeniden üretebilirsin, o yüzden
 saklamana gerek yoktur. Bu yüzden `Math.random` kullanmak bir tercih değil, bir
 hata olurdu — sakladığın hiçbir şey olmadığı için üretimin kendisi kayıt yerine
 geçer.
+
+### Tohumu seçerken
+
+Üretim deterministik ve algoritma açık. Zaten olay bu — ama aynı sebeple tohum
+bir ayrıntı değil, bir karar: **desen, verdiğin girdinin yeniden hesaplanabilir
+bir tanımlayıcısıdır.**
+
+E-posta adresiyle tohumlarsan, o adresi tahmin eden biri kilimini çevrimdışı
+üretip senin sayfandakiyle karşılaştırabilir; giriş yapmadan hesabın var
+olduğunu doğrulamış olur. Aynı adres, bu kütüphaneyi kullanan her sitede aynı
+kilimi verir — yani hesaplar servisler arasında eşleştirilebilir hale gelir.
+
+**Tohum olarak opak bir iç kimlik kullan — bir UUID.** Kararlıdır, zaten
+veritabanında duruyordur ve kişi hakkında hiçbir şey söylemez.
+
+Tohumun e-postadan türemesi şartsa, önce uygulamaya özel bir gizli anahtarla
+tuzla:
+
+```ts
+import { createHmac } from "node:crypto";
+
+const tohum = createHmac("sha256", process.env.AVATAR_SECRET)
+  .update(user.email)
+  .digest("hex");
+
+generateKilim(tohum);
+```
+
+Avatar kullanıcın için kararlı kalır, tahmin ve siteler arası eşleştirme ise
+çalışmaz olur.
 
 ### Neden kilim
 
