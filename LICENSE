@@ -20,3 +20,43 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+--------------------------------------------------------------------------
+
+Scope · Kapsam
+
+The MIT terms above cover the SOFTWARE: everything under src/, test/, scripts/,
+site/ and the configuration files.
+
+The prose and research in this repository are a different kind of work and are
+licensed separately, under Creative Commons Attribution 4.0 International
+(CC BY 4.0) — https://creativecommons.org/licenses/by/4.0/ — namely:
+
+  - docs/yoresel-motif-arastirmasi.md
+  - the motif, region and source tables in README.md and README.tr.md
+  - the section copy in site/lib/icerik.ts and site/lib/kaynaklar.ts
+
+Reuse them with attribution.
+
+Motif meanings and regional characteristics are compiled from published
+scholarship, cited in docs/ and in the Sources section of the site. Those works
+remain the copyright of their own authors and publishers; this repository
+quotes and cites them, and reproduces none of their images or plates.
+
+--------------------------------------------------------------------------
+
+Yukarıdaki MIT koşulları YAZILIMI kapsar: src/, test/, scripts/, site/ altındaki
+her şey ve yapılandırma dosyaları.
+
+Depodaki düzyazı ve araştırma farklı türde bir eserdir ve ayrıca Creative
+Commons Atıf 4.0 Uluslararası (CC BY 4.0) ile lisanslanmıştır:
+
+  - docs/yoresel-motif-arastirmasi.md
+  - README.md ve README.tr.md içindeki motif, yöre ve kaynak tabloları
+  - site/lib/icerik.ts ve site/lib/kaynaklar.ts içindeki bölüm metinleri
+
+Atıf vererek yeniden kullanılabilir.
+
+Motif anlamları ve yöresel karakteristikler yayımlanmış akademik kaynaklardan
+derlenmiştir; künyeleri docs/ altında ve sitenin Kaynaklar bölümündedir. O
+eserlerin telifi kendi yazar ve yayıncılarına aittir; bu depo onlardan kısa
+iktibasla alıntı yapar, hiçbir görselini ya da levhasını çoğaltmaz.
