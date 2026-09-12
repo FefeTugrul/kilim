@@ -213,8 +213,9 @@ export const EN: Icerik = {
     iddia:
       "The most important thing this library does is what it does not do: it stores nothing.",
     akis: [
-      "The usual flow is: the user uploads a photo, the file goes to disk or S3, it is served from a CDN, and a database row holds the URL. With it come backups, moderation, resizing, and data-protection obligations.",
-      "Here the pattern is computed from the string, every time. That is why determinism is not a stylistic preference: the seed is the record. As long as you have the user id, you can regenerate the pattern, so there is nothing to keep. Using Math.random here would not be a matter of taste — it would be a bug, because generation is the storage.",
+      "The usual flow is: the user uploads a photo, the file goes to disk or S3, it is served from a CDN, and a database row holds the URL. Everything that follows — backups, moderation, resizing, deletion requests — exists because that file exists.",
+      "Here there is no file. The pattern is computed from the string each time it is drawn, so what an ordinary product keeps in a row, this one derives from something your database already holds: the user id.",
+      "That is what makes the seed the record. There is no second copy to keep in sync, back up or delete — lose the SVG and you recompute it. It is also why determinism here is structural rather than stylistic: reach for Math.random and the avatar changes on every render, with nothing anywhere to restore it from. That would not be a matter of taste; it would be a bug, because generation has taken the place of storage.",
     ],
     tabloAd: "Uploaded avatar compared with a computed kilim",
     olcut: "Criterion",
@@ -424,8 +425,9 @@ export const TR: Icerik = {
     iddia:
       "Bu kütüphanenin yaptığı en önemli şey, yapmadığı şeydir: hiçbir şey saklamıyor.",
     akis: [
-      "Alışıldık akış şudur: kullanıcı fotoğraf yükler, dosya diske ya da S3'e gider, CDN'den servis edilir, bir veritabanı satırı adresi tutar. Yanında yedekleme, moderasyon, yeniden boyutlandırma ve veri koruma yükümlülüğü gelir.",
-      "Burada desen her seferinde metinden hesaplanıyor. Determinizm bu yüzden bir üslup tercihi değil: kayıt, tohumun kendisidir. Kullanıcı kimliği elindeyse deseni yeniden üretebilirsin, saklanacak bir şey yoktur. Burada Math.random kullanmak zevk meselesi olmazdı — hata olurdu, çünkü üretimin kendisi depolamanın yerine geçiyor.",
+      "Alışıldık akış şudur: kullanıcı fotoğraf yükler, dosya diske ya da S3'e gider, CDN'den servis edilir, bir veritabanı satırı adresi tutar. Sonrasında gelen ne varsa — yedekleme, moderasyon, yeniden boyutlandırma, silme talepleri — hepsi o dosya var olduğu için vardır.",
+      "Burada dosya yok. Desen her çizilişinde metinden hesaplanıyor; yani sıradan bir ürünün bir satırda sakladığı şeyi bu ürün, veritabanında zaten duran bir veriden türetiyor: kullanıcı kimliğinden.",
+      "Kaydı tohumun kendisi yapan şey bu. Eşitlenecek, yedeklenecek ya da silinecek ikinci bir kopya yok — SVG'yi kaybedersen yeniden hesaplarsın. Determinizmin burada bir üslup tercihi değil yapısal bir zorunluluk olmasının sebebi de bu: Math.random'a uzanırsan avatar her render'da değişir ve onu geri getirebileceğin hiçbir yer kalmaz. Bu bir zevk meselesi olmazdı; hata olurdu, çünkü üretim, depolamanın yerine geçmiş durumdadır.",
     ],
     tabloAd: "Yüklenen avatar ile hesaplanan kilimin karşılaştırması",
     olcut: "Ölçüt",

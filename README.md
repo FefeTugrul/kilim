@@ -60,10 +60,11 @@ backups, moderation, resizing, and data-protection obligations.
 | Offline | Fails | Works |
 | Deletion request | File + row + CDN cache | No separate avatar record to delete |
 
-This is why determinism is the whole point: **the seed is the record.** As long
-as you have the user id you can regenerate the pattern, so there is nothing to
-keep. Using `Math.random` here would not be a stylistic choice — it would be a
-bug, because generation *is* the storage.
+**The seed is the record.** As long as you have the user id you can recompute
+the pattern, so there is no second copy to keep in sync, back up or delete — and
+that is what makes determinism structural here rather than stylistic. Using
+`Math.random` would not be a stylistic choice; it would be a bug, because
+generation *is* the storage.
 
 ## Where it fits
 
