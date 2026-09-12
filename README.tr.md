@@ -302,7 +302,7 @@ Konya'da ve Yörük'te gözle görülür biçimde farklı bir kilim dokur.
 | --- | --- | --- | --- | --- | --- |
 | `konya` | Kırmızı zemin, krem motif, lacivert ve altın | göbekli | normal | orta | göbek, çengel, elibelinde, tarak |
 | `milas` | Krem zemin, hardal ve lacivert | sıra düzenli | **en geniş** | düşük | koçboynuzu, çengel, su yolu |
-| `sivas` | Lacivert zemin, açık kontur | sıra düzenli, bantlı | ince | **en yüksek** | bereket, kırkbudak, baklava, pıtrak |
+| `sivas` | Lacivert zemin, açık kontur | bantlı, sıra düzenli | ince | **en yüksek** | bereket, kırkbudak, baklava, pıtrak |
 | `yoruk` | Kahve-siyah zemin, toprak tonları | sıra düzenli | **en dar** | **en düşük** | akrep, saçbağı, koçboynuzu, testere |
 | `usak` | Gri-krem zemin, zeytin ve bordo | **kaydırmalı** | geniş | yüksek | yıldız, baklava, sandık, muska |
 | `iznik` | İznik pigmentleri — kobalt, turkuaz, mercan | nötr | normal | orta | atama yok |

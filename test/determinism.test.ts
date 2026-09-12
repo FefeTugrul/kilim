@@ -4,6 +4,13 @@ import { mulberry32 } from "../src/rng.js";
 import { generateKilim } from "../src/index.js";
 import { CELL, CELL_ASPECT, createGrid, toSvg } from "../src/grid.js";
 import { VARSAYILAN_PALET } from "../src/palette.js";
+import {
+  TUM_MOTIFLER,
+  ZEMIN_ADAYLARI_V2,
+  GOBEK_ADAYLARI_V2,
+  BORDUR_ADAYLARI_V2,
+  DOLGU_ADAYLARI_V2,
+} from "../src/motifs.js";
 
 describe("fnv1a", () => {
   // Sabit değerler. Bunlar değişirse tüm kullanıcıların avatarı değişir —
@@ -115,5 +122,39 @@ describe("uçtan uca determinizm", () => {
     const m = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
     expect(m).not.toBeNull();
     expect(Number(m?.[2]) / Number(m?.[1])).toBeCloseTo(CELL_ASPECT, 2);
+  });
+});
+
+describe("dışa aktarılan motif listeleri dondurulmuş olmalı", () => {
+  // Bu dört liste gramerin `rng.weighted` ile indekslediği ÜRETİM listeleri —
+  // `doku()` içindeki gerçek referanslar bunlar. `PALETLER_V1` tam da bu yüzden
+  // dondurulmuş (bkz. palette.ts); ama motif listeleri hiç dondurulmamıştı.
+  //
+  // Sonuç: `import { ZEMIN_ADAYLARI_V2 } from "kilim-avatars"` yazıp diziyi
+  // yanlışlıkla in-place değiştiren (push/reverse/sort/splice) HERHANGİ bir
+  // tüketici kod, o process'teki BÜTÜN kullanıcıların avatarını kalıcı olarak
+  // bozar — "aynı seed her zaman aynı kilim" garantisi process ömrü boyunca
+  // sessizce çöker. Kaynak dosyasındaki yorum zaten "listeler donmuş halde
+  // tutulur" diyordu; bu test o iddiayı çalışma zamanında doğrular.
+  it.each([
+    ["TUM_MOTIFLER", TUM_MOTIFLER],
+    ["ZEMIN_ADAYLARI_V2", ZEMIN_ADAYLARI_V2],
+    ["GOBEK_ADAYLARI_V2", GOBEK_ADAYLARI_V2],
+    ["BORDUR_ADAYLARI_V2", BORDUR_ADAYLARI_V2],
+    ["DOLGU_ADAYLARI_V2", DOLGU_ADAYLARI_V2],
+  ] as const)("%s dondurulmuş (Object.isFrozen)", (_ad, liste) => {
+    expect(Object.isFrozen(liste)).toBe(true);
+  });
+
+  it("bir tüketicinin ZEMIN_ADAYLARI_V2'yi mutasyona uğratma girişimi üretimi bozmaz", () => {
+    const once = generateKilim("mutasyon-kurbani", { size: 64 });
+    expect(() => {
+      (ZEMIN_ADAYLARI_V2 as unknown as unknown[]).reverse();
+    }).toThrow();
+    expect(() => {
+      (ZEMIN_ADAYLARI_V2 as unknown as unknown[]).push({});
+    }).toThrow();
+    const twice = generateKilim("mutasyon-kurbani", { size: 64 });
+    expect(twice.svg).toBe(once.svg);
   });
 });

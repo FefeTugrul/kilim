@@ -32,6 +32,18 @@ belgelerin koddan sapmış olduğu yerleri kapatıyor.
   `USAK.not` "seyrek göbek" diyordu; Uşak'ın düzen ağırlığı `[15, 65, 12, 8]`,
   yani göbek %12 ve baskın düzen kaydırmalı — üstelik `seyreklik: 0.3` ile
   Sivas'tan sonra en yoğun ikinci yöre. İkisi de demo sitesinde görünüyordu.
+  `SIVAS.not` ise çelişkili değil yalnızca bulanıktı ("açık konturla ayrılmış" →
+  "motifleri ayıran açık kontur"); neyin neyden ayrıldığı artık yazıyor.
+
+- **Sivas'ın düzen eğilimi yanlış sırada yazılıydı.** İki README de "sıra
+  düzenli, bantlı" diyordu; Sivas'ın ağırlıkları `[25, 25, 5, 45]`, yani baskın
+  düzen **bantlı** (%45), sıra düzenli %25'te kalıyor. Tablo "bantlı, sıra
+  düzenli" olarak düzeltildi.
+
+- **`KURULUM.md` hâlâ `NPM_TOKEN` repo secret'ı oluşturmayı anlatıyordu.**
+  Yayın 0.2.1'den beri trusted publishing (OIDC) ile yapılıyor ve workflow
+  böyle bir secret okumuyor — duran bir token yalnızca sızma yüzeyi olurdu.
+  Bölüm npm tarafındaki trusted publisher ayarıyla değiştirildi.
 
 - **18 motifin `anlam` metni tek üslupta birleştirildi.** İlk sekizi düz ve
   kesin, Faz 6'da gelen onu ise sürekli "... olarak yorumlanır" çekincesiyle
@@ -44,6 +56,33 @@ belgelerin koddan sapmış olduğu yerleri kapatıyor.
   `sıra düzenli`/`baklava` veriyor.
 
 - **Demo sitesi "Sekiz motif" diyordu**, altında 18 motif listeliyken.
+
+- **Dışa aktarılan motif listeleri dondurulmamıştı.** `motifs.ts` içindeki
+  yorum "listeler elle ve donmuş halde tutulur" diyordu ama `TUM_MOTIFLER` ve
+  gramerin fiilen okuduğu `ZEMIN_ADAYLARI_V2` / `GOBEK_ADAYLARI_V2` /
+  `BORDUR_ADAYLARI_V2` / `DOLGU_ADAYLARI_V2` dizileri `Object.freeze`
+  içermiyordu — `PALETLER_V1`'in aksine. Sonuç: bu dizileri import eden bir
+  tüketici `.push`/`.reverse`/`.sort` ile yanlışlıkla mutasyona uğratırsa,
+  `doku()`'nun okuduğu GERÇEK referans bozuluyor ve o process'teki bütün
+  kullanıcıların avatarı kalıcı olarak değişiyordu — "aynı seed her zaman aynı
+  kilim" garantisi sessizce çöküyordu. Beş liste de artık dondurulmuş;
+  `test/determinism.test.ts` bunu kilitliyor. **Görünür davranış değişikliği:**
+  bu dizilerde `.push`/`.sort`/`.splice` çağıran bir tüketici artık sessizce
+  başarılı olmak yerine `TypeError` alıyor. Tipleri zaten `readonly` olduğu
+  için TypeScript bunu derlemede de reddediyordu; değişen yalnızca çalışma
+  zamanının artık sessiz kalmaması.
+
+- **`label` içindeki yasak XML karakterleri kaçıştan sonra da kalıyordu.**
+  `xmlKacis` yalnızca `& < > "` karakterlerini kaçırıyordu; bir NUL baytı,
+  başka bir C0 kontrol karakteri ya da eşleşmemiş (lone) bir surrogate
+  `<title>` içine olduğu gibi sızıyor ve çıktı geçersiz XML oluyordu. Kaçış bu
+  karakterleri "güvenli" yapmaz — sorun söz dizimi değil karakterin kendisi.
+  Tarayıcılar `<img src="...svg">` üzerinden SVG'yi KATI XML olarak
+  ayrıştırdığı için böyle bir avatar sessizce hiç render olmuyordu. Bu
+  karakterler artık kaçıştan önce süzülüyor; geçerli surrogate çiftleri
+  (emoji dahil) etkilenmiyor. `test/grammar.test.ts` içindeki "çıktı
+  güvenliği" bloğu hem süzmeyi hem de kalan çıktının XML açısından geçerli
+  kaldığını doğruluyor.
 
 ### Değişmedi
 
