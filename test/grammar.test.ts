@@ -339,6 +339,68 @@ describe("çıktı güvenliği", () => {
     expect(svg).not.toContain("onload");
     expect(svg).toContain('fill="#000000"');
   });
+
+  // `label` çağırandan gelir (bir kullanıcı adı, bir bio alanı, ...) ve
+  // `&`/`<`/`>`/`"` dışında hiçbir garanti taşımaz. XML 1.0 kontrol
+  // karakterlerini (TAB/LF/CR dışında) ve eşleşmemiş surrogate'ları yasaklar;
+  // bunlar kaçışla "güvenli" hale gelmez çünkü sorun söz dizimi değil, o
+  // karakterin kendisidir. Böyle bir SVG `<img>` ile yüklendiğinde tarayıcı
+  // onu KATI XML olarak ayrıştırır ve sessizce hiç render etmez.
+  it("label içindeki yasak XML kontrol karakterlerini süzer", () => {
+    const svg = generateKilim("furkan", {
+      label: "a" + String.fromCharCode(0) + "b",
+    }).svg;
+    const title = svg.match(/<title>([\s\S]*?)<\/title>/)?.[1];
+    expect(title).toBe("ab");
+    expect(svg).not.toContain(String.fromCharCode(0));
+  });
+
+  it("label içindeki eşleşmemiş (lone) surrogate'ı süzer", () => {
+    const svg = generateKilim("furkan", {
+      label: "a" + String.fromCharCode(0xd800) + "b",
+    }).svg;
+    const title = svg.match(/<title>([\s\S]*?)<\/title>/)?.[1];
+    expect(title).toBe("ab");
+  });
+
+  it("label içindeki geçerli emoji / surrogate çiftini KORUR", () => {
+    // Süzme çok agresif olup astral karakterleri de silmemeli — yalnızca
+    // eşleşmemiş surrogate'lar hedef alınır.
+    const svg = generateKilim("furkan", { label: "a\u{1F600}b" }).svg;
+    expect(svg).toContain("a\u{1F600}b");
+  });
+
+  it("label kontrol karakteri içerse bile üretilen SVG geçerli/iyi biçimli XML'dir", () => {
+    // Harici bir XML ayrıştırıcıya (ör. `saxes`) bağımlı olmamak için XML
+    // 1.0'ın yasakladığı karakter kümesini burada kendimiz denetliyoruz: C0
+    // kontrolleri (TAB/LF/CR hariç) ve eşleşmemiş surrogate'lar. Gerçek bir
+    // XML ayrıştırıcı da tam bu karakterlerde "disallowed character" hatası
+    // verir (bkz. bu testin yazılışı sırasında `saxes` ile doğrulandı).
+    const yasakKarakter = /[\x00-\x08\x0b\x0c\x0e-\x1f]/;
+    const kotu = [
+      "a" + String.fromCharCode(0) + "b",
+      "a" + String.fromCharCode(0x0b) + "c",
+      "a" + String.fromCharCode(0xd800) + "d",
+    ];
+    for (const label of kotu) {
+      const svg = generateKilim("furkan", { label }).svg;
+      expect(svg, `label=${JSON.stringify(label)} yasak kontrol karakteri içeriyor`).not.toMatch(
+        yasakKarakter,
+      );
+      // Eşleşmemiş surrogate: her yüksek surrogate'ı hemen bir düşük
+      // surrogate izlemeli, aksi halde dize XML açısından geçersizdir.
+      for (let i = 0; i < svg.length; i++) {
+        const kod = svg.charCodeAt(i);
+        if (kod >= 0xd800 && kod <= 0xdbff) {
+          const sonraki = svg.charCodeAt(i + 1);
+          expect(
+            sonraki >= 0xdc00 && sonraki <= 0xdfff,
+            `label=${JSON.stringify(label)} eşleşmemiş yüksek surrogate içeriyor`,
+          ).toBe(true);
+        }
+      }
+    }
+  });
 });
 
 describe("ad doğruluğu", () => {

@@ -178,14 +178,25 @@ yapılmış olduğundan emin ol.
 
 ---
 
-## 8. npm'e yayın (Faz 4'te)
+## 8. npm'e yayın
 
-Tek seferlik ayar:
+Yayın **trusted publishing (OIDC)** ile yapılıyor: depoda saklanan bir npm
+token'ı YOK ve olmamalı. GitHub her yayın için kısa ömürlü bir kimlik belgesi
+üretir, npm de onu kendi tarafındaki kayıtla karşılaştırır.
 
-1. <https://npmjs.com> hesabına gir → Access Tokens → **Generate New Token** →
-   tipi **Automation** olsun.
-2. GitHub'da repo → **Settings** → Secrets and variables → **Actions** →
-   **New repository secret**. Adı tam olarak `NPM_TOKEN`, değeri az önceki token.
+Tek seferlik ayar — npmjs.com tarafında:
+
+1. <https://npmjs.com> → **kilim-avatars** → Settings → **Trusted publishing**
+   → GitHub Actions.
+2. Alanları tam olarak şöyle doldur:
+   - Organization or user: `FefeTugrul`
+   - Repository: `kilim`
+   - Workflow filename: `release.yml`
+   - Environment: (boş bırak)
+
+GitHub tarafında yapılacak bir şey yok. Özellikle `NPM_TOKEN` diye bir repo
+secret'ı **oluşturma**; workflow onu okumuyor, duran bir token yalnızca sızma
+yüzeyi olur. Daha önce oluşturulduysa sil.
 
 Sonrası her sürümde iki satır:
 

@@ -25,6 +25,10 @@ onizleme.html
 .abras-tmp/
 dist-tmp/
 
+# `npm pack` ciktisi. Yayin oncesi tarball'i incelemek rutin; onun depoya
+# commit edilmesi degil.
+*.tgz
+
 # demo sitesi (site/)
 site/.next/
 site/out/

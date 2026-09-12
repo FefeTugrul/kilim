@@ -121,9 +121,44 @@ function renkGuvenli(c: unknown): string {
   return typeof c === "string" && HEX.test(c) ? c : "#000000";
 }
 
+/**
+ * XML 1.0'da yasak olan karakterleri kaldırır: C0 kontrol karakterleri (TAB,
+ * LF, CR dışında), eşleşmemiş surrogate'lar ve U+FFFE/U+FFFF.
+ *
+ * `label` çağırandan gelir (ör. bir kullanıcı adı) ve `&`/`<`/`>`/`"` gibi
+ * öngörülebilir karakterlerin ötesinde hiçbir garanti taşımaz. Kaçış
+ * uygulamadan önce bu karakterleri süzmezsek, örneğin bir NUL baytı sızan bir
+ * `label` çıktıyı XML açısından bozuk hale getirir — <title> içine gömülü bir
+ * kontrol karakteri kaçışla "güvenli" hale gelmez, çünkü sorun söz dizimi değil
+ * karakterin kendisidir. Böyle bir SVG `<img>` ile (tarayıcılar SVG'yi orada
+ * KATI XML olarak ayrıştırır) sessizce hiç render olmaz.
+ */
+function gecersizXmlKarakterleriSil(s: string): string {
+  let out = "";
+  // `for...of` kod noktasi bazinda yineler: gecerli bir surrogate cifti tek
+  // adimda (or. bir emoji) gelir, ESLESMEMIS bir surrogate ise tek basina,
+  // uzunlugu 1 bir "karakter" olarak gelir -- onu boyle ayirt ediyoruz.
+  for (const ch of s) {
+    const kod = ch.codePointAt(0) as number;
+    // C0 kontrolleri (TAB \t, LF \n, CR \r haric), U+FFFE/U+FFFF ve
+    // eslesmemis (lone) surrogate'lar XML 1.0'da yasak.
+    const c0Kontrol =
+      ch.length === 1 &&
+      ((kod >= 0x00 && kod <= 0x08) ||
+        kod === 0x0b ||
+        kod === 0x0c ||
+        (kod >= 0x0e && kod <= 0x1f));
+    const loneSurrogate = ch.length === 1 && kod >= 0xd800 && kod <= 0xdfff;
+    const nonCharacter = kod === 0xfffe || kod === 0xffff;
+    if (c0Kontrol || loneSurrogate || nonCharacter) continue;
+    out += ch;
+  }
+  return out;
+}
+
 /** XML metin düğümü kaçışı — <title> içeriği için. */
 function xmlKacis(s: string): string {
-  return s
+  return gecersizXmlKarakterleriSil(s)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

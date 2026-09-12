@@ -177,7 +177,7 @@ function boyutDogrula(ham: unknown): number {
 export interface KilimSonuc {
   /** Bağımsız SVG metni — hiçbir dış kaynağa bağlı değil. */
   svg: string;
-  /** İnsan okuyabilir ad: "göz sıra düzenli, su yolu bordürlü". */
+  /** İnsan okuyabilir ad: "Milas — koçboynuzu sıra düzenli iki tonlu, baklava bordürlü". */
   name: string;
   /** Kullanılan motiflerin Türkçe adları. */
   motifs: readonly string[];
@@ -219,7 +219,7 @@ export type KilimRegion = KilimYore;
  * ```ts
  * const k = generateKilim("furkan");
  * k.svg   // '<svg ...>'
- * k.name  // 'göz sıra düzenli, su yolu bordürlü'
+ * k.name  // 'Milas — koçboynuzu sıra düzenli iki tonlu, baklava bordürlü'
  * ```
  */
 export function generateKilim(

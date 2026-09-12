@@ -458,7 +458,7 @@ export const TARAK: Motif = {
 
 // ---------------------------------------------------------------------------
 
-export const TUM_MOTIFLER: readonly Motif[] = [
+export const TUM_MOTIFLER: readonly Motif[] = Object.freeze([
   GOZ,
   PITRAK,
   KOCBOYNUZU,
@@ -477,7 +477,7 @@ export const TUM_MOTIFLER: readonly Motif[] = [
   GOBEK_MOTIFI,
   KIRKBUDAK,
   TARAK,
-];
+]);
 
 /**
  * DİKKAT — bu listeler kamuya açık sözleşmedir.
@@ -491,16 +491,16 @@ export const TUM_MOTIFLER: readonly Motif[] = [
  * donmuş halde tutulur. Yeni motifler bir sonraki major sürümün `_V2`
  * listelerine gider.
  */
-export const ZEMIN_ADAYLARI_V1: readonly Motif[] = [
+export const ZEMIN_ADAYLARI_V1: readonly Motif[] = Object.freeze([
   GOZ,
   PITRAK,
   KOCBOYNUZU,
   YILDIZ,
   ELIBELINDE,
-];
-export const GOBEK_ADAYLARI_V1: readonly Motif[] = [GOZ, KOCBOYNUZU, YILDIZ];
-export const BORDUR_ADAYLARI_V1: readonly Motif[] = [SU_YOLU, TESTERE, BAKLAVA];
-export const DOLGU_ADAYLARI_V1: readonly Motif[] = [PITRAK];
+]);
+export const GOBEK_ADAYLARI_V1: readonly Motif[] = Object.freeze([GOZ, KOCBOYNUZU, YILDIZ]);
+export const BORDUR_ADAYLARI_V1: readonly Motif[] = Object.freeze([SU_YOLU, TESTERE, BAKLAVA]);
+export const DOLGU_ADAYLARI_V1: readonly Motif[] = Object.freeze([PITRAK]);
 
 /**
  * ÜRETİM LİSTELERİ — 0.2.0'dan itibaren gramerin kullandığı adaylar.
@@ -514,7 +514,7 @@ export const DOLGU_ADAYLARI_V1: readonly Motif[] = [PITRAK];
  *
  * Bu listelerin SIRASI da sözleşmedir — `rng.weighted` buraya indeksler.
  */
-export const ZEMIN_ADAYLARI_V2: readonly Motif[] = [
+export const ZEMIN_ADAYLARI_V2: readonly Motif[] = Object.freeze([
   GOZ,
   PITRAK,
   KOCBOYNUZU,
@@ -526,22 +526,22 @@ export const ZEMIN_ADAYLARI_V2: readonly Motif[] = [
   SANDIK,
   SAC_BAGI,
   KIRKBUDAK,
-];
-export const GOBEK_ADAYLARI_V2: readonly Motif[] = [
+]);
+export const GOBEK_ADAYLARI_V2: readonly Motif[] = Object.freeze([
   GOZ,
   KOCBOYNUZU,
   YILDIZ,
   BEREKET,
   GOBEK_MOTIFI,
-];
-export const BORDUR_ADAYLARI_V2: readonly Motif[] = [
+]);
+export const BORDUR_ADAYLARI_V2: readonly Motif[] = Object.freeze([
   SU_YOLU,
   TESTERE,
   BAKLAVA,
   KURT_AGZI,
   TARAK,
-];
-export const DOLGU_ADAYLARI_V2: readonly Motif[] = [PITRAK, MUSKA, CENGEL];
+]);
+export const DOLGU_ADAYLARI_V2: readonly Motif[] = Object.freeze([PITRAK, MUSKA, CENGEL]);
 
 /**
  * Belirli bir slota girebilen motifler.
