@@ -198,7 +198,7 @@ export const BEREKET: Motif = {
   ad: "bereket",
   en: "fertility",
   anlam:
-    "Elibelinde ile koçboynuzunun bileşimi; bolluk dileği olarak yorumlanır.",
+    "Bolluk ve bereket. Elibelinde ile koçboynuzunun bileşimi — kadınlık ve güç tek işarette.",
   // Figüratif motif bordüre girmez — bkz. elibelinde.
   slots: ["zemin", "gobek"],
   grid: [
@@ -227,7 +227,8 @@ export const CENGEL: Motif = {
   id: "cengel",
   ad: "çengel",
   en: "hook",
-  anlam: "Tutunma ve nazardan korunma isteği olarak yorumlanır.",
+  anlam:
+    "Tutunma ve nazardan korunma. Zeminde tekrarlanınca kancalar komşularıyla kenetlenip kafes kurar.",
   slots: ["zemin", "dolgu"],
   grid: [
     "XX...XX",
@@ -252,7 +253,7 @@ export const AKREP: Motif = {
   id: "akrep",
   ad: "akrep",
   en: "scorpion",
-  anlam: "Zararlıdan korunma dileği olarak yorumlanır; sokan hayvanı anar.",
+  anlam: "Zararlıdan korunma. Sokan hayvanı anar.",
   // Figüratif motif bordüre girmez — bkz. elibelinde.
   slots: ["zemin"],
   grid: [
@@ -283,7 +284,8 @@ export const KURT_AGZI: Motif = {
   id: "kurtagzi",
   ad: "kurtağzı",
   en: "wolf's mouth",
-  anlam: "Sürüyü ve evi tehlikeden sakınma dileği olarak yorumlanır.",
+  anlam:
+    "Sürüyü ve evi tehlikeden koruma. Bordürde sıra halinde dizilen karşılıklı üçgen dişlerden oluşur.",
   // Yalnızca bordür. İlk tanımda zemin de vardı ama kütüphanenin kendi kuralı
   // açık: bant motifi zeminde tek başına kullanılmaz (bkz. SU_YOLU, TESTERE).
   // 5x3'lük bir bant zemine döşenince motif değil doku oluyordu.
@@ -304,7 +306,7 @@ export const SANDIK: Motif = {
   id: "sandik",
   ad: "sandık",
   en: "chest",
-  anlam: "Çeyiz ve birikim olarak yorumlanır; gelinin sandığını anar.",
+  anlam: "Çeyiz ve birikim. Gelinin sandığını anar.",
   slots: ["zemin"],
   // İlk çizimde gövde "X.O.X.O.X" satırlarıyla bölünüyordu ve motif kilim
   // sandığı değil PENCERE gibi okunuyordu — kontak baskıda mimari bir öge
@@ -334,7 +336,7 @@ export const MUSKA: Motif = {
   id: "muska",
   ad: "muska",
   en: "amulet",
-  anlam: "Kötülükten korunma dileği olarak yorumlanır; üçgen muskayı anar.",
+  anlam: "Kötülükten korunma. Üçgen muskayı anar.",
   slots: ["dolgu"],
   grid: [
     "..X..",
@@ -357,7 +359,8 @@ export const SAC_BAGI: Motif = {
   id: "sacbagi",
   ad: "saçbağı",
   en: "hair-tie",
-  anlam: "Evlenme ve birleşme isteği olarak yorumlanır.",
+  anlam:
+    "Evlenme ve birleşme. İki yandan gelen örgülerin ortada düğümlenişini betimler.",
   slots: ["zemin"],
   grid: [
     "XX.....XX",
@@ -388,7 +391,7 @@ export const GOBEK_MOTIFI: Motif = {
   id: "gobek",
   ad: "göbek",
   en: "medallion",
-  anlam: "Kilimin merkezi; ocak ve aile olarak yorumlanır.",
+  anlam: "Ocak ve aile. Kilimin merkezinde durur.",
   slots: ["gobek"],
   grid: [
     ".....X.....",
@@ -417,7 +420,7 @@ export const KIRKBUDAK: Motif = {
   id: "kirkbudak",
   ad: "kırkbudak",
   en: "forty branches",
-  anlam: "Çoğalma ve bereket olarak yorumlanır; çok dallı bir bitkiyi anar.",
+  anlam: "Çoğalma ve bereket. Çok dallı bir bitkiyi anar.",
   slots: ["zemin"],
   grid: [
     "XX..X..XX",
@@ -443,7 +446,7 @@ export const TARAK: Motif = {
   id: "tarak",
   ad: "tarak",
   en: "comb",
-  anlam: "Temizlik ve düzen dileği olarak yorumlanır; gelin tarağını anar.",
+  anlam: "Temizlik ve düzen. Gelin tarağını anar.",
   slots: ["bordur"],
   // Tarak bir SIRT + DİŞ motifidir. İlk çizim asimetrik bir L'ydi ve bantta
   // tekrarlanınca tarak değil kırık merdiven okunuyordu. Genişlik 4'e indi:

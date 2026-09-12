@@ -12,29 +12,31 @@ export const ANLAM_EN: Record<string, string> = {
   pitrak:
     "Protection and abundance. The thorned burr keeps harm at a distance.",
   kocboynuzu:
-    "Masculinity, strength and fertility. It stands for the power of the flock.",
+    "Masculinity, strength, and fertility. It stands for the power of the flock.",
   yildiz: "Happiness and fertility. Also known as the Seljuk star.",
   elibelinde:
-    "Femininity, motherhood and fertility. The most figurative motif on a kilim.",
-  suyolu: "Life, continuity and fertility. It runs in the border.",
+    "Femininity, motherhood, and fertility. The most figurative motif on a kilim.",
+  suyolu: "Life, continuity, and fertility. It runs in the border.",
   testere: "Protection. The toothed row keeps evil away from the kilim's edge.",
   baklava: "Abundance. Rows of diamonds recall the field and its crop.",
   bereket:
-    "Abundance. Read as elibelinde joined to a ram's horn — womanhood and strength in one sign.",
-  cengel: "Holding fast, and warding off the evil eye.",
+    "Abundance. Elibelinde joined to a ram's horn — womanhood and strength in one sign.",
+  cengel:
+    "Holding fast and warding off the evil eye. Repeated across the field, the hooks interlock into a lattice.",
   akrep:
-    "Read as a wish for protection from harm; it recalls the stinging animal.",
+    "Protection from harm. It recalls the stinging animal.",
   kurtagzi:
-    "Read as a wish to keep the flock and the home out of danger.",
+    "Keeping the flock and the home out of danger. Facing triangular teeth, woven in a row along the border.",
   sandik: "Dowry and savings. It recalls the bride's chest.",
   muska:
-    "Read as protection from evil; it recalls the triangular amulet worn against it.",
-  sacbagi: "Read as a wish for marriage and union.",
-  gobek: "The centre of the kilim. Read as hearth and family.",
+    "Protection from evil. It recalls the triangular amulet worn against it.",
+  sacbagi:
+    "Marriage and union. Two braids coming from either side, knotted at the centre.",
+  gobek: "Hearth and family. It stands at the centre of the kilim.",
   kirkbudak:
     "Multiplication and abundance. It recalls a plant of many branches.",
   tarak:
-    "Read as a wish for cleanliness and order; it recalls the bride's comb.",
+    "Cleanliness and order. It recalls the bride's comb.",
 };
 
 /**

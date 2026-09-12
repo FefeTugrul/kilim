@@ -101,7 +101,7 @@ npm install
 npm test
 ```
 
-**166 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
+**168 testin de geçmesi gerekiyor.** Geçmiyorsa dur ve bana yaz.
 
 Sonra kalan üç kontrol:
 

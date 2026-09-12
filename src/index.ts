@@ -198,6 +198,22 @@ export interface KilimSonuc {
 }
 
 /**
+ * İngilizce tip adları.
+ *
+ * Kodun içi Türkçe — proje kimliğinin bir parçası ve öyle kalıyor. Ama paketin
+ * hitap ettiği asıl kitle İngilizce okuyor ve README bu adları belgeliyordu:
+ * `import type { KilimResult }` yazan bir TypeScript kullanıcısı derleme
+ * hatası alıyordu, çünkü dışa aktarılan ad `KilimSonuc`'tu.
+ *
+ * Takma ad, yeniden adlandırmadan daha doğru çözüm: Türkçe adlar kırılmıyor,
+ * İngilizce okuyan da belgede gördüğü adı bulabiliyor. Tipler derlemede
+ * silindiği için çalışma zamanına hiçbir maliyeti yok.
+ */
+export type KilimOptions = KilimSecenek;
+export type KilimResult = KilimSonuc;
+export type KilimRegion = KilimYore;
+
+/**
  * Bir metinden kilim üretir. Aynı metin her ortamda aynı sonucu verir.
  *
  * ```ts

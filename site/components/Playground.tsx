@@ -21,10 +21,10 @@ const MS_SATIR = 12;
 const YORE_NOT_EN: Record<KilimYore, string> = {
   konya: "Red ground, cream motifs, deep navy and gold",
   milas: "Cream ground, widest border, mustard and navy",
-  sivas: "Navy ground, dense layout, separated by a light outline",
+  sivas: "Navy ground, dense layout, a light outline between motifs",
   yoruk: "Brown-black ground, few colours, earth tones",
   usak: "Muted grey-cream ground, brick-laid layout, olive and burgundy",
-  iznik: "İznik pigments — cobalt, turquoise, coral",
+  iznik: "İznik pigments — cobalt, turquoise, coral. The geometry stays kilim.",
 };
 
 function bayt(metin: string): number {
