@@ -63,11 +63,11 @@ moderasyon, boyutlandırma ve KVKK/GDPR yükümlülüğü doğar.
 | Çevrimdışı | Çalışmaz | Çalışır |
 | Silme talebi | Dosya + kayıt + CDN önbelleği | Ayrıca silinecek bir avatar kaydı yok |
 
-Determinizmin bütün mesele olmasının sebebi budur: **kaydın kendisi tohumdur.**
-Kullanıcı kimliğini elinde tuttuğun sürece deseni yeniden üretebilirsin; saklaman
-gereken ayrı bir şey kalmaz. Bu yüzden burada `Math.random` kullanmak bir üslup
-tercihi değil, doğrudan hata olurdu — çünkü üretimin kendisi depolamanın yerine
-geçiyor.
+**Kaydın kendisi tohumdur.** Kullanıcı kimliğini elinde tuttuğun sürece deseni
+yeniden hesaplayabilirsin; eşitlenecek, yedeklenecek ya da silinecek ikinci bir
+kopya kalmaz — determinizmi burada bir üslup tercihi değil yapısal bir zorunluluk
+yapan da budur. `Math.random` kullanmak bir tercih olmazdı; doğrudan hata olurdu,
+çünkü üretim, depolamanın yerine geçmiş durumdadır.
 
 ## Nerede işine yarar
 
