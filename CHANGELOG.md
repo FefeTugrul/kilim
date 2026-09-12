@@ -6,6 +6,50 @@ Bu paket [Semantic Versioning](https://semver.org/lang/tr/) izler.
 girdinin farklı çıktı vermesi bir iyileştirme değil, **kırıcı değişikliktir** —
 çünkü herkesin avatarı değişir. `test/golden.test.ts` bunu kilitler.
 
+## [0.3.1] — 2026-09-12
+
+Kırıcı değişiklik yok: üretilen SVG bayt bayt 0.3.0 ile aynı. Bu sürüm
+belgelerin koddan sapmış olduğu yerleri kapatıyor.
+
+### Eklendi
+
+- **İngilizce tip takma adları:** `KilimOptions`, `KilimResult`, `KilimRegion`.
+
+  İngilizce README bu üç adı belgeliyordu ama paket yalnızca `KilimSecenek`,
+  `KilimSonuc` ve `KilimYore`'yi dışa aktarıyordu. `import type { KilimResult }
+  from "kilim-avatars"` yazan bir TypeScript kullanıcısı, belgedeki ilk satırda
+  derleme hatası alıyordu. Yeniden adlandırmak yerine takma ad eklendi: Türkçe
+  adlar kırılmıyor, İngilizce okuyan da belgede gördüğü adı buluyor. Tipler
+  derlemede silindiği için çalışma zamanına maliyeti yok.
+
+  `test/api-yuzeyi.test.ts` iki adın da ayakta kalmasını ve aynı tipi
+  göstermesini kilitliyor.
+
+### Düzeltildi
+
+- **Yöre notlarındaki iki çelişki.** `MILAS.not` "ince bordür" diyordu; 0.3.0
+  Milas'a altı yörenin en geniş bordürünü verdi (`bordurCarpani: 1.7`).
+  `USAK.not` "seyrek göbek" diyordu; Uşak'ın düzen ağırlığı `[15, 65, 12, 8]`,
+  yani göbek %12 ve baskın düzen kaydırmalı — üstelik `seyreklik: 0.3` ile
+  Sivas'tan sonra en yoğun ikinci yöre. İkisi de demo sitesinde görünüyordu.
+
+- **18 motifin `anlam` metni tek üslupta birleştirildi.** İlk sekizi düz ve
+  kesin, Faz 6'da gelen onu ise sürekli "... olarak yorumlanır" çekincesiyle
+  yazılmıştı. Çekince yalnızca yenilerde olduğu için ilk sekizinin kesin bilgi
+  olduğunu ima ediyordu; oysa anlamların tek okuma olduğu uyarısı zaten
+  belgelerde duruyor.
+
+- **Bayat örnek çıktı.** README'ler ve demo sitesi hâlâ 0.2.x'in çıktısını
+  gösteriyordu (`kaydırmalı`/`testere`); "furkan" tohumu 0.3.0'dan beri
+  `sıra düzenli`/`baklava` veriyor.
+
+- **Demo sitesi "Sekiz motif" diyordu**, altında 18 motif listeliyken.
+
+### Değişmedi
+
+- `fnv1a` çıktısı, PRNG çekiliş sırası, paletler, profiller, üretilen SVG.
+  `test/golden.test.ts` doğruluyor.
+
 ## [0.3.0] — 2026-09-08
 
 **KIRICI:** yöre profilleri keskinleştirildi; bütün seed'lerin dokuması değişti.

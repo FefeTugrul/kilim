@@ -448,7 +448,7 @@ the `_V2` lists of the next breaking release. See
 
 ```bash
 npm install
-npm test          # 166 tests: determinism, grammar, palette constraints, variety, safety
+npm test          # 168 tests: determinism, grammar, palette constraints, variety, safety
 npm run typecheck
 npm run build     # ESM + CJS + .d.ts, two entry points
 npm run size      # gzip budget check (9 kB)

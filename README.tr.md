@@ -454,7 +454,7 @@ listelerine girene kadar üretime karışmaz. Katkı kuralları için
 
 ```bash
 npm install
-npm test          # 166 test: determinizm, gramer, palet kısıtları, çeşitlilik, güvenlik
+npm test          # 168 test: determinizm, gramer, palet kısıtları, çeşitlilik, güvenlik
 npm run typecheck
 npm run build     # ESM + CJS + .d.ts, iki giriş noktası
 npm run size      # gzip bütçe denetimi (9 kB)
