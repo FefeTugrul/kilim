@@ -59,7 +59,7 @@ export const MILAS: YoreselPalet = {
 export const SIVAS: YoreselPalet = {
   id: "sivas",
   ad: "Sivas",
-  not: "Lacivert zemin, yoğun düzen, açık konturla ayrılmış",
+  not: "Lacivert zemin, yoğun düzen, motifleri ayıran açık kontur",
   renkler: ["#1F3A5F", "#C4503F", "#E4D8BE", "#8FA8C4", "#D6A340"],
 };
 

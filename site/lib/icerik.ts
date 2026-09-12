@@ -183,7 +183,7 @@ export const EN: Icerik = {
       sira: "04",
       baslik: "Anatomy",
       kisa: "Anatomy",
-      ozet: "Every layer read back out of the library's own output — for any seed you type.",
+      ozet: "Every layer is read back out of the library's own output — for any seed you type.",
     },
     motifler: {
       kimlik: "motifs",
@@ -213,8 +213,8 @@ export const EN: Icerik = {
     iddia:
       "The most important thing this library does is what it does not do: it stores nothing.",
     akis: [
-      "The usual flow is: the user uploads a photo, the file goes to disk or S3, it is served from a CDN, and a database row holds the URL. With it come backups, moderation, resizing and data-protection obligations.",
-      "Here the pattern is computed from the string, every time. That is why determinism is not a stylistic preference: the seed is the record. As long as you have the user id you can regenerate the pattern, so there is nothing to keep. Using Math.random here would not be a matter of taste — it would be a bug, because generation is the storage.",
+      "The usual flow is: the user uploads a photo, the file goes to disk or S3, it is served from a CDN, and a database row holds the URL. With it come backups, moderation, resizing, and data-protection obligations.",
+      "Here the pattern is computed from the string, every time. That is why determinism is not a stylistic preference: the seed is the record. As long as you have the user id, you can regenerate the pattern, so there is nothing to keep. Using Math.random here would not be a matter of taste — it would be a bug, because generation is the storage.",
     ],
     tabloAd: "Uploaded avatar compared with a computed kilim",
     olcut: "Criterion",
@@ -251,14 +251,14 @@ export const EN: Icerik = {
           "Palette, main motif, and layout do not depend on size. A user's 24 px avatar in a comment list and their 128 px avatar on a profile page are the same kilim, drawn with more or less detail. Tests verify this over 1,000 seeds.",
       },
       {
-        baslik: "It stops rather than guess",
+        baslik: "It stops rather than guessing",
         metin:
           "An undefined seed, an empty string, an unknown region — each of these would silently give a whole group of users the same avatar, and nobody would notice. All three throw.",
       },
       {
         baslik: "Zero dependencies, pure SVG, SSR-safe",
         metin:
-          "No Math.random, no Date, no locale. The same input produces the same output in the browser, in Node and during server-side rendering. React is an optional peer dependency on its own subpath.",
+          "No Math.random, no Date, no locale. The same input produces the same output in the browser, in Node, and during server-side rendering. React is an optional peer dependency and lives on its own subpath.",
       },
     ],
   },
@@ -274,7 +274,7 @@ export const EN: Icerik = {
       "generateKilim returns the markup and everything the pattern knows about itself — the name it was given, the motifs woven into it, the palette it used.",
     reactBaslik: "In React",
     reactNot:
-      "<Kilim /> accepts everything an <svg> element accepts — className, style, onClick, ref, aria-* — plus seed, size, region, label and the rounded shorthand.",
+      "<Kilim /> accepts everything an <svg> element accepts — className, style, onClick, ref, aria-* — plus seed, size, region, label, and the rounded shorthand.",
     hookNot: "And when you want the result rather than the element:",
     secenekBaslik: "Options",
     alanBaslik: "Returned fields",
@@ -286,14 +286,14 @@ export const EN: Icerik = {
 
   anatomi: {
     giris:
-      "The plate on the left is the kilim of whatever seed you typed at the top of the page. Hover a layer below — or tap it — and its boundary appears on the weave. The palette buttons change the colours without changing a single cell.",
+      "The plate on the left is the kilim of whatever seed you typed at the top of the page. Hover a layer below — or tap it — and its boundary appears on the kilim. The palette buttons change the colours without changing a single cell.",
     yoreEtiket: "Palette",
     abrasNot: "the ground tone shifts every {n} cells",
     etiketler: {
       sacak: { ad: "fringe", not: "warp ends, left unwoven" },
-      selvedge: { ad: "selvedge", not: "the bound edge that stops it fraying" },
+      selvedge: { ad: "selvedge", not: "the bound edge that stops it from fraying" },
       bordur: { ad: "border", not: "three cells, cut at the corner" },
-      inceSu: { ad: "thin water", not: "one cell, border from field" },
+      inceSu: { ad: "thin water", not: "one cell, separating border from field" },
       gobek: {
         ad: "medallion",
         not: "one motif at the centre, the field around it",
@@ -302,7 +302,7 @@ export const EN: Icerik = {
       abras: { ad: "abraş", not: "the ground shifts with the dye lot" },
     },
     altyazi:
-      "Nothing here is drawn by hand. The layers are read back out of the library's own output, so the plate describes this kilim, not a generic diagram — which layout the field uses, how thick the selvedge came out, how wide the abraş bands are. The kilim is mirrored left to right and never top to bottom: a kilim has a top and a bottom, and that single asymmetry is what separates it from wallpaper.",
+      "Nothing here is drawn by hand. The layers are read back out of the library's own output, so the plate describes this kilim — which layout the field uses, how thick the selvedge came out, how wide the abraş bands are — not a generic diagram. The kilim is mirrored left to right and never top to bottom: a kilim has a top and a bottom, and that single asymmetry is what separates it from wallpaper.",
   },
 
   motifKurali:
@@ -322,7 +322,7 @@ export const EN: Icerik = {
     merdivenBuyutme:
       "Top row: the size each one is actually drawn at. Bottom row: the same four at one size — the only way to see what the small ones give up.",
     altyazi:
-      "Only the level of detail depends on size, and the grid thins out with it. Measured over 2,000 seeds, uniqueness is 85% at 24 px and 100% at 64 px and above; variety is deliberately lower at the smallest size, because at 24 px legibility comes before variety and identity across sizes comes before both. The round crop is the one place this page breaks its own no-rounded-corners rule, because that is how most interfaces draw an avatar and the kilim has to survive it. Every avatar here is drawn with label: false, so the SVG is aria-hidden: the name is already next to it and a screen reader should not read the pattern twice.",
+      "Only the level of detail depends on size, and the grid thins out with it. Measured over 2,000 seeds, uniqueness is 85% at 24 px and 100% at 64 px and above; variety is deliberately lower at the smallest size: at 24 px, legibility comes before variety, and identity across sizes comes before both. The round crop is the one place this page breaks its own no-rounded-corners rule, because that is how most interfaces draw an avatar, and the kilim has to survive it. Every avatar here is drawn with label: false, so the SVG is aria-hidden: the name is already next to it, and a screen reader should not read the pattern twice.",
   },
 
   kaynaklar: {
@@ -330,7 +330,7 @@ export const EN: Icerik = {
     renkBaslik: "Colour",
     lisansBaslik: "Licences",
     uyari:
-      "Motif meanings are not fixed. The same figure carries different readings from one region, one weaver and one source to the next, and a good deal of what circulates online as “the meaning” is later attribution. What this library ships is one documented reading, taken from the works above; it is not the only one, and it is not offered as the last word.",
+      "Motif meanings are not fixed. The same figure is read differently from one region to the next, from one weaver to the next, from one source to the next, and a good deal of what circulates online as “the meaning” is later attribution. What this library ships is one documented reading, taken from the works above; it is not the only one, and it is not offered as the last word.",
   },
 
   altbilgi: {
@@ -350,7 +350,7 @@ export const TR: Icerik = {
     kimlik: "deneme",
     baslik: "Herhangi bir metinden deterministik Anadolu kilimi avatarları.",
     altBaslik:
-      "Desen her seferinde metinden hesaplanır. Hiçbir şey saklanmaz, hiçbir şey istenmez — kayıt, tohumun kendisidir.",
+      "Desen her seferinde metinden hesaplanır. Hiçbir şey saklanmaz, hiçbir şey getirilmez — kayıt, tohumun kendisidir.",
     girdiEtiket: "Tohum",
     girdiIpucu: "bir kullanıcı kimliği, e-posta, ad",
     bosUyariBaslik: "Boş tohum hata fırlatır.",
@@ -409,7 +409,7 @@ export const TR: Icerik = {
       sira: "06",
       baslik: "24 ve 32 pikselde",
       kisa: "Bağlamda",
-      ozet: "Avatarın gerçekte çizildiği boy, ve orada neyin ayakta kaldığı.",
+      ozet: "Avatarın gerçekte çizildiği boy ve orada neyin ayakta kaldığı.",
     },
     kaynaklar: {
       kimlik: "kaynaklar",
@@ -422,10 +422,10 @@ export const TR: Icerik = {
 
   neden: {
     iddia:
-      "Bu kütüphanenin yaptığı en önemli şey, yapmadığı şey: hiçbir şey saklamıyor.",
+      "Bu kütüphanenin yaptığı en önemli şey, yapmadığı şeydir: hiçbir şey saklamıyor.",
     akis: [
       "Alışıldık akış şudur: kullanıcı fotoğraf yükler, dosya diske ya da S3'e gider, CDN'den servis edilir, bir veritabanı satırı adresi tutar. Yanında yedekleme, moderasyon, yeniden boyutlandırma ve veri koruma yükümlülüğü gelir.",
-      "Burada desen her seferinde metinden hesaplanıyor. Determinizmin bir üslup tercihi olmamasının sebebi bu: kayıt, tohumun kendisidir. Kullanıcı kimliği elindeyse deseni yeniden üretebilirsin, saklanacak bir şey yoktur. Burada Math.random kullanmak zevk meselesi olmazdı — hata olurdu, çünkü üretimin kendisi depolamanın yerine geçiyor.",
+      "Burada desen her seferinde metinden hesaplanıyor. Determinizm bu yüzden bir üslup tercihi değil: kayıt, tohumun kendisidir. Kullanıcı kimliği elindeyse deseni yeniden üretebilirsin, saklanacak bir şey yoktur. Burada Math.random kullanmak zevk meselesi olmazdı — hata olurdu, çünkü üretimin kendisi depolamanın yerine geçiyor.",
     ],
     tabloAd: "Yüklenen avatar ile hesaplanan kilimin karşılaştırması",
     olcut: "Ölçüt",
@@ -468,12 +468,12 @@ export const TR: Icerik = {
       {
         baslik: "Tahmin etmez, durur",
         metin:
-          "Tanımsız tohum, boş metin, bilinmeyen yöre — üçü de sessizce koca bir kullanıcı grubuna aynı avatarı verirdi ve kimse fark etmezdi. Üçü de hata fırlatıyor.",
+          "Tanımsız tohum, boş tohum, bilinmeyen yöre — üçü de sessizce koca bir kullanıcı grubuna aynı avatarı verirdi ve kimse fark etmezdi. Üçü de hata fırlatıyor.",
       },
       {
         baslik: "Sıfır bağımlılık, saf SVG, SSR uyumlu",
         metin:
-          "Math.random yok, Date yok, yerel ayar yok. Aynı girdi tarayıcıda, Node'da ve sunucu tarafı render'da aynı çıktıyı verir. React isteğe bağlı bir peer bağımlılık ve kendi alt yolunda durur.",
+          "Math.random yok, Date yok, yerel ayar yok. Aynı girdi tarayıcıda, Node'da ve sunucu tarafı render'da aynı çıktıyı verir. React isteğe bağlı bir peer bağımlılıktır ve kendi alt yolunda yer alır.",
       },
     ],
   },
@@ -486,7 +486,7 @@ export const TR: Icerik = {
       "Bağımlılığı yok, yanında başka bir şey gelmiyor. ESM ve CJS, ikisinin de tipleriyle.",
     uretBaslik: "Üret",
     uretNot:
-      "generateKilim hem işaretlemeyi hem desenin kendisi hakkında bildiği her şeyi döner: aldığı ad, dokunan motifler, kullandığı palet.",
+      "generateKilim hem işaretlemeyi hem desenin kendisi hakkında bildiği her şeyi döndürür: aldığı ad, dokunan motifler, kullandığı palet.",
     reactBaslik: "React'te",
     reactNot:
       "<Kilim /> bir <svg> öğesinin kabul ettiği her şeyi kabul eder — className, style, onClick, ref, aria-* — üstüne seed, size, region, label ve rounded kısayolu.",
@@ -496,12 +496,12 @@ export const TR: Icerik = {
     varsayilanOnEk: "varsayılan",
     hataBaslik: "Geçersiz girdi hata fırlatır",
     hataNot:
-      'Sessizce yanlış çalışmak, gürültüyle durmaktan çok daha pahalıdır. Bir yerde user.id tanımsız gelirse etkilenen bütün kullanıcılar aynı avatarı paylaşır ve kimse fark etmez. Aynı gerekçe boş metin için de geçerli — `?? ""` yedeği tam olarak onu üretir.',
+      'Sessizce yanlış çalışmak, gürültüyle durmaktan çok daha pahalıdır. Bir yerde user.id tanımsız gelirse etkilenen bütün kullanıcılar aynı avatarı paylaşır ve kimse fark etmez. Aynı gerekçe boş tohum için de geçerli — `?? ""` yedeği tam olarak onu üretir.',
   },
 
   anatomi: {
     giris:
-      "Soldaki levha, sayfanın başında yazdığın tohumun kilimi. Aşağıdaki katmanlardan birinin üstüne gel — ya da dokun — sınırı dokumanın üstünde beliriyor. Palet düğmeleri tek bir hücreyi değiştirmeden rengi değiştiriyor.",
+      "Soldaki levha, sayfanın başında yazdığın tohumun kilimi. Aşağıdaki katmanlardan birinin üstüne gel ya da dokun; sınırı kilimin üstünde beliriyor. Palet düğmeleri tek bir hücreyi değiştirmeden rengi değiştiriyor.",
     yoreEtiket: "Palet",
     abrasNot: "zemin tonu her {n} hücrede kayıyor",
     etiketler: {
@@ -545,7 +545,7 @@ export const TR: Icerik = {
     renkBaslik: "Renk",
     lisansBaslik: "Lisanslar",
     uyari:
-      "Motif anlamları sabit değildir. Aynı figür yöreden yöreye, dokuyucudan dokuyucuya, kaynaktan kaynağa başka okunur; internette “anlamı budur” diye dolaşanların önemli bir kısmı da sonradan yakıştırmadır. Bu kütüphanenin taşıdığı şey, yukarıdaki eserlerden alınmış belgelenebilir bir okuma — tek okuma değil, son söz hiç değil.",
+      "Motif anlamları sabit değildir. Aynı figür yöreden yöreye, dokuyucudan dokuyucuya, kaynaktan kaynağa farklı okunur; internette “anlamı budur” diye dolaşanların önemli bir kısmı da sonradan yakıştırmadır. Bu kütüphanenin taşıdığı şey, yukarıdaki eserlerden alınmış belgelenmiş bir okuma — tek okuma değil, son söz hiç değil.",
   },
 
   altbilgi: {
